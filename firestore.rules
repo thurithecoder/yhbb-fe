@@ -1,0 +1,194 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users
+    // Document ID: {uid}
+    // Fields:
+    //   - uid: string (required) - Firebase Auth UID
+    //   - email: string (required) - User email
+    //   - name: string (required) - User display name
+    //   - role: string (required, enum: ['admin', 'restaurant', 'customer'])
+    //   - createdAt: timestamp (required)
+    //
+    // Collection: restaurants
+    // Document ID: {restaurantId}
+    // Fields:
+    //   - id: string (required)
+    //   - ownerId: string (required) - UID of owner
+    //   - name: string (required)
+    //   - description: string (optional)
+    //   - category: string (optional)
+    //   - logoUrl: string (optional)
+    //   - status: string (required, enum: ['pending', 'approved', 'rejected'])
+    //   - address: string (optional)
+    //   - rating: number (optional)
+    //   - reviewCount: number (optional)
+    //   - createdAt: timestamp (required)
+    //
+    // Collection: restaurants/{restaurantId}/menu
+    // Document ID: {itemId}
+    // Fields:
+    //   - id: string (required)
+    //   - restaurantId: string (required)
+    //   - name: string (required)
+    //   - description: string (optional)
+    //   - price: number (required)
+    //   - imageUrl: string (optional)
+    //   - stockCount: number (required)
+    //   - isAvailable: bool (required)
+    //   - createdAt: timestamp (required)
+    //
+    // Collection: orders
+    // Document ID: {orderId}
+    // Fields:
+    //   - id: string (required)
+    //   - customerId: string (required)
+    //   - restaurantId: string (required)
+    //   - items: list (required)
+    //   - totalAmount: number (required)
+    //   - status: string (required, enum: ['pending', 'accepted', 'preparing', 'out-for-delivery', 'delivered', 'cancelled'])
+    //   - createdAt: timestamp (required)
+    //   - updatedAt: timestamp (required)
+    //
+    // Collection: restaurants/{restaurantId}/reviews
+    // Document ID: {reviewId}
+    // Fields:
+    //   - id: string (required)
+    //   - customerId: string (required)
+    //   - restaurantId: string (required)
+    //   - rating: number (required, 1-5)
+    //   - comment: string (optional)
+    //   - createdAt: timestamp (required)
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && 
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+         (request.auth.token.email == "htetmyataung8@gmail.com" && request.auth.token.email_verified == true));
+    }
+
+    function isRestaurantOwner(restaurantId) {
+      return isAuthenticated() && get(/databases/$(database)/documents/restaurants/$(restaurantId)).data.ownerId == request.auth.uid;
+    }
+
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+    function isValidEmail(email) {
+      return email is string && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    function isValidUrl(url) {
+      return url is string && (url.matches("^https://.*") || url.matches("^http://.*"));
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    function isValidUser(data) {
+      return hasRequiredFields(['uid', 'email', 'name', 'role', 'createdAt']) &&
+             data.uid == request.auth.uid &&
+             isValidEmail(data.email) &&
+             data.role in ['admin', 'restaurant', 'customer'] &&
+             data.name is string && data.name.size() > 0 && data.name.size() < 100;
+    }
+
+    function isValidRestaurant(data) {
+      return hasRequiredFields(['ownerId', 'name', 'status', 'createdAt']) &&
+             data.ownerId is string &&
+             data.name is string && data.name.size() > 0 && data.name.size() < 100 &&
+             data.status in ['pending', 'approved', 'rejected'] &&
+             (!('logoUrl' in data) || isValidUrl(data.logoUrl));
+    }
+
+    function isValidMenuItem(data) {
+      return hasRequiredFields(['restaurantId', 'name', 'price', 'stockCount', 'isAvailable', 'createdAt']) &&
+             data.restaurantId is string &&
+             data.name is string && data.name.size() > 0 && data.name.size() < 100 &&
+             data.price is number && data.price >= 0 &&
+             data.stockCount is number && data.stockCount >= 0 &&
+             data.isAvailable is bool;
+    }
+
+    function isValidOrder(data) {
+      return hasRequiredFields(['customerId', 'restaurantId', 'items', 'totalAmount', 'status', 'createdAt', 'updatedAt']) &&
+             data.customerId == request.auth.uid &&
+             data.restaurantId is string &&
+             data.items is list && data.items.size() > 0 &&
+             data.totalAmount is number && data.totalAmount >= 0 &&
+             data.status in ['pending', 'accepted', 'preparing', 'out-for-delivery', 'delivered', 'cancelled'];
+    }
+
+    function isValidReview(data) {
+      return hasRequiredFields(['customerId', 'restaurantId', 'rating', 'createdAt']) &&
+             data.customerId == request.auth.uid &&
+             data.restaurantId is string &&
+             data.rating is number && data.rating >= 1 && data.rating <= 5 &&
+             (!('comment' in data) || (data.comment is string && data.comment.size() < 500));
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /users/{uid} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow create: if isOwner(uid) && isValidUser(request.resource.data) && request.resource.data.role != 'admin';
+      allow update: if isOwner(uid) && isValidUser(request.resource.data) && request.resource.data.role == resource.data.role;
+      allow write: if isAdmin();
+    }
+
+    match /restaurants/{restaurantId} {
+      allow read: if resource.data.status == 'approved' || isOwner(resource.data.ownerId) || isAdmin();
+      allow create: if isAuthenticated() && isValidRestaurant(request.resource.data) && request.resource.data.status == 'pending' && request.resource.data.ownerId == request.auth.uid;
+      allow update: if isAdmin() || (isOwner(resource.data.ownerId) && isValidRestaurant(request.resource.data) && request.resource.data.status == resource.data.status);
+      allow delete: if isAdmin();
+
+      match /menu/{itemId} {
+        allow read: if get(/databases/$(database)/documents/restaurants/$(restaurantId)).data.status == 'approved' || isRestaurantOwner(restaurantId) || isAdmin();
+        allow write: if isRestaurantOwner(restaurantId) || isAdmin();
+      }
+
+      match /reviews/{reviewId} {
+        allow read: if true;
+        allow create: if isAuthenticated() && isValidReview(request.resource.data) && request.resource.data.restaurantId == restaurantId;
+        allow update, delete: if isAdmin();
+      }
+    }
+
+    match /orders/{orderId} {
+      allow read: if isAuthenticated() && (resource.data.customerId == request.auth.uid || isRestaurantOwner(resource.data.restaurantId) || isAdmin());
+      allow create: if isAuthenticated() && isValidOrder(request.resource.data);
+      allow update: if isAdmin() || 
+                    (isRestaurantOwner(resource.data.restaurantId) && 
+                     request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updatedAt']) &&
+                     request.resource.data.status in ['accepted', 'preparing', 'out-for-delivery', 'delivered', 'cancelled']) ||
+                    (resource.data.customerId == request.auth.uid && 
+                     request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updatedAt']) &&
+                     resource.data.status == 'pending' && request.resource.data.status == 'cancelled');
+    }
+  }
+}
