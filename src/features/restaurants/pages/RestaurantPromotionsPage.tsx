@@ -107,7 +107,7 @@
 //   return (
 //     <div className="space-y-8">
 //       <div className="space-y-2">
-//         <p className="text-xs font-black uppercase tracking-[0.3em] text-[#6EA15C]">Restaurant Backend</p>
+//         <p className="text-xs font-black uppercase tracking-[0.3em] text-[#ffcf1c]">Restaurant Backend</p>
 //         <h1 className="text-4xl font-black tracking-tighter uppercase text-neutral-900">Promotions</h1>
 //         <p className="text-neutral-500 font-medium">Create voucher promotions with usage limits. Users claim a voucher code and your staff can scan or enter it to redeem.</p>
 //       </div>
@@ -157,14 +157,14 @@
 //                   <button
 //                     type="button"
 //                     onClick={() => setForm((c) => ({ ...c, discount_type: 'percent' }))}
-//                     className={`flex-1 py-2 rounded-xl text-sm font-black uppercase tracking-wide border-2 transition-colors ${form.discount_type === 'percent' ? 'bg-[#6EA15C] text-white border-[#6EA15C]' : 'bg-white text-neutral-500 border-neutral-200 hover:border-[#6EA15C]'}`}
+//                     className={`flex-1 py-2 rounded-xl text-sm font-black uppercase tracking-wide border-2 transition-colors ${form.discount_type === 'percent' ? 'bg-[#ffcf1c] text-white border-[#ffcf1c]' : 'bg-white text-neutral-500 border-neutral-200 hover:border-[#ffcf1c]'}`}
 //                   >
 //                     % Percent
 //                   </button>
 //                   <button
 //                     type="button"
 //                     onClick={() => setForm((c) => ({ ...c, discount_type: 'cash' }))}
-//                     className={`flex-1 py-2 rounded-xl text-sm font-black uppercase tracking-wide border-2 transition-colors ${form.discount_type === 'cash' ? 'bg-[#6EA15C] text-white border-[#6EA15C]' : 'bg-white text-neutral-500 border-neutral-200 hover:border-[#6EA15C]'}`}
+//                     className={`flex-1 py-2 rounded-xl text-sm font-black uppercase tracking-wide border-2 transition-colors ${form.discount_type === 'cash' ? 'bg-[#ffcf1c] text-white border-[#ffcf1c]' : 'bg-white text-neutral-500 border-neutral-200 hover:border-[#ffcf1c]'}`}
 //                   >
 //                     $ Cash
 //                   </button>
@@ -231,14 +231,14 @@
 //               <Button
 //                 type="submit"
 //                 disabled={isSubmitting}
-//                 className="bg-[#6EA15C] hover:bg-[#5D8A4E] text-white rounded-xl font-black uppercase tracking-wide"
+//                 className="bg-[#ffcf1c] hover:bg-[#ffcf1c] hover:text-[#070605] rounded-xl font-black uppercase tracking-wide"
 //               >
 //                 {isSubmitting ? 'Saving...' : 'Create Promotion'}
 //               </Button>
 //             </div>
 
 //             <div className="space-y-4">
-//               <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6EA15C]">Preview</p>
+//               <p className="text-xs font-black uppercase tracking-[0.2em] text-[#ffcf1c]">Preview</p>
 //               <PromotionCard
 //                 promotion={{
 //                   id: 'preview',
@@ -393,7 +393,7 @@ export default function RestaurantPromotionsPage() {
   return (
     <div className="space-y-8">
       <div className="space-y-2">
-        <p className="text-xs font-black uppercase tracking-[0.3em] text-[#6EA15C]">Restaurant Backend</p>
+        <p className="text-xs font-black uppercase tracking-[0.3em] text-[#ffcf1c]">Restaurant Backend</p>
         <h1 className="text-4xl font-black tracking-tighter uppercase text-neutral-900">Promotions</h1>
         <p className="text-neutral-500 font-medium">Create voucher promotions with usage limits. Users claim a voucher code and your staff can scan or enter it to redeem.</p>
       </div>
@@ -443,14 +443,14 @@ export default function RestaurantPromotionsPage() {
                   <button
                     type="button"
                     onClick={() => setForm((c) => ({ ...c, discount_type: 'percent' }))}
-                    className={`flex-1 py-2 rounded-xl text-sm font-black uppercase tracking-wide border-2 transition-colors ${form.discount_type === 'percent' ? 'bg-[#6EA15C] text-white border-[#6EA15C]' : 'bg-white text-neutral-500 border-neutral-200 hover:border-[#6EA15C]'}`}
+                    className={`flex-1 py-2 rounded-xl text-sm font-black uppercase tracking-wide border-2 transition-colors ${form.discount_type === 'percent' ? 'bg-[#ffcf1c] text-white border-[#ffcf1c]' : 'bg-white text-neutral-500 border-neutral-200 hover:border-[#ffcf1c]'}`}
                   >
                     % Percent
                   </button>
                   <button
                     type="button"
                     onClick={() => setForm((c) => ({ ...c, discount_type: 'cash' }))}
-                    className={`flex-1 py-2 rounded-xl text-sm font-black uppercase tracking-wide border-2 transition-colors ${form.discount_type === 'cash' ? 'bg-[#6EA15C] text-white border-[#6EA15C]' : 'bg-white text-neutral-500 border-neutral-200 hover:border-[#6EA15C]'}`}
+                    className={`flex-1 py-2 rounded-xl text-sm font-black uppercase tracking-wide border-2 transition-colors ${form.discount_type === 'cash' ? 'bg-[#ffcf1c] text-white border-[#ffcf1c]' : 'bg-white text-neutral-500 border-neutral-200 hover:border-[#ffcf1c]'}`}
                   >
                     $ Cash
                   </button>
@@ -522,7 +522,7 @@ export default function RestaurantPromotionsPage() {
                 />
                 <label
                   htmlFor="promotion-image"
-                  className="relative block min-h-[200px] overflow-hidden rounded-2xl border-2 border-dashed border-[#6EA15C]/50 bg-[#F7FBF6] cursor-pointer transition-colors hover:border-[#6EA15C]"
+                  className="relative block min-h-[200px] overflow-hidden rounded-2xl border-2 border-dashed border-[#ffcf1c]/50 bg-[#FFF9DC] cursor-pointer transition-colors hover:border-[#ffcf1c]"
                 >
                   {form.image_base64 ? (
                     <>
@@ -539,8 +539,8 @@ export default function RestaurantPromotionsPage() {
                     </>
                   ) : (
                     <div className="h-full w-full grid place-items-center px-4 py-8 min-h-[200px]">
-                      <div className="flex flex-col items-center gap-2 text-[#6EA15C]">
-                        <div className="h-14 w-14 rounded-2xl bg-white border border-[#6EA15C]/30 grid place-items-center">
+                      <div className="flex flex-col items-center gap-2 text-[#ffcf1c]">
+                        <div className="h-14 w-14 rounded-2xl bg-white border border-[#ffcf1c]/30 grid place-items-center">
                           <ImageIcon className="w-6 h-6" />
                         </div>
                         <p className="font-black uppercase tracking-wide text-sm flex items-center gap-2">
@@ -558,14 +558,14 @@ export default function RestaurantPromotionsPage() {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="bg-[#6EA15C] hover:bg-[#5D8A4E] text-white rounded-xl font-black uppercase tracking-wide"
+                className="bg-[#ffcf1c] hover:bg-[#ffcf1c] hover:text-[#070605] rounded-xl font-black uppercase tracking-wide"
               >
                 {isSubmitting ? 'Saving...' : 'Create Promotion'}
               </Button>
             </div>
 
             <div className="space-y-4">
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6EA15C]">Preview</p>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#ffcf1c]">Preview</p>
               <PromotionCard
                 promotion={{
                   id: 'preview',

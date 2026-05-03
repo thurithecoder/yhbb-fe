@@ -1,191 +1,7 @@
-// import * as React from 'react';
-// import { Link, useNavigate } from 'react-router-dom';
-// import { useTranslation } from 'react-i18next';
-// import { User, LogOut, LayoutDashboard, ShieldCheck, Heart, ChevronDown, Store, Globe, Ticket } from 'lucide-react';
-// import { Button } from '@/components/ui/button';
-// import {
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuTrigger,
-// } from "@/components/ui/dropdown-menu";
-// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-// import AuthModal from './AuthModal';
-// import { useAuth } from '@/hooks/useAuth';
-// import { getHomeRouteForRole, isTokenExpired } from '@/lib/auth';
-// import { confirmAction, showErrorAlert, showSuccessAlert } from '@/lib/alerts';
-// import { logout } from '@/features/auth/services';
-
-// export default function Navbar() {
-//   const navigate = useNavigate();
-//   const { t, i18n } = useTranslation();
-//   const { user, token, isHydrated, clearSession } = useAuth();
-//   const [isAuthModalOpen, setIsAuthModalOpen] = React.useState(false);
-
-//   React.useEffect(() => {
-//     if (isHydrated && token && isTokenExpired(token)) {
-//       clearSession();
-//     }
-//   }, [clearSession, isHydrated, token]);
-
-//   const toggleLanguage = () => {
-//     const newLang = i18n.language === 'en' ? 'ar' : 'en';
-//     i18n.changeLanguage(newLang);
-//   };
-
-//   const handleLogout = async () => {
-//     const confirmed = await confirmAction({
-//       title: 'Log out?',
-//       text: 'Your current session will be ended.',
-//       confirmButtonText: 'Log out',
-//     });
-
-//     if (!confirmed) return;
-
-//     try {
-//       const result = await logout();
-//       await showSuccessAlert(result?.msg || 'Logged out successfully.');
-//       navigate('/');
-//     } catch (error) {
-//       await showErrorAlert(error, 'Unable to log out');
-//     }
-//   };
-
-//   const dashboardRoute = getHomeRouteForRole(user?.role);
-
-//   return (
-//     <nav className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur-md shadow-sm">
-//       <div className="container mx-auto px-4 h-20 flex items-center justify-between gap-8">
-//         <Link to="/" className="flex items-center gap-2 group shrink-0">
-//           <div className="bg-[#6EA15C] w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold group-hover:rotate-12 transition-transform shadow-lg shadow-green-100">
-//             ✦
-//           </div>
-//           <span className="text-xl font-black tracking-tighter text-neutral-900">Yalla Habibi</span>
-//         </Link>
-
-//         <div className="hidden lg:flex items-center gap-8">
-//           {[
-//             { label: t('nav.home'), path: '/' },
-//             { label: t('nav.listing'), path: '/restaurants' },
-//             { label: t('nav.blog'), path: '/blog' },
-//             { label: t('nav.contact'), path: '/contact' },
-//           ].map((link) => (
-//             <Link
-//               key={link.label}
-//               to={link.path}
-//               className="text-sm font-bold text-neutral-500 hover:text-[#6EA15C] transition-colors flex items-center gap-1"
-//             >
-//               {link.label}
-//               {link.path !== '/blog' && link.path !== '/contact' && <ChevronDown className="w-3 h-3" />}
-//             </Link>
-//           ))}
-//         </div>
-
-//         <div className="flex items-center gap-6">
-//           <div className="flex items-center gap-4">
-//             <button
-//               onClick={toggleLanguage}
-//               className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-neutral-200 text-sm font-bold text-neutral-500 hover:border-[#6EA15C] hover:text-[#6EA15C] transition-all"
-//             >
-//               <Globe className="w-4 h-4" />
-//               {i18n.language === 'en' ? 'العربية' : 'English'}
-//             </button>
-//             <Link to="/favorites" className="p-2 text-neutral-400 hover:text-[#6EA15C] transition-colors">
-//               <Heart className="w-5 h-5" />
-//             </Link>
-//           </div>
-
-//           <div className="flex items-center gap-4 border-l pl-6 border-neutral-200 rtl:border-l-0 rtl:border-r rtl:pl-0 rtl:pr-6">
-//             {user ? (
-//               <DropdownMenu>
-//                 <DropdownMenuTrigger>
-//                   <div className="relative h-10 w-10 rounded-full ring-2 ring-transparent hover:ring-[#6EA15C]/20 transition-all cursor-pointer">
-//                     <Avatar className="h-10 w-10">
-//                       <AvatarImage src={user.photoURL} alt={user.displayName} />
-//                       <AvatarFallback className="bg-green-50 text-[#6EA15C] font-bold">{user.displayName?.charAt(0)}</AvatarFallback>
-//                     </Avatar>
-//                   </div>
-//                 </DropdownMenuTrigger>
-//                 <DropdownMenuContent align="end" className="w-64 p-2 rounded-2xl shadow-xl border-neutral-100 bg-white">
-//                   <div className="flex items-center gap-3 p-3 mb-2 bg-green-50 rounded-xl">
-//                     <Avatar className="h-10 w-10">
-//                       <AvatarImage src={user.photoURL} />
-//                       <AvatarFallback>{user.displayName?.charAt(0)}</AvatarFallback>
-//                     </Avatar>
-//                     <div className="flex flex-col space-y-0.5 leading-none">
-//                       <p className="font-bold text-[#333]">{user.displayName}</p>
-//                       <p className="text-xs text-neutral-500 truncate">{user.email}</p>
-//                     </div>
-//                   </div>
-
-//                   <DropdownMenuItem className="p-0">
-//                     <Link to="/profile" className="flex w-full items-center gap-3 p-2.5 font-medium rounded-lg hover:bg-neutral-50 transition-colors">
-//                       <User className="w-4 h-4" /> {t('nav.profile')}
-//                     </Link>
-//                   </DropdownMenuItem>
-
-//                   <DropdownMenuItem className="p-0">
-//                     <Link to={dashboardRoute} className="flex w-full items-center gap-3 p-2.5 font-medium rounded-lg hover:bg-neutral-50 transition-colors">
-//                       <LayoutDashboard className="w-4 h-4" /> {t('nav.dashboard')}
-//                     </Link>
-//                   </DropdownMenuItem>
-
-//                   {user.role === 'user' && (
-//                     <DropdownMenuItem className="p-0">
-//                       <Link to="/vouchers" className="flex w-full items-center gap-3 p-2.5 font-medium rounded-lg hover:bg-neutral-50 transition-colors">
-//                         <Ticket className="w-4 h-4" /> {t('nav.vouchers', 'Vouchers')}
-//                       </Link>
-//                     </DropdownMenuItem>
-//                   )}
-
-//                   {user.role === 'admin' && (
-//                     <DropdownMenuItem className="p-0">
-//                       <Link to="/admin" className="flex w-full items-center gap-3 p-2.5 font-medium rounded-lg hover:bg-neutral-50 transition-colors">
-//                         <ShieldCheck className="w-4 h-4" /> {t('nav.admin')}
-//                       </Link>
-//                     </DropdownMenuItem>
-//                   )}
-
-//                   {user.role === 'restaurant' && (
-//                     <DropdownMenuItem className="p-0">
-//                       <Link to="/restaurant-panel" className="flex w-full items-center gap-3 p-2.5 font-medium rounded-lg hover:bg-neutral-50 transition-colors">
-//                         <Store className="w-4 h-4" /> {t('nav.restaurant_panel')}
-//                       </Link>
-//                     </DropdownMenuItem>
-//                   )}
-
-//                   <hr className="my-2 border-neutral-100" />
-//                   <DropdownMenuItem
-//                     className="text-red-600 cursor-pointer flex items-center gap-3 p-2.5 font-medium rounded-lg hover:bg-red-50"
-//                     onClick={handleLogout}
-//                   >
-//                     <LogOut className="w-4 h-4" /> {t('nav.logout')}
-//                   </DropdownMenuItem>
-//                 </DropdownMenuContent>
-//               </DropdownMenu>
-//             ) : (
-//               <Button
-//                 onClick={() => setIsAuthModalOpen(true)}
-//                 className="bg-neutral-900 hover:bg-[#6EA15C] text-white rounded-xl font-black uppercase tracking-wide transition-all"
-//               >
-//                 {t('nav.login', 'Login')}
-//               </Button>
-//             )}
-//           </div>
-//         </div>
-//       </div>
-
-//       <AuthModal
-//         isOpen={isAuthModalOpen}
-//         onClose={() => setIsAuthModalOpen(false)}
-//       />
-//     </nav>
-//   );
-// }
 import * as React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { User, LogOut, LayoutDashboard, ShieldCheck, Heart, ChevronDown, Store, Globe, Ticket } from 'lucide-react';
+import { User, LogOut, LayoutDashboard, ShieldCheck, Heart, ChevronDown, Store, Globe, Ticket, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -200,11 +16,23 @@ import { isTokenExpired } from '@/lib/auth';
 import { confirmAction, showErrorAlert, showSuccessAlert } from '@/lib/alerts';
 import { logout } from '@/features/auth/services';
 
+// Import your logo files from assets
+import Logo from '@/assets/images/secondarylogo.jpeg';
+
 export default function Navbar() {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const { user, token, isHydrated, clearSession } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = React.useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const [scrolled, setScrolled] = React.useState(false);
+
+  const navLinks = [
+    { label: t('nav.home'), path: '/' },
+    { label: t('nav.listing'), path: '/restaurants' },
+    { label: t('nav.blog'), path: '/blog' },
+    { label: t('nav.contact'), path: '/contact' },
+  ];
 
   React.useEffect(() => {
     if (isHydrated && token && isTokenExpired(token)) {
@@ -212,9 +40,20 @@ export default function Navbar() {
     }
   }, [clearSession, isHydrated, token]);
 
+  React.useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   const toggleLanguage = () => {
     const newLang = i18n.language === 'en' ? 'ar' : 'en';
     i18n.changeLanguage(newLang);
+  };
+
+  const openAuthModal = () => {
+    setIsMobileMenuOpen(false);
+    setIsAuthModalOpen(true);
   };
 
   const handleLogout = async () => {
@@ -223,9 +62,7 @@ export default function Navbar() {
       text: 'Your current session will be ended.',
       confirmButtonText: 'Log out',
     });
-
     if (!confirmed) return;
-
     try {
       const result = await logout();
       await showSuccessAlert(result?.msg || 'Logged out successfully.');
@@ -236,78 +73,145 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur-md shadow-sm">
-      <div className="container mx-auto px-4 h-20 flex items-center justify-between gap-8">
-        <Link to="/" className="flex items-center gap-2 group shrink-0">
-          <div className="bg-[#6EA15C] w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold group-hover:rotate-12 transition-transform shadow-lg shadow-green-100">
-            ✦
-          </div>
-          <span className="text-xl font-black tracking-tighter text-neutral-900">Yalla Habibi</span>
+    <nav
+      className="sticky top-0 z-50 w-full transition-all duration-300"
+      style={{
+        background: '#ffcf1c',
+        borderBottom: scrolled ? '2px solid #070605' : '2px solid transparent',
+        boxShadow: scrolled ? '0 4px 24px rgba(7,6,5,0.10)' : 'none',
+      }}
+    >
+      <div className="container mx-auto px-3 sm:px-4 h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-6 lg:gap-8 min-w-0">
+
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-2 group shrink-0 min-w-0">
+          {/* Option A: Use the actual logo image (uncomment when image is in assets) */}
+          {<img
+            src={Logo}
+            alt="Yalla Habibi"
+            className="h-9 sm:h-12 w-auto max-w-[132px] sm:max-w-none object-contain group-hover:scale-105 transition-transform duration-200"
+          />}
+
+          {/* Option B: Text logo matching brand style
+          <div className="flex items-center gap-2">
+            <div
+              className="w-10 h-10 rounded-xl flex items-center justify-center font-black text-lg group-hover:rotate-6 transition-transform duration-200"
+              style={{ background: '#070605', color: '#ffcf1c' }}
+            >
+              يل
+            </div>
+            <div className="flex flex-col leading-none">
+              <span className="text-xl font-black tracking-tight" style={{ color: '#070605' }}>
+                YallaHabibi
+              </span>
+              <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: '#070605', opacity: 0.6 }}>
+                .my
+              </span>
+            </div>
+          </div> */}
         </Link>
 
+        {/* Nav Links */}
         <div className="hidden lg:flex items-center gap-8">
-          {[
-            { label: t('nav.home'), path: '/' },
-            { label: t('nav.listing'), path: '/restaurants' },
-            { label: t('nav.blog'), path: '/blog' },
-            { label: t('nav.contact'), path: '/contact' },
-          ].map((link) => (
+          {navLinks.map((link) => (
             <Link
               key={link.label}
               to={link.path}
-              className="text-sm font-bold text-neutral-500 hover:text-[#6EA15C] transition-colors flex items-center gap-1"
+              className="text-sm font-bold transition-all duration-150 flex items-center gap-1 px-1 py-0.5 rounded hover:opacity-70"
+              style={{ color: '#070605' }}
             >
               {link.label}
-              {link.path !== '/blog' && link.path !== '/contact' && <ChevronDown className="w-3 h-3" />}
+              {link.path !== '/blog' && link.path !== '/contact' && (
+                <ChevronDown className="w-3 h-3" style={{ color: '#070605' }} />
+              )}
             </Link>
           ))}
         </div>
 
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={toggleLanguage}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-neutral-200 text-sm font-bold text-neutral-500 hover:border-[#6EA15C] hover:text-[#6EA15C] transition-all"
-            >
-              <Globe className="w-4 h-4" />
-              {i18n.language === 'en' ? 'العربية' : 'English'}
-            </button>
-            <Link to="/favorites" className="p-2 text-neutral-400 hover:text-[#6EA15C] transition-colors">
-              <Heart className="w-5 h-5" />
-            </Link>
-          </div>
+        {/* Right Actions */}
+        <div className="hidden lg:flex items-center justify-end gap-1.5 sm:gap-3 lg:gap-4 min-w-0">
+          {/* Language toggle */}
+          <button
+            onClick={toggleLanguage}
+            className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold transition-all duration-150 shrink-0"
+            style={{
+              border: '2px solid #070605',
+              color: '#070605',
+              background: 'transparent',
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLButtonElement).style.background = '#070605';
+              (e.currentTarget as HTMLButtonElement).style.color = '#ffcf1c';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
+              (e.currentTarget as HTMLButtonElement).style.color = '#070605';
+            }}
+          >
+            <Globe className="w-4 h-4" />
+            <span className="hidden sm:inline">{i18n.language === 'en' ? 'العربية' : 'English'}</span>
+          </button>
 
-          <div className="flex items-center gap-4 border-l pl-6 border-neutral-200 rtl:border-l-0 rtl:border-r rtl:pl-0 rtl:pr-6">
+          {/* Favorites */}
+          <Link
+            to="/favorites"
+            className="p-2 rounded-lg transition-all duration-150 shrink-0"
+            style={{ color: '#070605' }}
+          >
+            <Heart className="w-5 h-5" />
+          </Link>
+
+          {/* Auth */}
+          <div
+            className="flex items-center gap-2 sm:gap-4 pl-2 sm:pl-4 min-w-0"
+            style={{ borderLeft: '2px solid rgba(7,6,5,0.2)' }}
+          >
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger>
-                  <div className="relative h-10 w-10 rounded-full ring-2 ring-transparent hover:ring-[#6EA15C]/20 transition-all cursor-pointer">
-                    <Avatar className="h-10 w-10">
+                  <div
+                    className="relative h-10 w-10 rounded-full cursor-pointer transition-all"
+                    style={{ border: '2px solid #070605' }}
+                  >
+                    <Avatar className="h-full w-full">
                       <AvatarImage src={user.photoURL} alt={user.displayName} />
-                      <AvatarFallback className="bg-green-50 text-[#6EA15C] font-bold">{user.displayName?.charAt(0)}</AvatarFallback>
+                      <AvatarFallback
+                        className="font-black text-sm"
+                        style={{ background: '#070605', color: '#ffcf1c' }}
+                      >
+                        {user.displayName?.charAt(0)}
+                      </AvatarFallback>
                     </Avatar>
                   </div>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-64 p-2 rounded-2xl shadow-xl border-neutral-100 bg-white">
-                  <div className="flex items-center gap-3 p-3 mb-2 bg-green-50 rounded-xl">
-                    <Avatar className="h-10 w-10">
+                <DropdownMenuContent
+                  align="end"
+                  className="w-64 p-2 rounded-2xl shadow-2xl border-2 bg-white"
+                  style={{ borderColor: '#ffcf1c' }}
+                >
+                  {/* User info header */}
+                  <div
+                    className="flex items-center gap-3 p-3 mb-2 rounded-xl"
+                    style={{ background: '#ffcf1c' }}
+                  >
+                    <Avatar className="h-10 w-10" style={{ border: '2px solid #070605' }}>
                       <AvatarImage src={user.photoURL} />
-                      <AvatarFallback>{user.displayName?.charAt(0)}</AvatarFallback>
+                      <AvatarFallback style={{ background: '#070605', color: '#ffcf1c' }}>
+                        {user.displayName?.charAt(0)}
+                      </AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col space-y-0.5 leading-none">
-                      <p className="font-bold text-[#333]">{user.displayName}</p>
-                      <p className="text-xs text-neutral-500 truncate">{user.email}</p>
+                      <p className="font-black text-sm" style={{ color: '#070605' }}>{user.displayName}</p>
+                      <p className="text-xs truncate" style={{ color: '#070605', opacity: 0.6 }}>{user.email}</p>
                     </div>
                   </div>
 
-                  {/* My Profile – always visible */}
                   <DropdownMenuItem className="p-0">
                     <Link to="/profile" className="flex w-full items-center gap-3 p-2.5 font-medium rounded-lg hover:bg-neutral-50 transition-colors">
                       <User className="w-4 h-4" /> {t('nav.profile')}
                     </Link>
                   </DropdownMenuItem>
 
-                  {/* Role‑specific links */}
                   {user.role === 'user' && (
                     <>
                       <DropdownMenuItem className="p-0">
@@ -350,15 +254,155 @@ export default function Navbar() {
               </DropdownMenu>
             ) : (
               <Button
-                onClick={() => setIsAuthModalOpen(true)}
-                className="bg-neutral-900 hover:bg-[#6EA15C] text-white rounded-xl font-black uppercase tracking-wide transition-all"
+                onClick={openAuthModal}
+                className="h-9 sm:h-10 px-3 sm:px-6 text-xs sm:text-sm font-black uppercase tracking-wide sm:tracking-widest rounded-xl transition-all duration-200 border-2 shrink-0"
+                style={{
+                  background: '#070605',
+                  color: '#ffcf1c',
+                  borderColor: '#070605',
+                }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLButtonElement).style.background = '#ffcf1c';
+                  (e.currentTarget as HTMLButtonElement).style.color = '#070605';
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLButtonElement).style.background = '#070605';
+                  (e.currentTarget as HTMLButtonElement).style.color = '#ffcf1c';
+                }}
               >
                 {t('nav.login', 'Login')}
               </Button>
             )}
           </div>
         </div>
+
+        <button
+          type="button"
+          onClick={() => setIsMobileMenuOpen((open) => !open)}
+          className="lg:hidden inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border-2 border-[#070605] bg-[#070605] text-[#ffcf1c] transition-colors"
+          aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={isMobileMenuOpen}
+        >
+          {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
       </div>
+
+      {isMobileMenuOpen && (
+        <div className="lg:hidden absolute left-0 right-0 top-full z-50 border-t-2 border-[#070605] bg-[#ffcf1c] shadow-2xl">
+          <div className="container mx-auto px-3 py-4">
+            <div className="grid gap-2">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.label}
+                  to={link.path}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center justify-between rounded-xl border-2 border-[#070605]/15 bg-white/35 px-4 py-3 text-sm font-black uppercase tracking-wide text-[#070605]"
+                >
+                  {link.label}
+                  {link.path !== '/blog' && link.path !== '/contact' && <ChevronDown className="h-4 w-4" />}
+                </Link>
+              ))}
+            </div>
+
+            <div className="mt-4 grid gap-2 border-t-2 border-[#070605]/15 pt-4">
+              <button
+                type="button"
+                onClick={toggleLanguage}
+                className="flex items-center justify-between rounded-xl border-2 border-[#070605] px-4 py-3 text-sm font-black text-[#070605]"
+              >
+                <span className="flex items-center gap-2">
+                  <Globe className="h-4 w-4" />
+                  {i18n.language === 'en' ? 'العربية' : 'English'}
+                </span>
+              </button>
+
+              <Link
+                to="/favorites"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center gap-2 rounded-xl border-2 border-[#070605] px-4 py-3 text-sm font-black text-[#070605]"
+              >
+                <Heart className="h-4 w-4" />
+                Favorites
+              </Link>
+
+              {user ? (
+                <>
+                  <Link
+                    to="/profile"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-2 rounded-xl border-2 border-[#070605] px-4 py-3 text-sm font-black text-[#070605]"
+                  >
+                    <User className="h-4 w-4" />
+                    {t('nav.profile')}
+                  </Link>
+
+                  {user.role === 'user' && (
+                    <>
+                      <Link
+                        to="/dashboard"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="flex items-center gap-2 rounded-xl border-2 border-[#070605] px-4 py-3 text-sm font-black text-[#070605]"
+                      >
+                        <LayoutDashboard className="h-4 w-4" />
+                        {t('nav.dashboard', 'Dashboard')}
+                      </Link>
+                      <Link
+                        to="/vouchers"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="flex items-center gap-2 rounded-xl border-2 border-[#070605] px-4 py-3 text-sm font-black text-[#070605]"
+                      >
+                        <Ticket className="h-4 w-4" />
+                        {t('nav.vouchers', 'Vouchers')}
+                      </Link>
+                    </>
+                  )}
+
+                  {user.role === 'admin' && (
+                    <Link
+                      to="/admin"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center gap-2 rounded-xl border-2 border-[#070605] px-4 py-3 text-sm font-black text-[#070605]"
+                    >
+                      <ShieldCheck className="h-4 w-4" />
+                      {t('nav.admin', 'Admin Panel')}
+                    </Link>
+                  )}
+
+                  {user.role === 'restaurant' && (
+                    <Link
+                      to="/restaurant-panel"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center gap-2 rounded-xl border-2 border-[#070605] px-4 py-3 text-sm font-black text-[#070605]"
+                    >
+                      <Store className="h-4 w-4" />
+                      {t('nav.restaurant_panel', 'Restaurant Panel')}
+                    </Link>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      handleLogout();
+                    }}
+                    className="flex items-center gap-2 rounded-xl border-2 border-red-600 px-4 py-3 text-sm font-black text-red-600"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    {t('nav.logout')}
+                  </button>
+                </>
+              ) : (
+                <Button
+                  onClick={openAuthModal}
+                  className="h-12 rounded-xl border-2 border-[#070605] bg-[#070605] text-sm font-black uppercase tracking-widest text-[#ffcf1c] hover:bg-[#ffcf1c] hover:text-[#070605]"
+                >
+                  {t('nav.login', 'Login')}
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       <AuthModal
         isOpen={isAuthModalOpen}

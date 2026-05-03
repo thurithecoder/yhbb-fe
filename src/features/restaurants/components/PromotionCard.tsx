@@ -41,7 +41,7 @@ export default function PromotionCard({ promotion, showClaimButton = false }: Pr
 
   return (
     <Card className="border-none shadow-xl rounded-[40px] bg-white overflow-hidden group">
-      <div className="bg-[#6EA15C] p-8 text-white relative overflow-hidden">
+      <div className="bg-[#ffcf1c] p-8 text-white relative overflow-hidden">
         <div className="absolute -top-12 -right-12 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
         <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-black/10 rounded-full blur-2xl" />
 
@@ -52,23 +52,23 @@ export default function PromotionCard({ promotion, showClaimButton = false }: Pr
             </Badge>
             <h3 className="text-3xl font-black tracking-tighter uppercase leading-none">
               {discountLabel ?? 'SPECIAL'}{' '}
-              <span className="text-green-100">OFFER</span>
+              <span className="text-[#FFF9DC]">OFFER</span>
             </h3>
           </div>
           <div className="bg-white/15 rounded-3xl px-4 py-3 text-right">
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-green-100">Voucher</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#FFF9DC]">Voucher</p>
             <p className="mt-1 text-sm font-bold text-white">Revealed after claim</p>
           </div>
         </div>
 
         <div className="mt-6 relative z-10">
-          <p className="text-green-50 font-bold text-lg">{promotion.title}</p>
-          <p className="text-green-50/70 text-sm font-medium line-clamp-2">{promotion.description}</p>
+          <p className="text-[#FFF9DC] font-bold text-lg">{promotion.title}</p>
+          <p className="text-[#FFF9DC]/70 text-sm font-medium line-clamp-2">{promotion.description}</p>
         </div>
 
         {promotion.max_uses_total != null && (
           <div className="mt-4 relative z-10">
-            <div className="flex items-center justify-between text-green-50/80 text-xs font-bold mb-1">
+            <div className="flex items-center justify-between text-[#FFF9DC]/80 text-xs font-bold mb-1">
               <span className="flex items-center gap-1">
                 <Hash className="w-3 h-3" />
                 {totalClaimed} / {promotion.max_uses_total} vouchers claimed
@@ -88,10 +88,10 @@ export default function PromotionCard({ promotion, showClaimButton = false }: Pr
       </div>
 
       <CardContent className="p-8 space-y-4">
-        <div className="rounded-2xl border border-dashed border-green-100 bg-green-50/60 p-4">
+        <div className="rounded-2xl border border-dashed border-[#FFF9DC] bg-[#FFF9DC]/60 p-4">
           <div className="flex items-start gap-3">
             <div className="rounded-2xl bg-white p-3 shadow-sm">
-              <LockKeyhole className="w-5 h-5 text-[#6EA15C]" />
+              <LockKeyhole className="w-5 h-5 text-[#ffcf1c]" />
             </div>
             <div>
               <p className="font-black text-neutral-900">Voucher code stays hidden until claimed</p>
@@ -112,7 +112,7 @@ export default function PromotionCard({ promotion, showClaimButton = false }: Pr
                 {promotion.max_uses_per_user}x per user
               </span>
             )}
-            <Badge variant="outline" className="rounded-full border-green-200 text-green-600 bg-green-50">
+            <Badge variant="outline" className="rounded-full border-[#FFF9DC] text-[#ffcf1c] bg-[#FFF9DC]">
               {isFull ? 'Fully Claimed' : promotion.end_date ? 'Scheduled' : 'Active now'}
             </Badge>
           </div>
@@ -124,7 +124,7 @@ export default function PromotionCard({ promotion, showClaimButton = false }: Pr
               <Button
                 onClick={handleClaim}
                 disabled={claiming || isFull}
-                className="flex-1 h-12 bg-[#6EA15C] hover:bg-[#5D8A4E] text-white rounded-2xl font-black uppercase tracking-tight transition-all active:scale-95 disabled:opacity-50"
+                className="flex-1 h-12 bg-[#ffcf1c] hover:bg-[#ffcf1c] hover:text-[#070605] rounded-2xl font-black uppercase tracking-tight transition-all active:scale-95 disabled:opacity-50"
               >
                 {claiming ? (
                   <><Loader2 className="w-4 h-4 animate-spin mr-2" />Claiming...</>
@@ -132,7 +132,7 @@ export default function PromotionCard({ promotion, showClaimButton = false }: Pr
               </Button>
             ) : (
               <Button
-                className="flex-1 h-12 bg-neutral-900 hover:bg-[#6EA15C] text-white rounded-2xl font-black uppercase tracking-tight"
+                className="flex-1 h-12 bg-[#070605] hover:bg-[#ffcf1c] hover:text-[#070605] text-white rounded-2xl font-black uppercase tracking-tight"
                 onClick={() => showToast('Sign in to claim this promotion.')}
               >
                 <Ticket className="w-4 h-4 mr-2" />

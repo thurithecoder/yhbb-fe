@@ -159,7 +159,7 @@ export default function RestaurantPromotionScannerPage() {
   return (
     <div className="space-y-8 max-w-2xl mx-auto">
       <div className="space-y-2">
-        <p className="text-xs font-black uppercase tracking-[0.3em] text-[#6EA15C]">Restaurant Portal</p>
+        <p className="text-xs font-black uppercase tracking-[0.3em] text-[#ffcf1c]">Restaurant Portal</p>
         <h1 className="text-4xl font-black tracking-tighter uppercase text-neutral-900">Voucher Scanner</h1>
         <p className="text-neutral-500 font-medium">Scan a customer's voucher QR code or enter the voucher code manually.</p>
       </div>
@@ -184,20 +184,20 @@ export default function RestaurantPromotionScannerPage() {
       )}
 
       {result && (
-        <Card className={`rounded-[32px] border-none shadow-xl ${result.ok ? 'bg-green-50' : 'bg-red-50'}`}>
+        <Card className={`rounded-[32px] border-none shadow-xl ${result.ok ? 'bg-[#FFF9DC]' : 'bg-red-50'}`}>
           <CardContent className="p-8 space-y-4">
             <div className="flex items-center gap-4">
               {result.ok ? (
-                <CheckCircle2 className="w-12 h-12 text-green-500 shrink-0" />
+                <CheckCircle2 className="w-12 h-12 text-[#FFF9DC]0 shrink-0" />
               ) : (
                 <XCircle className="w-12 h-12 text-red-400 shrink-0" />
               )}
               <div>
-                <p className={`text-2xl font-black tracking-tight ${result.ok ? 'text-green-700' : 'text-red-600'}`}>
+                <p className={`text-2xl font-black tracking-tight ${result.ok ? 'text-[#070605]' : 'text-red-600'}`}>
                   {result.ok ? 'Voucher Used!' : 'Redemption Failed'}
                 </p>
                 {result.ok ? (
-                  <p className="text-green-600 font-medium">{result.promotionTitle}</p>
+                  <p className="text-[#ffcf1c] font-medium">{result.promotionTitle}</p>
                 ) : (
                   <p className="text-red-500 font-medium">{'message' in result ? result.message : 'Redemption failed.'}</p>
                 )}
@@ -212,7 +212,7 @@ export default function RestaurantPromotionScannerPage() {
                 </div>
                 {result.discountPercent && (
                   <div className="bg-white rounded-2xl p-4 text-center">
-                    <p className="text-3xl font-black text-[#6EA15C]">
+                    <p className="text-3xl font-black text-[#ffcf1c]">
                       {formatPromotionDiscount(result.discountType, result.discountPercent, { includeOff: false })}
                     </p>
                     <p className="text-xs font-bold text-neutral-400 uppercase tracking-wide">Discount</p>
@@ -227,7 +227,7 @@ export default function RestaurantPromotionScannerPage() {
               </div>
             )}
 
-            <Button onClick={reset} className="w-full h-12 bg-neutral-900 hover:bg-[#6EA15C] text-white rounded-2xl font-black uppercase gap-2">
+            <Button onClick={reset} className="w-full h-12 bg-[#070605] hover:bg-[#ffcf1c] hover:text-[#070605] text-white rounded-2xl font-black uppercase gap-2">
               <RefreshCw className="w-4 h-4" /> Scan Another
             </Button>
           </CardContent>
@@ -237,7 +237,7 @@ export default function RestaurantPromotionScannerPage() {
       {processing && (
         <Card className="rounded-[32px] border-none shadow-xl bg-white">
           <CardContent className="p-12 flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-[#6EA15C] border-t-transparent rounded-full animate-spin" />
+            <div className="w-12 h-12 border-4 border-[#ffcf1c] border-t-transparent rounded-full animate-spin" />
             <p className="font-black text-neutral-700 uppercase tracking-wide">Verifying voucher...</p>
           </CardContent>
         </Card>
@@ -258,10 +258,10 @@ export default function RestaurantPromotionScannerPage() {
               {cameraActive && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                   <div className="w-48 h-48 border-2 border-white rounded-2xl opacity-60">
-                    <div className="absolute top-0 left-0 w-6 h-6 border-t-4 border-l-4 border-[#6EA15C] rounded-tl-lg" />
-                    <div className="absolute top-0 right-0 w-6 h-6 border-t-4 border-r-4 border-[#6EA15C] rounded-tr-lg" />
-                    <div className="absolute bottom-0 left-0 w-6 h-6 border-b-4 border-l-4 border-[#6EA15C] rounded-bl-lg" />
-                    <div className="absolute bottom-0 right-0 w-6 h-6 border-b-4 border-r-4 border-[#6EA15C] rounded-br-lg" />
+                    <div className="absolute top-0 left-0 w-6 h-6 border-t-4 border-l-4 border-[#ffcf1c] rounded-tl-lg" />
+                    <div className="absolute top-0 right-0 w-6 h-6 border-t-4 border-r-4 border-[#ffcf1c] rounded-tr-lg" />
+                    <div className="absolute bottom-0 left-0 w-6 h-6 border-b-4 border-l-4 border-[#ffcf1c] rounded-bl-lg" />
+                    <div className="absolute bottom-0 right-0 w-6 h-6 border-b-4 border-r-4 border-[#ffcf1c] rounded-br-lg" />
                   </div>
                 </div>
               )}
@@ -281,7 +281,7 @@ export default function RestaurantPromotionScannerPage() {
               )}
 
               {scanning && (
-                <Badge className="absolute top-4 left-4 bg-[#6EA15C] text-white border-none animate-pulse">
+                <Badge className="absolute top-4 left-4 bg-[#ffcf1c] text-white border-none animate-pulse">
                   Scanning...
                 </Badge>
               )}
@@ -291,7 +291,7 @@ export default function RestaurantPromotionScannerPage() {
               {!cameraActive ? (
                 <Button
                   onClick={startCamera}
-                  className="flex-1 h-12 bg-[#6EA15C] hover:bg-[#5D8A4E] text-white rounded-2xl font-black uppercase gap-2"
+                  className="flex-1 h-12 bg-[#ffcf1c] hover:bg-[#ffcf1c] hover:text-[#070605] rounded-2xl font-black uppercase gap-2"
                 >
                   <Camera className="w-4 h-4" /> Start Camera
                 </Button>
@@ -327,7 +327,7 @@ export default function RestaurantPromotionScannerPage() {
               <Button
                 type="submit"
                 disabled={!manualToken.trim()}
-                className="h-12 px-6 bg-[#6EA15C] hover:bg-[#5D8A4E] text-white rounded-2xl font-black uppercase"
+                className="h-12 px-6 bg-[#ffcf1c] hover:bg-[#ffcf1c] hover:text-[#070605] rounded-2xl font-black uppercase"
               >
                 Redeem
               </Button>

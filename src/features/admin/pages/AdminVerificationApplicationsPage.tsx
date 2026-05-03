@@ -102,10 +102,10 @@ export default function AdminVerificationApplicationsPage() {
                                     <div className="text-sm text-neutral-500">Location: {app.verificationData?.location || 'N/A'}</div>
                                     <div className="flex gap-2 mt-2">
                                         {status === 'pending' && (
-                                            <Button disabled={actionLoading === app.id} onClick={() => handleAccept(app.id)} className="bg-[#6EA15C] text-white font-bold">Accept Step 1</Button>
+                                            <Button disabled={actionLoading === app.id} onClick={() => handleAccept(app.id)} className="bg-[#ffcf1c] text-white font-bold">Accept Step 1</Button>
                                         )}
                                         {status === 'step2' && (
-                                            <Button disabled={actionLoading === app.id} onClick={() => handleApprove(app.id)} className="bg-[#6EA15C] text-white font-bold">Approve</Button>
+                                            <Button disabled={actionLoading === app.id} onClick={() => handleApprove(app.id)} className="bg-[#ffcf1c] text-white font-bold">Approve</Button>
                                         )}
                                     </div>
                                 </div>

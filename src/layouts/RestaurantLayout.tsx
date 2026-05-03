@@ -50,29 +50,29 @@ export default function RestaurantLayout() {
   }
 
   return (
-    <>
-      <aside className="w-72 h-screen fixed top-0 left-0 bg-white border-r flex flex-col z-20">
-        <div className="p-6 border-b">
-          <Link to="/" className="flex items-center gap-3">
-            <div className="bg-[#6EA15C] p-2 rounded-xl">
+    <div className="min-h-screen bg-[#f7f7f2] md:flex">
+      <aside className="sticky top-0 z-20 flex h-auto w-full max-w-full flex-col border-b bg-white md:fixed md:left-0 md:top-0 md:h-screen md:w-72 md:border-b-0 md:border-r">
+        <div className="p-4 md:p-6 border-b">
+          <Link to="/" className="flex items-center gap-3 min-w-0">
+            <div className="bg-[#ffcf1c] p-2 rounded-xl">
               <Store className="w-6 h-6 text-white" />
             </div>
-            <div>
+            <div className="min-w-0">
               <p className="text-xs font-black uppercase tracking-[0.25em] text-neutral-400">Yalla Habibi</p>
-              <span className="text-xl font-bold tracking-tight text-[#6EA15C]">Restaurant Hub</span>
+              <span className="block truncate text-lg md:text-xl font-bold tracking-tight text-[#ffcf1c]">Restaurant Hub</span>
             </div>
           </Link>
         </div>
-        <nav className="flex-1 p-4 space-y-2">
+        <nav className="flex gap-2 overflow-x-auto p-3 md:block md:flex-1 md:space-y-2 md:overflow-x-visible md:p-4">
           {navItems.map((item) => (
             <Link
               key={item.path}
               to={item.path}
               className={cn(
-                "flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all",
+                "flex shrink-0 items-center gap-2 md:gap-3 whitespace-nowrap px-3 md:px-4 py-3 rounded-xl text-sm md:text-base font-bold transition-all",
                 location.pathname === item.path
-                  ? "bg-[#6EA15C] text-white shadow-lg shadow-green-100"
-                  : "text-[#6EA15C] hover:bg-green-50"
+                  ? "bg-[#ffcf1c] text-white shadow-lg shadow-yellow-100"
+                  : "text-[#ffcf1c] hover:bg-[#FFF9DC]"
               )}
             >
               <item.icon className="w-5 h-5" />
@@ -80,7 +80,7 @@ export default function RestaurantLayout() {
             </Link>
           ))}
         </nav>
-        <div className="p-4 border-t">
+        <div className="hidden md:block p-4 border-t">
           <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-3 w-full text-red-600 font-bold hover:bg-red-50 rounded-xl transition-all">
             <LogOut className="w-5 h-5" />
             Log Out
@@ -88,9 +88,9 @@ export default function RestaurantLayout() {
         </div>
       </aside>
 
-      <main className="ml-72 p-8 min-h-screen bg-[#f7f7f2] overflow-y-auto">
+      <main className="w-full min-w-0 p-4 md:ml-72 md:p-8 min-h-screen bg-[#f7f7f2] overflow-x-hidden overflow-y-auto">
         <Outlet />
       </main>
-    </>
+    </div>
   );
 }

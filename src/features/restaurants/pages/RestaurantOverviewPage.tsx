@@ -54,12 +54,12 @@ export default function RestaurantOverviewPage() {
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
         <div className="space-y-2">
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-[#6EA15C]">Restaurant Backend</p>
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-[#ffcf1c]">Restaurant Backend</p>
           <h1 className="text-4xl font-black tracking-tighter uppercase text-neutral-900">Restaurant Overview</h1>
           <p className="text-neutral-500 font-medium">Everything here is coming from the restaurant endpoints in the backend.</p>
         </div>
         <div className="flex gap-3">
-          <Link to="/restaurant-panel/profile" className="inline-flex h-10 items-center justify-center rounded-xl bg-[#6EA15C] px-4 text-sm font-black uppercase tracking-wide text-white hover:bg-[#5D8A4E]">
+          <Link to="/restaurant-panel/profile" className="inline-flex h-10 items-center justify-center rounded-xl bg-[#ffcf1c] px-4 text-sm font-black uppercase tracking-wide text-white hover:bg-[#070605]">
             Edit Profile
           </Link>
           <Link to="/restaurant-panel/menu-requests" className="inline-flex h-10 items-center justify-center rounded-xl border border-neutral-200 bg-white px-4 text-sm font-black uppercase tracking-wide text-neutral-900 hover:bg-neutral-50">
@@ -72,7 +72,7 @@ export default function RestaurantOverviewPage() {
         {cards.map((card) => (
           <Card key={card.label} className="rounded-[28px] border-none shadow-sm bg-white">
             <CardContent className="p-6 space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-green-50 text-[#6EA15C] flex items-center justify-center">
+              <div className="w-12 h-12 rounded-2xl bg-[#FFF9DC] text-[#ffcf1c] flex items-center justify-center">
                 <card.icon className="w-6 h-6" />
               </div>
               <div>
@@ -89,7 +89,7 @@ export default function RestaurantOverviewPage() {
         <Card className="rounded-[32px] border-none shadow-sm bg-white">
           <CardContent className="p-8 space-y-6">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6EA15C]">Profile Snapshot</p>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#ffcf1c]">Profile Snapshot</p>
               <h2 className="text-2xl font-black tracking-tight text-neutral-900">{data.profile?.name || 'Restaurant profile'}</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -120,7 +120,7 @@ export default function RestaurantOverviewPage() {
         <Card className="rounded-[32px] border-none shadow-sm bg-white">
           <CardContent className="p-8 space-y-6">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6EA15C]">Recent Menu Items</p>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#ffcf1c]">Recent Menu Items</p>
               <h2 className="text-2xl font-black tracking-tight text-neutral-900">Latest Additions</h2>
             </div>
             <div className="space-y-4">
@@ -131,7 +131,7 @@ export default function RestaurantOverviewPage() {
                     <p className="text-sm text-neutral-500">{item.tblcategory?.name_en || 'Uncategorized'}</p>
                     <p className="text-xs font-medium text-neutral-400">Updated {formatDateTime(item.updatedAt)}</p>
                   </div>
-                  <Badge className={item.is_available ? 'bg-green-100 text-green-700 border-none' : 'bg-neutral-200 text-neutral-700 border-none'}>
+                  <Badge className={item.is_available ? 'bg-[#FFF9DC] text-[#070605] border-none' : 'bg-neutral-200 text-neutral-700 border-none'}>
                     {item.is_available ? 'Available' : 'Hidden'}
                   </Badge>
                 </div>

@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { motion } from 'motion/react';
 import { Calendar, User, ArrowRight, BookOpen } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 
@@ -14,7 +12,7 @@ const BLOG_POSTS = [
     author: 'Chef Omar',
     date: 'Oct 12, 2026',
     category: 'Recipes',
-    image: 'https://picsum.photos/seed/hummus/800/600'
+    image: 'https://picsum.photos/seed/hummus/800/600',
   },
   {
     id: '2',
@@ -23,7 +21,7 @@ const BLOG_POSTS = [
     author: 'Layla M.',
     date: 'Oct 10, 2026',
     category: 'Travel',
-    image: 'https://picsum.photos/seed/dubai/800/600'
+    image: 'https://picsum.photos/seed/dubai/800/600',
   },
   {
     id: '3',
@@ -32,148 +30,177 @@ const BLOG_POSTS = [
     author: 'Admin',
     date: 'Oct 05, 2026',
     category: 'Community',
-    image: 'https://picsum.photos/seed/garden/800/600'
-  }
+    image: 'https://picsum.photos/seed/garden/800/600',
+  },
 ];
 
 export default function BlogPage() {
   return (
-    <div className="space-y-16">
-      {/* Header */}
-      <section className="text-center space-y-6 max-w-3xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <Badge className="bg-green-50 text-[#6EA15C] border-none px-4 py-1.5 rounded-full font-black text-xs uppercase tracking-widest mb-4">
-            The Habibi Journal
-          </Badge>
-          <h1 className="text-5xl md:text-7xl font-black tracking-tighter uppercase leading-[0.85] text-[#6EA15C]">
-            STORIES FROM THE KITCHEN
-          </h1>
-          <p className="text-neutral-500 text-lg font-medium mt-6">
-            Explore the culture, recipes, and people behind the finest Middle Eastern flavors.
-          </p>
-        </motion.div>
+    <div className="bg-[#ffcf1c] min-h-screen">
+
+      {/* ── Hero band ── */}
+      <section className="bg-[#ffcf1c] px-4 sm:px-8 md:px-12 pt-10 sm:pt-16 pb-8 sm:pb-12">
+        <div className="max-w-4xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-7 h-[3px] bg-black rounded-full" />
+              <span className="bg-black text-[#ffcf1c] text-[10px] font-black uppercase tracking-[0.18em] px-3 py-1 rounded-full">
+                The Habibi Journal
+              </span>
+            </div>
+            <h1
+              className="font-black uppercase tracking-tighter text-black leading-[0.9] mb-3"
+              style={{ fontFamily: "'Georgia', serif", fontSize: 'clamp(2.4rem, 8vw, 5.5rem)' }}
+            >
+              Stories From<br />The Kitchen
+            </h1>
+            <p className="text-[#5a4a00] font-semibold text-sm sm:text-base max-w-lg leading-relaxed">
+              Explore the culture, recipes, and people behind the finest Middle Eastern flavors.
+            </p>
+          </motion.div>
+        </div>
       </section>
 
-      {/* Featured Post */}
-      <section>
-        <Link to={`/blog/${BLOG_POSTS[0].id}`}>
-          <Card className="border-none shadow-2xl rounded-[48px] overflow-hidden bg-white group">
-            <div className="grid grid-cols-1 lg:grid-cols-2">
-              <div className="relative h-[400px] lg:h-auto overflow-hidden">
-                <img 
-                  src={BLOG_POSTS[0].image} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+      {/* Black stripe */}
+      <div className="h-[5px] bg-black" />
+
+      {/* ── Dark band — featured + grid ── */}
+      <section className="bg-[#111] px-4 sm:px-8 md:px-12 py-10 sm:py-16">
+        <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
+
+          {/* Featured post */}
+          <Link to={`/blog/${BLOG_POSTS[0].id}`}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="group bg-[#1a1a1a] border border-[#2a2a2a] hover:border-[#ffcf1c] rounded-2xl sm:rounded-3xl overflow-hidden grid grid-cols-1 lg:grid-cols-2 transition-colors duration-300"
+            >
+              <div className="relative h-[220px] sm:h-[280px] lg:h-auto overflow-hidden">
+                <img
+                  src={BLOG_POSTS[0].image}
                   alt={BLOG_POSTS[0].title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
               </div>
-              <CardContent className="p-12 flex flex-col justify-center space-y-8">
-                <div className="flex items-center gap-4">
-                  <Badge className="bg-[#6EA15C] text-white border-none px-4 py-1 rounded-full font-black text-[10px] uppercase tracking-widest">
+              <div className="p-6 sm:p-8 lg:p-10 flex flex-col justify-center gap-4">
+                <div className="flex items-center gap-3">
+                  <span className="bg-[#ffcf1c] text-black text-[9px] font-black uppercase tracking-[0.15em] px-3 py-1 rounded-full">
                     Featured
-                  </Badge>
-                  <span className="text-xs font-bold text-neutral-400 uppercase tracking-widest flex items-center gap-2">
+                  </span>
+                  <span className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest flex items-center gap-1.5">
                     <Calendar className="w-3 h-3" /> {BLOG_POSTS[0].date}
                   </span>
                 </div>
-                <h2 className="text-4xl font-black tracking-tighter uppercase leading-none group-hover:text-[#6EA15C] transition-colors">
+                <h2
+                  className="font-black uppercase tracking-tighter text-white leading-[1.0] group-hover:text-[#ffcf1c] transition-colors"
+                  style={{ fontFamily: "'Georgia', serif", fontSize: 'clamp(1.3rem, 3vw, 2rem)' }}
+                >
                   {BLOG_POSTS[0].title}
                 </h2>
-                <p className="text-neutral-500 text-lg font-medium leading-relaxed">
+                <p className="text-neutral-500 text-sm font-medium leading-relaxed line-clamp-3">
                   {BLOG_POSTS[0].excerpt}
                 </p>
-                <div className="flex items-center justify-between pt-8 border-t">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center">
-                      <User className="w-5 h-5 text-neutral-400" />
+                <div className="flex items-center justify-between border-t border-[#2a2a2a] pt-4 mt-1">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-full bg-[#2a2a2a] flex items-center justify-center">
+                      <User className="w-4 h-4 text-neutral-500" />
                     </div>
-                    <span className="font-bold text-[#6EA15C]">{BLOG_POSTS[0].author}</span>
+                    <span className="text-xs font-black text-[#ffcf1c]">{BLOG_POSTS[0].author}</span>
                   </div>
-                  <Button variant="ghost" className="font-black uppercase tracking-tight text-[#6EA15C] group-hover:translate-x-2 transition-transform">
-                    Read More <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
+                  <span className="text-[10px] font-black text-[#ffcf1c] uppercase tracking-wider flex items-center gap-1">
+                    Read More <ArrowRight className="w-3 h-3" />
+                  </span>
                 </div>
-              </CardContent>
-            </div>
-          </Card>
-        </Link>
-      </section>
+              </div>
+            </motion.div>
+          </Link>
 
-      {/* Post Grid */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {BLOG_POSTS.slice(1).map((post) => (
-          <motion.div
-            key={post.id}
-            whileHover={{ y: -8 }}
-            transition={{ type: 'spring', stiffness: 300 }}
-          >
-            <Link to={`/blog/${post.id}`}>
-              <Card className="border-none shadow-sm hover:shadow-xl transition-all rounded-[32px] overflow-hidden bg-white group">
-                <div className="relative h-64 overflow-hidden">
-                  <img 
-                    src={post.image} 
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    alt={post.title}
-                  />
-                  <div className="absolute top-4 left-4">
-                    <Badge className="bg-white/90 backdrop-blur-md text-neutral-900 border-none font-bold px-3 py-1 rounded-full">
-                      {post.category}
-                    </Badge>
+          {/* Post grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+            {BLOG_POSTS.slice(1).map((post, i) => (
+              <Link key={post.id} to={`/blog/${post.id}`}>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 * (i + 1), duration: 0.5 }}
+                  whileHover={{ y: -4 }}
+                  className="group bg-[#1a1a1a] border border-[#2a2a2a] hover:border-[#ffcf1c] rounded-xl sm:rounded-2xl overflow-hidden transition-colors duration-300 h-full"
+                >
+                  <div className="relative h-[160px] sm:h-[180px] overflow-hidden">
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute top-3 left-3">
+                      <span className="bg-white/90 text-black text-[9px] font-black uppercase tracking-[0.1em] px-2.5 py-1 rounded-full">
+                        {post.category}
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <CardContent className="p-8 space-y-4">
-                  <div className="flex items-center gap-2 text-xs font-bold text-neutral-400 uppercase tracking-widest">
-                    <Calendar className="w-3 h-3" /> {post.date}
+                  <div className="p-5 sm:p-6 space-y-3">
+                    <div className="text-[9px] font-bold text-neutral-500 uppercase tracking-widest flex items-center gap-1.5">
+                      <Calendar className="w-3 h-3" /> {post.date}
+                    </div>
+                    <h3
+                      className="font-black uppercase tracking-tight text-white leading-[1.05] group-hover:text-[#ffcf1c] transition-colors"
+                      style={{ fontFamily: "'Georgia', serif", fontSize: 'clamp(1rem, 2.5vw, 1.2rem)' }}
+                    >
+                      {post.title}
+                    </h3>
+                    <p className="text-neutral-500 text-xs font-medium leading-relaxed line-clamp-2">
+                      {post.excerpt}
+                    </p>
+                    <div className="flex items-center justify-between border-t border-[#2a2a2a] pt-3">
+                      <span className="text-xs font-black text-[#ffcf1c]">{post.author}</span>
+                      <span className="text-[9px] font-black text-[#ffcf1c] uppercase tracking-wider flex items-center gap-1">
+                        Read <ArrowRight className="w-3 h-3" />
+                      </span>
+                    </div>
                   </div>
-                  <h3 className="text-2xl font-black tracking-tight uppercase group-hover:text-[#6EA15C] transition-colors">
-                    {post.title}
-                  </h3>
-                  <p className="text-neutral-500 text-sm font-medium line-clamp-2">
-                    {post.excerpt}
-                  </p>
-                  <div className="pt-6 flex items-center justify-between border-t">
-                    <span className="text-sm font-bold text-[#6EA15C]">{post.author}</span>
-                    <Button variant="ghost" size="sm" className="font-black uppercase tracking-tight text-[#6EA15C]">
-                      Read <ArrowRight className="w-4 h-4 ml-2" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          </motion.div>
-        ))}
-      </section>
-
-      {/* Newsletter */}
-      <section className="bg-neutral-900 rounded-[48px] p-12 md:p-20 text-center space-y-8 relative overflow-hidden">
-        <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#6EA15C]/20 rounded-full blur-3xl" />
-        <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-[#6EA15C]/10 rounded-full blur-3xl" />
-        
-        <div className="relative z-10 space-y-4">
-          <div className="bg-[#6EA15C] w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6">
-            <BookOpen className="w-8 h-8 text-white" />
+                </motion.div>
+              </Link>
+            ))}
           </div>
-          <h2 className="text-4xl md:text-5xl font-black text-[#6EA15C] tracking-tighter uppercase">
-            NEVER MISS A STORY
-          </h2>
-          <p className="text-neutral-400 font-medium max-w-lg mx-auto">
-            Subscribe to our newsletter and get the latest recipes and restaurant news delivered to your inbox.
-          </p>
-        </div>
-        
-        <div className="relative z-10 flex flex-col md:flex-row gap-4 max-w-md mx-auto">
-          <input 
-            type="email" 
-            placeholder="your@email.com" 
-            className="flex-1 h-14 px-6 rounded-2xl bg-white/10 border border-white/20 text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#6EA15C] transition-colors"
-          />
-          <Button className="h-14 px-8 bg-[#6EA15C] hover:bg-[#5D8A4E] text-white rounded-2xl font-black uppercase tracking-tight transition-all active:scale-95">
-            Subscribe
-          </Button>
+
         </div>
       </section>
+
+      {/* Black stripe */}
+      <div className="h-[5px] bg-black" />
+
+      {/* ── Newsletter band ── */}
+      <section className="bg-[#ffcf1c] px-4 sm:px-8 md:px-12 py-10 sm:py-16">
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-[#111] border border-[#2a2a2a] rounded-2xl sm:rounded-3xl p-8 sm:p-12 text-center">
+            <div className="w-13 h-13 bg-[#ffcf1c] rounded-2xl flex items-center justify-center mx-auto mb-5">
+              <BookOpen className="w-6 h-6 text-black" />
+            </div>
+            <h2
+              className="font-black uppercase tracking-tighter text-white leading-[0.9] mb-3"
+              style={{ fontFamily: "'Georgia', serif", fontSize: 'clamp(1.8rem, 5vw, 3.2rem)' }}
+            >
+              Never Miss<br />
+              <span className="text-[#ffcf1c]">A Story</span>
+            </h2>
+            <p className="text-neutral-500 text-sm font-medium max-w-sm mx-auto leading-relaxed mb-6">
+              Subscribe and get the latest recipes and restaurant news delivered to your inbox.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 max-w-sm mx-auto">
+              <input
+                type="email"
+                placeholder="your@email.com"
+                className="flex-1 h-12 px-5 rounded-xl bg-[#1a1a1a] border border-[#2a2a2a] text-white placeholder:text-neutral-600 text-sm font-medium outline-none focus:border-[#ffcf1c] transition-colors"
+              />
+              <Button className="h-12 px-7 bg-[#ffcf1c] hover:opacity-90 text-black rounded-xl font-black uppercase tracking-wide text-xs transition-all active:scale-95 border-none shrink-0">
+                Subscribe
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }

@@ -61,15 +61,15 @@ export default function AdminPromotionsPage() {
   return (
     <div className="space-y-8">
       <div className="space-y-2">
-        <p className="text-xs font-black uppercase tracking-[0.3em] text-[#6EA15C]">Admin Panel</p>
+        <p className="text-xs font-black uppercase tracking-[0.3em] text-[#ffcf1c]">Admin Panel</p>
         <h1 className="text-4xl font-black tracking-tighter uppercase text-neutral-900">Promotions</h1>
         <p className="text-neutral-500 font-medium">System-wide view of all restaurant promotions and voucher usage.</p>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <AdminStatCard icon={<BadgePercent className="w-5 h-5 text-[#6EA15C]" />} label="Total Promotions" value={promotions.length} />
+        <AdminStatCard icon={<BadgePercent className="w-5 h-5 text-[#ffcf1c]" />} label="Total Promotions" value={promotions.length} />
         <AdminStatCard icon={<Hash className="w-5 h-5 text-blue-500" />} label="Total Claims" value={totalClaims} />
-        <AdminStatCard icon={<CheckCircle2 className="w-5 h-5 text-green-500" />} label="Used" value={totalUsed} />
+        <AdminStatCard icon={<CheckCircle2 className="w-5 h-5 text-[#FFF9DC]0" />} label="Used" value={totalUsed} />
         <AdminStatCard icon={<Clock className="w-5 h-5 text-amber-500" />} label="Valid" value={totalValid} />
       </div>
 
@@ -79,13 +79,13 @@ export default function AdminPromotionsPage() {
           placeholder="Search by promotion, restaurant, customer, or voucher code..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full max-w-lg h-11 px-4 text-sm font-medium border border-neutral-200 rounded-2xl bg-white focus:outline-none focus:ring-2 focus:ring-[#6EA15C]"
+          className="w-full max-w-lg h-11 px-4 text-sm font-medium border border-neutral-200 rounded-2xl bg-white focus:outline-none focus:ring-2 focus:ring-[#ffcf1c]"
         />
       </div>
 
       {loading && (
         <div className="py-16 flex justify-center">
-          <div className="w-8 h-8 border-4 border-[#6EA15C] border-t-transparent rounded-full animate-spin" />
+          <div className="w-8 h-8 border-4 border-[#ffcf1c] border-t-transparent rounded-full animate-spin" />
         </div>
       )}
 
@@ -172,7 +172,7 @@ function PromotionRow({ promotion: p }: { promotion: Promotion }) {
               <p className="font-black text-neutral-900 text-lg leading-tight truncate">{p.title}</p>
               {isExpired && <Badge className="bg-red-100 text-red-600 border-none text-xs font-bold">Expired</Badge>}
               {isFull && <Badge className="bg-orange-100 text-orange-600 border-none text-xs font-bold">Full</Badge>}
-              {!isExpired && !isFull && <Badge className="bg-green-100 text-green-600 border-none text-xs font-bold">Live</Badge>}
+              {!isExpired && !isFull && <Badge className="bg-[#FFF9DC] text-[#ffcf1c] border-none text-xs font-bold">Live</Badge>}
             </div>
             <div className="flex items-center gap-1 text-neutral-400 text-sm mt-1">
               <Building2 className="w-3.5 h-3.5" />
@@ -186,7 +186,7 @@ function PromotionRow({ promotion: p }: { promotion: Promotion }) {
           <div className="flex items-center gap-6 text-sm flex-wrap">
             {p.discount_percent && (
               <div className="text-center">
-                <p className="text-2xl font-black text-[#6EA15C]">
+                <p className="text-2xl font-black text-[#ffcf1c]">
                   {formatPromotionDiscount(p.discount_type, p.discount_percent, { includeOff: false })}
                 </p>
                 <p className="text-xs font-bold text-neutral-400 uppercase">Discount</p>
@@ -219,9 +219,9 @@ function PromotionRow({ promotion: p }: { promotion: Promotion }) {
               <p className="text-lg font-black text-neutral-800">{stats.total}</p>
               <p className="text-[10px] font-black text-neutral-400 uppercase">Claims</p>
             </div>
-            <div className="bg-green-50 rounded-2xl px-4 py-3 text-center min-w-[64px]">
-              <p className="text-lg font-black text-green-600">{stats.used}</p>
-              <p className="text-[10px] font-black text-green-400 uppercase">Used</p>
+            <div className="bg-[#FFF9DC] rounded-2xl px-4 py-3 text-center min-w-[64px]">
+              <p className="text-lg font-black text-[#ffcf1c]">{stats.used}</p>
+              <p className="text-[10px] font-black text-[#ffcf1c] uppercase">Used</p>
             </div>
             <div className="bg-amber-50 rounded-2xl px-4 py-3 text-center min-w-[64px]">
               <p className="text-lg font-black text-amber-600">{stats.valid}</p>
@@ -238,7 +238,7 @@ function PromotionRow({ promotion: p }: { promotion: Promotion }) {
             </div>
             <div className="h-1.5 bg-neutral-100 rounded-full overflow-hidden">
               <div
-                className="h-full bg-[#6EA15C] rounded-full transition-all"
+                className="h-full bg-[#ffcf1c] rounded-full transition-all"
                 style={{ width: `${fillPct}%` }}
               />
             </div>
@@ -251,7 +251,7 @@ function PromotionRow({ promotion: p }: { promotion: Promotion }) {
 
 function StatusBadge({ status }: { status: PromotionClaim['status'] }) {
   if (status === 'used') {
-    return <Badge className="bg-green-100 text-green-700 border-none text-xs font-bold">Used</Badge>;
+    return <Badge className="bg-[#FFF9DC] text-[#070605] border-none text-xs font-bold">Used</Badge>;
   }
   if (status === 'expired') {
     return <Badge className="bg-red-100 text-red-700 border-none text-xs font-bold">Expired</Badge>;

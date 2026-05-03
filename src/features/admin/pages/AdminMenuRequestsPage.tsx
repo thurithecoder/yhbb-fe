@@ -71,7 +71,7 @@ export default function AdminMenuRequestsPage() {
       },
       showCancelButton: true,
       confirmButtonText: isRejection ? 'Reject' : 'Approve',
-      confirmButtonColor: '#6EA15C',
+      confirmButtonColor: '#ffcf1c',
       cancelButtonColor: '#111827',
     });
 
@@ -109,14 +109,14 @@ export default function AdminMenuRequestsPage() {
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
         <div className="space-y-2">
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-[#6EA15C]">Admin Workflow</p>
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-[#ffcf1c]">Admin Workflow</p>
           <h1 className="text-4xl font-black tracking-tighter uppercase text-neutral-900">Menu Change Requests</h1>
           <p className="text-neutral-500 font-medium">Review restaurant menu submissions directly against the backend approval route.</p>
         </div>
         <select
           value={status}
           onChange={(event) => setStatus(event.target.value)}
-          className="h-12 rounded-xl border border-neutral-200 bg-white px-4 text-sm font-bold text-neutral-600 outline-none focus:border-[#6EA15C]"
+          className="h-12 rounded-xl border border-neutral-200 bg-white px-4 text-sm font-bold text-neutral-600 outline-none focus:border-[#ffcf1c]"
         >
           <option value="">All statuses</option>
           <option value="pending">Pending</option>
@@ -213,7 +213,7 @@ export default function AdminMenuRequestsPage() {
                         </div>
                       </TableCell>
                       <TableCell className="align-top">
-                        <span className="font-bold text-[#6EA15C]">{formatCurrency(request.requested_price)}</span>
+                        <span className="font-bold text-[#ffcf1c]">{formatCurrency(request.requested_price)}</span>
                         {requestType === 'update' && originalItem?.price !== request.requested_price && (
                           <p className="text-xs text-neutral-400 line-through">
                             was {formatCurrency(originalItem?.price || 0)}
@@ -226,7 +226,7 @@ export default function AdminMenuRequestsPage() {
                             request.status === 'pending'
                               ? 'bg-amber-100 text-amber-700 border-none'
                               : request.status === 'approved'
-                                ? 'bg-green-100 text-green-700 border-none'
+                                ? 'bg-[#FFF9DC] text-[#070605] border-none'
                                 : 'bg-red-100 text-red-700 border-none'
                           }>
                             {itemDeleted && request.status === 'pending' ? 'item_deleted' : request.status}
@@ -242,7 +242,7 @@ export default function AdminMenuRequestsPage() {
                           <div className="flex justify-end gap-2">
                             <Button
                               onClick={() => handleReview(request, 'approved')}
-                              className="bg-[#6EA15C] hover:bg-[#5D8A4E] text-white rounded-xl font-black uppercase tracking-wide text-xs h-9 px-4"
+                              className="bg-[#ffcf1c] hover:bg-[#ffcf1c] hover:text-[#070605] rounded-xl font-black uppercase tracking-wide text-xs h-9 px-4"
                             >
                               Approve
                             </Button>
@@ -278,7 +278,7 @@ export default function AdminMenuRequestsPage() {
                                 {/* Request Type Info */}
                                 <div className="bg-white rounded-xl p-4">
                                   <h4 className="font-black text-neutral-900 mb-3 flex items-center gap-2">
-                                    <Info className="w-4 h-4 text-[#6EA15C]" />
+                                    <Info className="w-4 h-4 text-[#ffcf1c]" />
                                     Request Information
                                   </h4>
                                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -396,7 +396,7 @@ export default function AdminMenuRequestsPage() {
                                       {originalItem.taqs.map((tag) => (
                                         <span
                                           key={tag}
-                                          className="text-xs font-semibold px-2 py-1 rounded-full bg-green-50 text-[#6EA15C] border border-green-100"
+                                          className="text-xs font-semibold px-2 py-1 rounded-full bg-[#FFF9DC] text-[#ffcf1c] border border-[#FFF9DC]"
                                         >
                                           #{tag}
                                         </span>

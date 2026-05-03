@@ -14,7 +14,7 @@ type AdminRestaurant = Restaurant & {
 };
 
 const verificationBadge = (status: string) => {
-  if (status === 'approved') return <Badge className="bg-green-100 text-green-700 border-none text-[11px]"><ShieldCheck className="w-3 h-3 mr-1" />Verified</Badge>;
+  if (status === 'approved') return <Badge className="bg-[#FFF9DC] text-[#070605] border-none text-[11px]"><ShieldCheck className="w-3 h-3 mr-1" />Verified</Badge>;
   if (status === 'pending') return <Badge className="bg-amber-100 text-amber-700 border-none text-[11px]"><Clock className="w-3 h-3 mr-1" />Pending</Badge>;
   if (status === 'step2') return <Badge className="bg-blue-100 text-blue-700 border-none text-[11px]"><Clock className="w-3 h-3 mr-1" />Step 2</Badge>;
   return <Badge className="bg-neutral-100 text-neutral-500 border-none text-[11px]"><ShieldOff className="w-3 h-3 mr-1" />Not Verified</Badge>;
@@ -64,7 +64,7 @@ export default function AdminRestaurantsPage() {
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
         <div className="space-y-2">
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-[#6EA15C]">Admin Panel</p>
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-[#ffcf1c]">Admin Panel</p>
           <h1 className="text-4xl font-black tracking-tighter uppercase text-neutral-900">Restaurants</h1>
           <p className="text-neutral-500 font-medium">Open any restaurant and review all details in one clean profile page.</p>
         </div>
@@ -84,13 +84,13 @@ export default function AdminRestaurantsPage() {
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search by name, address, cuisine..."
-            className="w-full h-12 pl-11 pr-4 rounded-xl border border-neutral-200 bg-white text-sm font-medium text-neutral-700 outline-none focus:border-[#6EA15C] placeholder:text-neutral-400"
+            className="w-full h-12 pl-11 pr-4 rounded-xl border border-neutral-200 bg-white text-sm font-medium text-neutral-700 outline-none focus:border-[#ffcf1c] placeholder:text-neutral-400"
           />
         </div>
         <select
           value={filter}
           onChange={(event) => setFilter(event.target.value)}
-          className="h-12 rounded-xl border border-neutral-200 bg-white px-4 text-sm font-bold text-neutral-600 outline-none focus:border-[#6EA15C] min-w-[180px]"
+          className="h-12 rounded-xl border border-neutral-200 bg-white px-4 text-sm font-bold text-neutral-600 outline-none focus:border-[#ffcf1c] min-w-[180px]"
         >
           <option value="">All restaurants</option>
           <option value="verified">Verified only</option>
@@ -103,7 +103,7 @@ export default function AdminRestaurantsPage() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
           { label: 'Total', value: restaurants.length, color: 'text-neutral-900' },
-          { label: 'Verified', value: restaurants.filter((r) => r.verificationStatus === 'approved').length, color: 'text-green-700' },
+          { label: 'Verified', value: restaurants.filter((r) => r.verificationStatus === 'approved').length, color: 'text-[#070605]' },
           { label: 'Pending Verification', value: restaurants.filter((r) => r.verificationStatus === 'pending' || r.verificationStatus === 'step2').length, color: 'text-amber-700' },
           { label: 'Pending Requests', value: totalPending, color: 'text-red-600' },
         ].map((stat) => (
@@ -143,8 +143,8 @@ export default function AdminRestaurantsPage() {
                     {restaurant.profilepic ? (
                       <img src={restaurant.profilepic} alt={restaurant.name} className="w-14 h-14 rounded-2xl object-cover flex-shrink-0 border border-neutral-100" />
                     ) : (
-                      <div className="w-14 h-14 rounded-2xl bg-green-50 flex items-center justify-center flex-shrink-0">
-                        <Store className="w-6 h-6 text-[#6EA15C]" />
+                      <div className="w-14 h-14 rounded-2xl bg-[#FFF9DC] flex items-center justify-center flex-shrink-0">
+                        <Store className="w-6 h-6 text-[#ffcf1c]" />
                       </div>
                     )}
                     <div className="flex-1 min-w-0">
@@ -181,7 +181,7 @@ export default function AdminRestaurantsPage() {
                   <div className="pt-2 border-t border-neutral-100 flex justify-end">
                     <Link
                       to={`/admin/restaurants/${restaurant.id}`}
-                      className="inline-flex items-center gap-2 rounded-xl bg-[#6EA15C] px-4 py-2 text-xs font-black uppercase tracking-wide text-white hover:bg-[#5D8A4E] transition-colors"
+                      className="inline-flex items-center gap-2 rounded-xl bg-[#ffcf1c] px-4 py-2 text-xs font-black uppercase tracking-wide text-white hover:bg-[#070605] transition-colors"
                     >
                       <Info className="w-3.5 h-3.5" />
                       Details

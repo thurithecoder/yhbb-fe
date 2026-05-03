@@ -60,12 +60,12 @@ export default function AdminOverviewPage() {
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
         <div className="space-y-2">
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-[#6EA15C]">Backend Sync</p>
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-[#ffcf1c]">Backend Sync</p>
           <h1 className="text-4xl font-black tracking-tighter uppercase text-neutral-900">Admin Overview</h1>
           <p className="text-neutral-500 font-medium">This panel reads live category and menu data from the backend.</p>
         </div>
         <div className="flex gap-3">
-          <Link to="/admin/catalog" className="inline-flex h-10 items-center justify-center rounded-xl bg-[#6EA15C] px-4 text-sm font-black uppercase tracking-wide text-white hover:bg-[#5D8A4E]">
+          <Link to="/admin/catalog" className="inline-flex h-10 items-center justify-center rounded-xl bg-[#ffcf1c] px-4 text-sm font-black uppercase tracking-wide text-white hover:bg-[#070605]">
             Manage Categories
           </Link>
           <Link to="/admin/menu-requests" className="inline-flex h-10 items-center justify-center rounded-xl border border-neutral-200 bg-white px-4 text-sm font-black uppercase tracking-wide text-neutral-900 hover:bg-neutral-50">
@@ -78,7 +78,7 @@ export default function AdminOverviewPage() {
         {cards.map((card) => (
           <Card key={card.label} className="rounded-[28px] border-none shadow-sm bg-white">
             <CardContent className="p-6 space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-green-50 text-[#6EA15C] flex items-center justify-center">
+              <div className="w-12 h-12 rounded-2xl bg-[#FFF9DC] text-[#ffcf1c] flex items-center justify-center">
                 <card.icon className="w-6 h-6" />
               </div>
               <div>
@@ -96,7 +96,7 @@ export default function AdminOverviewPage() {
           <CardContent className="p-8 space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6EA15C]">Latest Queue</p>
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#ffcf1c]">Latest Queue</p>
                 <h2 className="text-2xl font-black tracking-tight text-neutral-900">Menu Change Requests</h2>
               </div>
               <Link to="/admin/menu-requests" className="inline-flex h-10 items-center justify-center rounded-xl border border-neutral-200 bg-white px-4 text-sm font-black uppercase tracking-wide text-neutral-900 hover:bg-neutral-50">
@@ -111,7 +111,7 @@ export default function AdminOverviewPage() {
                     <p className="text-sm text-neutral-500">{request.requested_name_en || request.item_id}</p>
                     <p className="text-xs font-medium text-neutral-400">Updated {formatDateTime(request.updatedAt)}</p>
                   </div>
-                  <Badge className={request.status === 'pending' ? 'bg-amber-100 text-amber-700 border-none' : request.status === 'approved' ? 'bg-green-100 text-green-700 border-none' : 'bg-red-100 text-red-700 border-none'}>
+                  <Badge className={request.status === 'pending' ? 'bg-amber-100 text-amber-700 border-none' : request.status === 'approved' ? 'bg-[#FFF9DC] text-[#070605] border-none' : 'bg-red-100 text-red-700 border-none'}>
                     {request.status}
                   </Badge>
                 </div>
@@ -127,7 +127,7 @@ export default function AdminOverviewPage() {
           <CardContent className="p-8 space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6EA15C]">Catalog Snapshot</p>
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#ffcf1c]">Catalog Snapshot</p>
                 <h2 className="text-2xl font-black tracking-tight text-neutral-900">Restaurant Price Range</h2>
               </div>
             </div>

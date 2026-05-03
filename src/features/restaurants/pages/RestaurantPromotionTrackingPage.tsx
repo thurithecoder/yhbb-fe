@@ -56,14 +56,14 @@ export default function RestaurantPromotionTrackingPage() {
   return (
     <div className="space-y-8">
       <div className="space-y-2">
-        <p className="text-xs font-black uppercase tracking-[0.3em] text-[#6EA15C]">Restaurant Portal</p>
+        <p className="text-xs font-black uppercase tracking-[0.3em] text-[#ffcf1c]">Restaurant Portal</p>
         <h1 className="text-4xl font-black tracking-tighter uppercase text-neutral-900">Promotion Tracking</h1>
         <p className="text-neutral-500 font-medium">Monitor voucher claims and redemptions across all your promotions.</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <StatCard icon={<Ticket className="w-6 h-6 text-[#6EA15C]" />} label="Total Claims" value={totalClaims} />
-        <StatCard icon={<CheckCircle2 className="w-6 h-6 text-green-500" />} label="Used" value={usedClaims} />
+        <StatCard icon={<Ticket className="w-6 h-6 text-[#ffcf1c]" />} label="Total Claims" value={totalClaims} />
+        <StatCard icon={<CheckCircle2 className="w-6 h-6 text-[#FFF9DC]0" />} label="Used" value={usedClaims} />
         <StatCard icon={<Clock className="w-6 h-6 text-amber-500" />} label="Valid" value={validClaims} />
       </div>
 
@@ -83,12 +83,12 @@ export default function RestaurantPromotionTrackingPage() {
                       <div>
                         <p className="font-black text-neutral-900 leading-tight">{p.title}</p>
                         {p.discount_percent && (
-                          <p className="text-[#6EA15C] font-bold text-sm">
+                          <p className="text-[#ffcf1c] font-bold text-sm">
                             {formatPromotionDiscount(p.discount_type, p.discount_percent)}
                           </p>
                         )}
                       </div>
-                      <Badge variant="outline" className="rounded-full text-xs border-green-200 text-green-600 bg-green-50 shrink-0">
+                      <Badge variant="outline" className="rounded-full text-xs border-[#FFF9DC] text-[#ffcf1c] bg-[#FFF9DC] shrink-0">
                         {p.end_date ? `Ends ${formatDate(p.end_date)}` : 'No expiry'}
                       </Badge>
                     </div>
@@ -98,9 +98,9 @@ export default function RestaurantPromotionTrackingPage() {
                         <p className="text-xl font-black text-neutral-800">{stats?.total ?? 0}</p>
                         <p className="text-xs font-bold text-neutral-400 uppercase">Claims</p>
                       </div>
-                      <div className="bg-green-50 rounded-xl p-3">
-                        <p className="text-xl font-black text-green-600">{stats?.used ?? 0}</p>
-                        <p className="text-xs font-bold text-green-400 uppercase">Used</p>
+                      <div className="bg-[#FFF9DC] rounded-xl p-3">
+                        <p className="text-xl font-black text-[#ffcf1c]">{stats?.used ?? 0}</p>
+                        <p className="text-xs font-bold text-[#ffcf1c] uppercase">Used</p>
                       </div>
                       <div className="bg-amber-50 rounded-xl p-3">
                         <p className="text-xl font-black text-amber-600">{stats?.valid ?? 0}</p>
@@ -122,7 +122,7 @@ export default function RestaurantPromotionTrackingPage() {
                         </div>
                         <div className="h-2 bg-neutral-100 rounded-full overflow-hidden">
                           <div
-                            className="h-full bg-[#6EA15C] rounded-full transition-all"
+                            className="h-full bg-[#ffcf1c] rounded-full transition-all"
                             style={{ width: `${fillPct ?? 0}%` }}
                           />
                         </div>
@@ -139,14 +139,14 @@ export default function RestaurantPromotionTrackingPage() {
       <div className="space-y-4">
         <div className="flex items-center gap-4 flex-wrap">
           <h2 className="text-lg font-black uppercase tracking-tight text-neutral-800 flex items-center gap-2">
-            <BarChart2 className="w-5 h-5 text-[#6EA15C]" />
+            <BarChart2 className="w-5 h-5 text-[#ffcf1c]" />
             Voucher Log
           </h2>
           {promotions.length > 1 && (
             <select
               value={selectedPromoId}
               onChange={handleFilterChange}
-              className="text-sm font-bold border border-neutral-200 rounded-xl px-3 py-2 bg-white text-neutral-700 focus:outline-none focus:ring-2 focus:ring-[#6EA15C]"
+              className="text-sm font-bold border border-neutral-200 rounded-xl px-3 py-2 bg-white text-neutral-700 focus:outline-none focus:ring-2 focus:ring-[#ffcf1c]"
             >
               <option value="">All Promotions</option>
               {promotions.map((p) => (
@@ -158,7 +158,7 @@ export default function RestaurantPromotionTrackingPage() {
 
         {loading && (
           <div className="py-12 flex justify-center">
-            <div className="w-8 h-8 border-4 border-[#6EA15C] border-t-transparent rounded-full animate-spin" />
+            <div className="w-8 h-8 border-4 border-[#ffcf1c] border-t-transparent rounded-full animate-spin" />
           </div>
         )}
 
@@ -188,7 +188,7 @@ export default function RestaurantPromotionTrackingPage() {
                           {claim.tblpromotion?.title ?? 'N/A'}
                         </p>
                         {claim.tblpromotion?.discount_percent && (
-                          <p className="text-xs text-[#6EA15C] font-bold">
+                          <p className="text-xs text-[#ffcf1c] font-bold">
                             {formatPromotionDiscount(claim.tblpromotion.discount_type, claim.tblpromotion.discount_percent)}
                           </p>
                         )}
@@ -243,7 +243,7 @@ function StatCard({ icon, label, value }: { icon: React.ReactNode; label: string
 
 function StatusBadge({ status }: { status: string }) {
   if (status === 'used') {
-    return <Badge className="bg-green-100 text-green-700 border-none font-bold">Used</Badge>;
+    return <Badge className="bg-[#FFF9DC] text-[#070605] border-none font-bold">Used</Badge>;
   }
   if (status === 'valid') {
     return <Badge className="bg-amber-100 text-amber-700 border-none font-bold">Valid</Badge>;

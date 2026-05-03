@@ -41,7 +41,7 @@ export default function AdminCampaignRequestsPage() {
       },
       showCancelButton: true,
       confirmButtonText: nextStatus === 'approved' ? 'Approve' : 'Reject',
-      confirmButtonColor: '#6EA15C',
+      confirmButtonColor: '#ffcf1c',
       cancelButtonColor: '#111827',
     });
 
@@ -64,14 +64,14 @@ export default function AdminCampaignRequestsPage() {
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
         <div className="space-y-2">
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-[#6EA15C]">Admin Workflow</p>
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-[#ffcf1c]">Admin Workflow</p>
           <h1 className="text-4xl font-black tracking-tighter uppercase text-neutral-900">Campaign Requests</h1>
           <p className="text-neutral-500 font-medium">Approve or reject restaurant marketing proposals using the backend verification route.</p>
         </div>
         <select
           value={status}
           onChange={(event) => setStatus(event.target.value)}
-          className="h-12 rounded-xl border border-neutral-200 bg-white px-4 text-sm font-bold text-neutral-600 outline-none focus:border-[#6EA15C]"
+          className="h-12 rounded-xl border border-neutral-200 bg-white px-4 text-sm font-bold text-neutral-600 outline-none focus:border-[#ffcf1c]"
         >
           <option value="">All statuses</option>
           <option value="pending">Pending</option>
@@ -107,7 +107,7 @@ export default function AdminCampaignRequestsPage() {
                   <TableCell>{request.budget ? formatCurrency(request.budget) : 'Not set'}</TableCell>
                   <TableCell>{request.start_date ? `${formatDate(request.start_date)} - ${formatDate(request.end_date)}` : 'Not scheduled'}</TableCell>
                   <TableCell>
-                    <Badge className={request.status === 'pending' ? 'bg-amber-100 text-amber-700 border-none' : request.status === 'approved' ? 'bg-green-100 text-green-700 border-none' : 'bg-red-100 text-red-700 border-none'}>
+                    <Badge className={request.status === 'pending' ? 'bg-amber-100 text-amber-700 border-none' : request.status === 'approved' ? 'bg-[#FFF9DC] text-[#070605] border-none' : 'bg-red-100 text-red-700 border-none'}>
                       {request.status}
                     </Badge>
                   </TableCell>
@@ -115,7 +115,7 @@ export default function AdminCampaignRequestsPage() {
                   <TableCell className="text-right">
                     {request.status === 'pending' ? (
                       <div className="flex justify-end gap-2">
-                        <Button onClick={() => handleReview(request, 'approved')} className="bg-[#6EA15C] hover:bg-[#5D8A4E] text-white rounded-xl font-black uppercase tracking-wide">
+                        <Button onClick={() => handleReview(request, 'approved')} className="bg-[#ffcf1c] hover:bg-[#ffcf1c] hover:text-[#070605] rounded-xl font-black uppercase tracking-wide">
                           Approve
                         </Button>
                         <Button onClick={() => handleReview(request, 'rejected')} variant="outline" className="rounded-xl font-black uppercase tracking-wide text-red-600 border-red-200 hover:bg-red-50">

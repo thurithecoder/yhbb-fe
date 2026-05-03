@@ -223,7 +223,7 @@ export default function AdminCatalogPage() {
   return (
     <div className="space-y-8">
       <div className="space-y-2">
-        <p className="text-xs font-black uppercase tracking-[0.3em] text-[#6EA15C]">Backend Catalog</p>
+        <p className="text-xs font-black uppercase tracking-[0.3em] text-[#ffcf1c]">Backend Catalog</p>
         <h1 className="text-4xl font-black tracking-tighter uppercase text-neutral-900">Category Management</h1>
         <p className="text-neutral-500 font-medium">Admins create, update, and delete categories only. Restaurants will set item prices later under these categories.</p>
       </div>
@@ -233,7 +233,7 @@ export default function AdminCatalogPage() {
         <Card className="rounded-[32px] border-none shadow-sm bg-white">
           <CardContent className="p-8 space-y-6">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6EA15C]">Create</p>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#ffcf1c]">Create</p>
               <h2 className="text-2xl font-black text-neutral-900">New Category</h2>
             </div>
 
@@ -293,7 +293,7 @@ export default function AdminCatalogPage() {
                       )}
                     </div>
                     {createForm.image_base64 && (
-                      <div className="absolute bottom-0 right-0 bg-[#6EA15C] rounded-full p-1.5 shadow-md">
+                      <div className="absolute bottom-0 right-0 bg-[#ffcf1c] rounded-full p-1.5 shadow-md">
                         <CameraIcon />
                       </div>
                     )}
@@ -307,7 +307,7 @@ export default function AdminCatalogPage() {
               <Button
                 onClick={handleCreate}
                 disabled={isSubmitting || !createForm.name_en || !createForm.image_base64}
-                className="w-full bg-[#6EA15C] hover:bg-[#5D8A4E] text-white rounded-xl font-black uppercase tracking-wide h-12 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-[#ffcf1c] hover:bg-[#ffcf1c] hover:text-[#070605] rounded-xl font-black uppercase tracking-wide h-12 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? 'Creating...' : 'Create Category'}
               </Button>
@@ -319,7 +319,7 @@ export default function AdminCatalogPage() {
         <Card className="rounded-[32px] border-none shadow-sm bg-white">
           <CardContent className="p-8 space-y-6">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6EA15C]">Live Data</p>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#ffcf1c]">Live Data</p>
               <h2 className="text-2xl font-black text-neutral-900">Current Categories</h2>
             </div>
 
@@ -434,7 +434,7 @@ export default function AdminCatalogPage() {
                               />
                               <label
                                 htmlFor={`edit-image-${category.id}`}
-                                className="text-sm text-[#6EA15C] font-medium cursor-pointer hover:underline"
+                                className="text-sm text-[#ffcf1c] font-medium cursor-pointer hover:underline"
                               >
                                 Change Image
                               </label>

@@ -44,7 +44,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-[#ffcf1c] min-h-screen w-full max-w-[100vw] overflow-x-hidden flex flex-col">
       <HeroSection
         categories={categories}
         onSearch={({ query, categoryId }) => {
@@ -57,14 +57,23 @@ export default function HomePage() {
 
       <CategoryList categories={categories} />
 
-      <section className="py-20 bg-white">
-        <div className="container px-4 mx-auto space-y-12">
-          <div className="flex items-baseline justify-between">
+      <div className="h-1.5 sm:h-[6px] bg-black" />
+
+      <section className="py-12 sm:py-20 bg-[#111] w-full">
+        <div className="container px-4 mx-auto space-y-8 sm:space-y-12">
+          <div className="flex flex-row items-end sm:items-baseline justify-between gap-4">
             <div className="space-y-1">
-              <h2 className="text-2xl font-black uppercase tracking-tight text-neutral-900">{t('restaurants.popular_title')}</h2>
-              <p className="text-sm text-neutral-400 font-medium">{t('restaurants.popular_subtitle')}</p>
+              <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-white">
+                {t('restaurants.popular_title')}
+              </h2>
+              <p className="text-xs sm:text-sm text-neutral-500 font-medium">
+                {t('restaurants.popular_subtitle')}
+              </p>
             </div>
-            <button onClick={() => navigate('/restaurants')} className="text-sm font-black text-[#6EA15C] uppercase tracking-widest hover:opacity-80 transition-opacity">
+            <button
+              onClick={() => navigate('/restaurants')}
+              className="text-xs sm:text-sm font-black text-[#ffcf1c] uppercase tracking-widest hover:opacity-80 transition-opacity whitespace-nowrap shrink-0"
+            >
               {t('restaurants.view_all')}
             </button>
           </div>
@@ -72,7 +81,7 @@ export default function HomePage() {
           {loading ? (
             <div className="text-sm text-neutral-500">Loading restaurants...</div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
               {restaurants.slice(0, 4).map((restaurant) => (
                 <RestaurantCard
                   key={restaurant.id}
@@ -86,25 +95,35 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="py-20">
+      <div className="h-1.5 sm:h-[6px] bg-black" />
+
+      <section className="py-12 sm:py-20 bg-[#ffcf1c] w-full">
         <div className="container px-4 mx-auto">
-          <div className="relative h-[400px] rounded-[48px] overflow-hidden flex flex-col items-start justify-center px-12 md:px-24">
+          <div className="relative h-[280px] sm:h-[400px] bg-[#111] rounded-[28px] sm:rounded-[48px] overflow-hidden flex flex-col items-start justify-center px-6 sm:px-12 md:px-24">
             <img
               src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1400&q=80"
               className="absolute inset-0 w-full h-full object-cover"
               alt="CTA Background"
             />
-            <div className="absolute inset-0 bg-black/60" />
+            <div className="absolute inset-0 bg-black/75" />
 
-            <div className="relative z-10 space-y-6 max-w-2xl">
-              <p className="text-xs font-black text-white/60 uppercase tracking-[0.3em]">Yalla Habibi</p>
-              <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase leading-tight">
-                More than <span className="text-[#6EA15C]">{restaurants.length}</span> live restaurants
+            <div className="relative z-10 space-y-3 sm:space-y-6 max-w-2xl">
+              <p className="text-[10px] sm:text-xs font-black text-white/60 uppercase tracking-[0.3em]">
+                Yalla Habibi
+              </p>
+              <h2
+                style={{ fontSize: 'clamp(1.6rem, 5vw, 3.5rem)' }}
+                className="font-black text-white tracking-tighter uppercase leading-tight"
+              >
+                More than <span className="text-[#ffcf1c]">{restaurants.length}</span> live restaurants
               </h2>
-              <p className="text-white/80 text-lg font-medium">
+              <p className="text-white/80 text-sm sm:text-lg font-medium hidden sm:block">
                 Browse restaurant profiles, promotions, and approved menu items.
               </p>
-              <Button onClick={() => navigate('/restaurants')} className="h-14 px-10 bg-[#6EA15C] hover:bg-[#5D8A4E] text-white rounded-xl text-lg font-black uppercase tracking-wide transition-all active:scale-95 shadow-xl shadow-green-900/20">
+              <Button
+                onClick={() => navigate('/restaurants')}
+                className="h-11 sm:h-14 px-6 sm:px-10 mt-2 sm:mt-0 bg-[#ffcf1c] hover:bg-[#e6b919] text-black rounded-xl text-sm sm:text-lg font-black uppercase tracking-wide transition-all active:scale-95 shadow-xl shadow-yellow-900/20"
+              >
                 {t('restaurants.view_all')}
               </Button>
             </div>
@@ -114,25 +133,32 @@ export default function HomePage() {
 
       <BestDeals items={dealItems} />
 
-      <section className="py-20">
+      <section className="py-12 sm:py-20 bg-[#ffcf1c] w-full">
         <div className="container px-4 mx-auto">
-          <div className="flex flex-col lg:flex-row bg-neutral-900 rounded-[48px] overflow-hidden min-h-[450px]">
-            <div className="lg:w-1/2 relative h-[300px] lg:h-auto">
+          <div className="flex flex-col lg:flex-row bg-[#111] rounded-[28px] sm:rounded-[48px] overflow-hidden min-h-[auto] sm:min-h-[450px]">
+            <div className="w-full lg:w-1/2 relative h-[200px] sm:h-[260px] lg:h-auto">
               <img
                 src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=800&q=80"
                 className="absolute inset-0 w-full h-full object-cover"
                 alt="Chef"
               />
             </div>
-            <div className="lg:w-1/2 p-12 md:p-20 flex flex-col justify-center space-y-8">
-              <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase leading-tight">
+
+            <div className="w-full lg:w-1/2 p-8 sm:p-12 md:p-20 flex flex-col justify-center space-y-4 sm:space-y-8">
+              <h2
+                style={{ fontSize: 'clamp(1.4rem, 4vw, 3rem)' }}
+                className="font-black text-white tracking-tighter uppercase leading-tight"
+              >
                 Restaurant owners, <br />
-                <span className="text-[#6EA15C]">manage it all from their panel</span>
+                <span className="text-[#ffcf1c]">manage it all from their panel</span>
               </h2>
-              <p className="text-neutral-400 text-lg font-medium leading-relaxed">
+              <p className="text-neutral-400 text-sm sm:text-lg font-medium leading-relaxed">
                 Profile updates, promotions, menu change requests, and marketing submissions now run through the restaurant panel.
               </p>
-              <Button onClick={() => navigate('/restaurant-panel')} className="h-14 px-10 bg-[#6EA15C] hover:bg-[#5D8A4E] text-white rounded-xl text-lg font-black uppercase tracking-wide transition-all active:scale-95 self-start">
+              <Button
+                onClick={() => navigate('/restaurant-panel')}
+                className="h-11 sm:h-14 px-7 sm:px-10 bg-[#ffcf1c] hover:bg-[#e6b919] text-black rounded-xl text-sm sm:text-lg font-black uppercase tracking-wide transition-all active:scale-95 self-start"
+              >
                 Open Restaurant Panel
               </Button>
             </div>

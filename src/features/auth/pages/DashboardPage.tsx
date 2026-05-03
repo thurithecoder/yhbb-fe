@@ -117,14 +117,14 @@ export default function DashboardPage() {
 
             <Card className="border-none shadow-sm rounded-[32px] bg-white p-6 space-y-4">
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6EA15C]">Quick Links</p>
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#ffcf1c]">Quick Links</p>
                 <h3 className="text-xl font-black tracking-tight text-neutral-900">Go Further</h3>
               </div>
               <div className="space-y-3">
                 {actionCards.map((card) => (
-                  <Link key={card.label} to={card.href} className="block rounded-2xl border border-neutral-100 p-4 hover:border-[#6EA15C] transition-colors">
+                  <Link key={card.label} to={card.href} className="block rounded-2xl border border-neutral-100 p-4 hover:border-[#ffcf1c] transition-colors">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-green-50 text-[#6EA15C] flex items-center justify-center">
+                      <div className="w-10 h-10 rounded-xl bg-[#FFF9DC] text-[#ffcf1c] flex items-center justify-center">
                         <card.icon className="w-5 h-5" />
                       </div>
                       <div>
@@ -162,7 +162,7 @@ export default function DashboardPage() {
                 <Card className="border-none shadow-sm rounded-[32px] bg-white p-8">
                   <CardContent className="p-0 space-y-6">
                     <div>
-                      <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6EA15C]">My Coupons</p>
+                      <p className="text-xs font-black uppercase tracking-[0.2em] text-[#ffcf1c]">My Coupons</p>
                       <h3 className="text-2xl font-black uppercase tracking-tight text-neutral-900">Claimed Vouchers</h3>
                     </div>
 
@@ -185,7 +185,7 @@ export default function DashboardPage() {
             <Card className="border-none shadow-sm rounded-[32px] bg-white p-8">
               <CardContent className="p-0 space-y-6">
                 <div>
-                  <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6EA15C]">Security</p>
+                  <p className="text-xs font-black uppercase tracking-[0.2em] text-[#ffcf1c]">Security</p>
                   <h3 className="text-2xl font-black uppercase tracking-tight text-neutral-900">Change Password</h3>
                 </div>
 
@@ -195,7 +195,7 @@ export default function DashboardPage() {
                     <FormInput label="New Password" type="password" value={passwordForm.newPassword} onChange={(value) => setPasswordForm((current) => ({ ...current, newPassword: value }))} />
                     <FormInput label="Confirm Password" type="password" value={passwordForm.confirmPassword} onChange={(value) => setPasswordForm((current) => ({ ...current, confirmPassword: value }))} />
                   </div>
-                  <Button type="submit" disabled={isSubmitting} className="bg-[#6EA15C] hover:bg-[#5D8A4E] text-white rounded-xl font-black uppercase tracking-wide">
+                  <Button type="submit" disabled={isSubmitting} className="bg-[#ffcf1c] hover:bg-[#ffcf1c] hover:text-[#070605] rounded-xl font-black uppercase tracking-wide">
                     <KeyRound className="w-4 h-4 mr-2" />
                     {isSubmitting ? 'Saving...' : 'Update Password'}
                   </Button>
@@ -220,12 +220,12 @@ function StatCard({
 }) {
   return (
     <Card className="border-none shadow-sm rounded-[32px] bg-white p-8 flex items-center gap-6">
-      <div className="bg-green-50 p-4 rounded-2xl">
-        <Icon className="w-8 h-8 text-[#6EA15C]" />
+      <div className="bg-[#FFF9DC] p-4 rounded-2xl">
+        <Icon className="w-8 h-8 text-[#ffcf1c]" />
       </div>
       <div>
         <p className="text-xs font-black text-neutral-400 uppercase tracking-widest">{label}</p>
-        <p className="text-3xl font-black text-[#6EA15C]">{value}</p>
+        <p className="text-3xl font-black text-[#ffcf1c]">{value}</p>
       </div>
     </Card>
   );
@@ -266,7 +266,7 @@ function CouponRow({ claim }: { claim: PromotionClaim }) {
 
       <div className="rounded-2xl bg-[#f7f7f2] p-4">
         <p className="text-xs font-black uppercase tracking-[0.2em] text-neutral-400">Voucher Code</p>
-        <p className="mt-2 font-mono text-lg font-black text-[#6EA15C] break-all">{claim.voucher_code}</p>
+        <p className="mt-2 font-mono text-lg font-black text-[#ffcf1c] break-all">{claim.voucher_code}</p>
       </div>
 
       {discountLabel && (
@@ -290,7 +290,7 @@ function CouponStatusBadge({ status }: { status: PromotionClaim['status'] }) {
     return <Badge className="bg-red-100 text-red-700 border-none px-3 py-1 rounded-full font-black uppercase">Expired</Badge>;
   }
 
-  return <Badge className="bg-green-100 text-green-700 border-none px-3 py-1 rounded-full font-black uppercase">Valid</Badge>;
+  return <Badge className="bg-[#FFF9DC] text-[#070605] border-none px-3 py-1 rounded-full font-black uppercase">Valid</Badge>;
 }
 
 function InfoLine({ label, value }: { label: string; value: string }) {

@@ -12,7 +12,7 @@ export default function ReviewList({ reviews }: ReviewListProps) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-xl font-black tracking-tight uppercase text-[#6EA15C]">CUSTOMER REVIEWS</h3>
+        <h3 className="text-xl font-black tracking-tight uppercase text-[#ffcf1c]">CUSTOMER REVIEWS</h3>
         <div className="flex items-center gap-2 text-sm font-bold text-neutral-500">
           <MessageSquare className="w-4 h-4" />
           <span>{reviews.length} Reviews</span>
@@ -25,12 +25,12 @@ export default function ReviewList({ reviews }: ReviewListProps) {
             <CardContent className="p-6 space-y-4">
               <div className="flex justify-between items-start">
                 <div className="flex gap-3">
-                  <Avatar className="h-12 w-12 border-2 border-green-100">
+                  <Avatar className="h-12 w-12 border-2 border-[#FFF9DC]">
                     <AvatarImage src={review.customerPhoto} />
                     <AvatarFallback>{review.customerName.charAt(0)}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <h4 className="font-bold text-[#6EA15C]">{review.customerName}</h4>
+                    <h4 className="font-bold text-[#ffcf1c]">{review.customerName}</h4>
                     <p className="text-xs text-neutral-400 font-medium">2 days ago</p>
                   </div>
                 </div>
@@ -40,7 +40,7 @@ export default function ReviewList({ reviews }: ReviewListProps) {
                       key={i} 
                       className={cn(
                         "w-4 h-4",
-                        i < review.rating ? "text-[#6EA15C] fill-[#6EA15C]" : "text-neutral-200 fill-neutral-200"
+                        i < review.rating ? "text-[#ffcf1c] fill-[#ffcf1c]" : "text-neutral-200 fill-neutral-200"
                       )} 
                     />
                   ))}
@@ -50,7 +50,7 @@ export default function ReviewList({ reviews }: ReviewListProps) {
                 {review.comment}
               </p>
               <div className="pt-2 flex items-center gap-4">
-                <button className="flex items-center gap-1.5 text-xs font-bold text-neutral-400 hover:text-[#6EA15C] transition-colors">
+                <button className="flex items-center gap-1.5 text-xs font-bold text-neutral-400 hover:text-[#ffcf1c] transition-colors">
                   <ThumbsUp className="w-3.5 h-3.5" />
                   Helpful
                 </button>

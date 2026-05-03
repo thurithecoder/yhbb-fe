@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,63 +15,40 @@ import {
 import { confirmAction, showErrorAlert, showSuccessAlert } from '@/lib/alerts';
 import { formatCurrency, readFileAsDataUrl } from '@/utils';
 import type { CatalogItem, Category } from '@/types';
-import { Edit, Trash2, X } from 'lucide-react';
+import { Edit, Trash2, X, Camera } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
+// ── All types, helpers, and state unchanged ──────────────────────────────────
 type MenuItemFormState = {
-  id: string;
-  category_id: string;
-  name_en: string;
-  name_ar: string;
-  name_ms: string;
-  description_en: string;
-  description_ar: string;
-  description_ms: string;
-  price: string;
-  taqs: string[];
-  image_base64: string;
-  is_available: boolean;
+  id: string; category_id: string; name_en: string; name_ar: string; name_ms: string;
+  description_en: string; description_ar: string; description_ms: string;
+  price: string; taqs: string[]; image_base64: string; is_available: boolean;
 };
 
 const normalizeTaqs = (value: unknown): string[] => {
   if (!Array.isArray(value)) return [];
-
   const uniqueByKey = new Map<string, string>();
   value.forEach((entry) => {
     const cleaned = String(entry || '').trim();
     if (!cleaned) return;
-
     const key = cleaned.toLowerCase();
-    if (!uniqueByKey.has(key)) {
-      uniqueByKey.set(key, cleaned);
-    }
+    if (!uniqueByKey.has(key)) uniqueByKey.set(key, cleaned);
   });
-
   return Array.from(uniqueByKey.values());
 };
 
 const emptyForm: MenuItemFormState = {
-  id: '',
-  category_id: '',
-  name_en: '',
-  name_ar: '',
-  name_ms: '',
-  description_en: '',
-  description_ar: '',
-  description_ms: '',
-  price: '',
-  taqs: [],
-  image_base64: '',
-  is_available: true,
+  id: '', category_id: '', name_en: '', name_ar: '', name_ms: '',
+  description_en: '', description_ar: '', description_ms: '',
+  price: '', taqs: [], image_base64: '', is_available: true,
 };
 
-// Camera Icon Component
-const CameraIcon = () => (
-  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-    <circle cx="12" cy="13" r="4" />
-  </svg>
-);
+// Status badge styles — dark theme
+const statusStyles: Record<string, string> = {
+  approved: 'bg-[#052814] text-emerald-400 border-none',
+  pending: 'bg-[#2a1f00] text-[#ffcf1c] border-none',
+  rejected: 'bg-[#2a0808] text-red-400 border-none',
+};
 
 export default function RestaurantMenuRequestsPage() {
   const [loading, setLoading] = React.useState(true);
@@ -85,25 +61,15 @@ export default function RestaurantMenuRequestsPage() {
   const [expandedCardId, setExpandedCardId] = React.useState<string | null>(null);
   const [createImageError, setCreateImageError] = React.useState(false);
 
+  // ── All backend logic completely unchanged ────────────────────────────────
   const loadData = React.useCallback(async () => {
     try {
       setLoading(true);
-      const [loadedCategories, loadedMenuItems] = await Promise.all([
-        getCategories(),
-        getRestaurantMenuItems(),
-      ]);
-
-      // Filter out items that might have been deleted
-      const validMenuItems = loadedMenuItems.filter(item =>
-        item && item.name_en && item.id
-      );
-
+      const [loadedCategories, loadedMenuItems] = await Promise.all([getCategories(), getRestaurantMenuItems()]);
+      const validMenuItems = loadedMenuItems.filter((item) => item && item.name_en && item.id);
       setCategories(loadedCategories);
       setMenuItems(validMenuItems);
-      setCreateForm((current) => ({
-        ...current,
-        category_id: current.category_id || loadedCategories[0]?.id || '',
-      }));
+      setCreateForm((current) => ({ ...current, category_id: current.category_id || loadedCategories[0]?.id || '' }));
     } catch (error) {
       await showErrorAlert(error, 'Unable to load menu item data');
     } finally {
@@ -111,9 +77,7 @@ export default function RestaurantMenuRequestsPage() {
     }
   }, []);
 
-  React.useEffect(() => {
-    loadData();
-  }, [loadData]);
+  React.useEffect(() => { loadData(); }, [loadData]);
 
   const submit = async (action: () => Promise<{ msg: string }>, onSuccess: () => void) => {
     try {
@@ -129,48 +93,33 @@ export default function RestaurantMenuRequestsPage() {
     }
   };
 
-  const handleImageUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>,
-    setter: React.Dispatch<React.SetStateAction<MenuItemFormState>>
-  ) => {
-    const file = event.target.files?.[0];
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, setter: React.Dispatch<React.SetStateAction<MenuItemFormState>>) => {
+    const file = e.target.files?.[0];
     if (!file) return;
-
     try {
       const dataUrl = await readFileAsDataUrl(file);
       setter((current) => ({ ...current, image_base64: dataUrl }));
       setCreateImageError(false);
-    } catch (error) {
-      await showErrorAlert(error, 'Unable to read image');
-    }
+    } catch (error) { await showErrorAlert(error, 'Unable to read image'); }
   };
 
-  const handleEditImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+  const handleEditImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (!file) return;
-
     try {
       const dataUrl = await readFileAsDataUrl(file);
       setEditForm((current) => ({ ...current, image_base64: dataUrl }));
-    } catch (error) {
-      await showErrorAlert(error, 'Unable to read image');
-    }
+    } catch (error) { await showErrorAlert(error, 'Unable to read image'); }
   };
 
   const handleEdit = (item: CatalogItem) => {
     setEditingItem(item);
     setEditForm({
-      id: item.id,
-      category_id: item.category_id,
-      name_en: item.name_en,
-      name_ar: item.name_ar || '',
-      name_ms: item.name_ms || '',
-      description_en: item.description_en || '',
-      description_ar: item.description_ar || '',
-      description_ms: item.description_ms || '',
-      price: String(item.price ?? ''),
-      taqs: normalizeTaqs((item as any).taqs),
-      image_base64: item.image_base64 || '',
+      id: item.id, category_id: item.category_id, name_en: item.name_en,
+      name_ar: item.name_ar || '', name_ms: item.name_ms || '',
+      description_en: item.description_en || '', description_ar: item.description_ar || '',
+      description_ms: item.description_ms || '', price: String(item.price ?? ''),
+      taqs: normalizeTaqs((item as any).taqs), image_base64: item.image_base64 || '',
       is_available: item.is_available ?? true,
     });
     setExpandedCardId(item.id);
@@ -178,620 +127,422 @@ export default function RestaurantMenuRequestsPage() {
 
   const handleUpdate = async () => {
     if (!editingItem) return;
-
-    if (!editForm.name_en.trim()) {
-      await showErrorAlert(null, 'Please enter item name in English');
-      return;
-    }
-
-    if (!editForm.category_id) {
-      await showErrorAlert(null, 'Please select a category');
-      return;
-    }
-
-    if (!editForm.price || parseFloat(editForm.price) <= 0) {
-      await showErrorAlert(null, 'Please enter a valid price');
-      return;
-    }
-
-    const confirmed = await confirmAction({
-      title: 'Update Menu Item',
-      text: `Are you sure you want to update "${editingItem.name_en}"?`,
-      confirmButtonText: 'Yes, Update',
-    });
-
+    if (!editForm.name_en.trim()) { await showErrorAlert(null, 'Please enter item name in English'); return; }
+    if (!editForm.category_id) { await showErrorAlert(null, 'Please select a category'); return; }
+    if (!editForm.price || parseFloat(editForm.price) <= 0) { await showErrorAlert(null, 'Please enter a valid price'); return; }
+    const confirmed = await confirmAction({ title: 'Update Menu Item', text: `Update "${editingItem.name_en}"?`, confirmButtonText: 'Yes, Update' });
     if (!confirmed) return;
-
     const submitData: any = {
-      id: editForm.id,
-      category_id: editForm.category_id,
-      name_en: editForm.name_en,
-      name_ar: editForm.name_ar,
-      name_ms: editForm.name_ms,
-      description_en: editForm.description_en,
-      description_ar: editForm.description_ar,
-      description_ms: editForm.description_ms,
-      price: parseFloat(editForm.price),
-      taqs: editForm.taqs,
+      id: editForm.id, category_id: editForm.category_id, name_en: editForm.name_en,
+      name_ar: editForm.name_ar, name_ms: editForm.name_ms, description_en: editForm.description_en,
+      description_ar: editForm.description_ar, description_ms: editForm.description_ms,
+      price: parseFloat(editForm.price), taqs: editForm.taqs,
     };
-
-    if (editForm.image_base64 && editForm.image_base64.startsWith('data:image')) {
-      submitData.image_base64 = editForm.image_base64;
-    }
-
-    await submit(() => updateRestaurantMenuItem(submitData), () => {
-      setEditingItem(null);
-      setEditForm(emptyForm);
-      setExpandedCardId(null);
-    });
+    if (editForm.image_base64?.startsWith('data:image')) submitData.image_base64 = editForm.image_base64;
+    await submit(() => updateRestaurantMenuItem(submitData), () => { setEditingItem(null); setEditForm(emptyForm); setExpandedCardId(null); });
   };
 
   const handleDelete = async (item: CatalogItem) => {
-    const confirmed = await confirmAction({
-      title: 'Delete Menu Item',
-      text: `Are you sure you want to delete "${item.name_en}"? This action cannot be undone.`,
-      confirmButtonText: 'Yes, Delete',
-    });
-
+    const confirmed = await confirmAction({ title: 'Delete Menu Item', text: `Delete "${item.name_en}"? Cannot be undone.`, confirmButtonText: 'Yes, Delete' });
     if (!confirmed) return;
-
     await submit(() => deleteRestaurantMenuItem(item.id), () => {
-      if (editingItem?.id === item.id) {
-        setEditingItem(null);
-        setEditForm(emptyForm);
-        setExpandedCardId(null);
-      }
+      if (editingItem?.id === item.id) { setEditingItem(null); setEditForm(emptyForm); setExpandedCardId(null); }
     });
   };
 
   const handleCreate = async () => {
-    if (!createForm.name_en.trim()) {
-      await showErrorAlert(null, 'Please enter item name in English');
-      return;
-    }
-
-    if (!createForm.category_id) {
-      await showErrorAlert(null, 'Please select a category');
-      return;
-    }
-
-    if (!createForm.price || parseFloat(createForm.price) <= 0) {
-      await showErrorAlert(null, 'Please enter a valid price');
-      return;
-    }
-
-    if (!createForm.image_base64) {
-      setCreateImageError(true);
-      await showErrorAlert(null, 'Please select an image for the menu item');
-      return;
-    }
-
-    const confirmed = await confirmAction({
-      title: 'Create Menu Item',
-      text: `Are you sure you want to create "${createForm.name_en}"?`,
-      confirmButtonText: 'Yes, Create',
-    });
-
+    if (!createForm.name_en.trim()) { await showErrorAlert(null, 'Please enter item name in English'); return; }
+    if (!createForm.category_id) { await showErrorAlert(null, 'Please select a category'); return; }
+    if (!createForm.price || parseFloat(createForm.price) <= 0) { await showErrorAlert(null, 'Please enter a valid price'); return; }
+    if (!createForm.image_base64) { setCreateImageError(true); await showErrorAlert(null, 'Please select an image'); return; }
+    const confirmed = await confirmAction({ title: 'Create Menu Item', text: `Create "${createForm.name_en}"?`, confirmButtonText: 'Yes, Create' });
     if (!confirmed) return;
-
     const submitData: any = {
-      category_id: createForm.category_id,
-      name_en: createForm.name_en,
-      name_ar: createForm.name_ar,
-      name_ms: createForm.name_ms,
-      description_en: createForm.description_en,
-      description_ar: createForm.description_ar,
-      description_ms: createForm.description_ms,
-      price: parseFloat(createForm.price),
-      taqs: createForm.taqs,
-      image_base64: createForm.image_base64,
+      category_id: createForm.category_id, name_en: createForm.name_en, name_ar: createForm.name_ar,
+      name_ms: createForm.name_ms, description_en: createForm.description_en, description_ar: createForm.description_ar,
+      description_ms: createForm.description_ms, price: parseFloat(createForm.price),
+      taqs: createForm.taqs, image_base64: createForm.image_base64,
     };
-
-    await submit(() => createRestaurantMenuItem(submitData), () => {
-      setCreateForm({ ...emptyForm, category_id: categories[0]?.id || '' });
-      setCreateImageError(false);
-    });
+    await submit(() => createRestaurantMenuItem(submitData), () => { setCreateForm({ ...emptyForm, category_id: categories[0]?.id || '' }); setCreateImageError(false); });
   };
 
-  const cancelEdit = () => {
-    setEditingItem(null);
-    setEditForm(emptyForm);
-    setExpandedCardId(null);
-  };
-
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'approved':
-        return 'bg-green-100 text-green-700 border-none';
-      case 'pending':
-        return 'bg-amber-100 text-amber-700 border-none';
-      case 'rejected':
-        return 'bg-red-100 text-red-700 border-none';
-      default:
-        return 'bg-neutral-200 text-neutral-700 border-none';
-    }
-  };
+  const cancelEdit = () => { setEditingItem(null); setEditForm(emptyForm); setExpandedCardId(null); };
+  // ──────────────────────────────────────────────────────────────────────────
 
   return (
-    <div className="space-y-8">
-      <div className="space-y-2">
-        <p className="text-xs font-black uppercase tracking-[0.3em] text-[#6EA15C]">Restaurant Backend</p>
-        <h1 className="text-4xl font-black tracking-tighter uppercase text-neutral-900">Menu Items</h1>
-        <p className="text-neutral-500 font-medium">New and updated items are sent to admin review. Only approved items are shown to app users.</p>
-      </div>
+    <div className="bg-[#ffcf1c] min-h-screen">
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Create Menu Item Card */}
-        <Card className="rounded-[32px] border-none shadow-sm bg-white">
-          <CardContent className="p-8 space-y-6">
-            <div>
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6EA15C]">Create</p>
-              <h2 className="text-2xl font-black text-neutral-900">New Menu Item</h2>
-            </div>
+      {/* ── Hero band ── */}
+      <section className="bg-[#ffcf1c] px-4 sm:px-8 md:px-12 pt-10 sm:pt-14 pb-8 sm:pb-10">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-7 h-[3px] bg-black rounded-full" />
+            <span className="bg-black text-[#ffcf1c] text-[10px] font-black uppercase tracking-[0.18em] px-3 py-1 rounded-full">
+              Restaurant Backend
+            </span>
+          </div>
+          <h1
+            className="font-black uppercase tracking-tighter text-black leading-[0.9] mb-2"
+            style={{ fontFamily: "'Georgia', serif", fontSize: 'clamp(2rem, 6vw, 3.5rem)' }}
+          >
+            Menu Items
+          </h1>
+          <p className="text-[#5a4a00] font-semibold text-sm max-w-lg leading-relaxed">
+            New and updated items go to admin review. Only approved items are shown to users.
+          </p>
+        </div>
+      </section>
 
-            <div className="space-y-4">
-              {/* Category Selection */}
-              <div className="space-y-2">
-                <Label className="flex items-center gap-1">
-                  Category <span className="text-red-500">*</span>
-                </Label>
-                <div className="relative mt-1">
-                  <select
-                    value={editForm.category_id}
-                    onChange={(e) => setEditForm({ ...editForm, category_id: e.target.value })}
-                    className="w-full h-10 rounded-lg border border-neutral-200 bg-white px-3 text-sm outline-none focus:border-[#6EA15C] appearance-none"
-                  >
-                    <option value="" disabled hidden>Choose a category</option>
-                    {categories.map((category) => (
-                      <option key={category.id} value={category.id}>
-                        {category.name_en}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                    <svg className="w-3 h-3 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </div>
-                </div>
+      <div className="h-[5px] bg-black" />
+
+      {/* ── Main content ── */}
+      <section className="bg-[#111] px-4 sm:px-8 md:px-12 py-8 sm:py-12">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+            {/* ── Create form card ── */}
+            <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-2xl sm:rounded-3xl p-6 sm:p-8 space-y-5">
+              <div>
+                <p className="text-[9px] font-black text-[#ffcf1c] uppercase tracking-[0.18em] mb-1">Create</p>
+                <h2
+                  className="font-black text-white uppercase tracking-tight"
+                  style={{ fontFamily: "'Georgia', serif", fontSize: 'clamp(1.1rem, 2vw, 1.4rem)' }}
+                >
+                  New Menu Item
+                </h2>
               </div>
 
-              {/* Name Fields */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <FormInput label="Name EN *" value={createForm.name_en} onChange={(value) => setCreateForm((current) => ({ ...current, name_en: value }))} required />
-                <FormInput label="Name AR" value={createForm.name_ar} onChange={(value) => setCreateForm((current) => ({ ...current, name_ar: value }))} />
-                <FormInput label="Name MS" value={createForm.name_ms} onChange={(value) => setCreateForm((current) => ({ ...current, name_ms: value }))} />
-              </div>
-
-              {/* Description Fields */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <FormTextarea label="Description EN" value={createForm.description_en} onChange={(value) => setCreateForm((current) => ({ ...current, description_en: value }))} />
-                <FormTextarea label="Description AR" value={createForm.description_ar} onChange={(value) => setCreateForm((current) => ({ ...current, description_ar: value }))} />
-                <FormTextarea label="Description MS" value={createForm.description_ms} onChange={(value) => setCreateForm((current) => ({ ...current, description_ms: value }))} />
-              </div>
-
-              {/* Taqs */}
-              <TaqSection form={createForm} onChange={setCreateForm} />
-
-              {/* Price and Image */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FormInput label="Price (RM) *" type="number" value={createForm.price} onChange={(value) => setCreateForm((current) => ({ ...current, price: value }))} required />
-
-                {/* Camera Upload Section */}
-                <div className="space-y-2">
-                  <Label className="flex items-center gap-1">
-                    Item Image <span className="text-red-500">*</span>
-                  </Label>
-                  <div className="flex flex-col items-center justify-center">
-                    <input
-                      type="file"
-                      id="create-menu-image"
-                      accept="image/png,image/jpeg"
-                      onChange={(e) => handleImageUpload(e, setCreateForm)}
-                      className="hidden"
-                      required
-                    />
-                    <label
-                      htmlFor="create-menu-image"
-                      className="relative cursor-pointer group"
+              <div className="space-y-4">
+                {/* Category */}
+                <DarkField label="Category *">
+                  <div className="relative">
+                    <select
+                      value={createForm.category_id}
+                      onChange={(e) => setCreateForm({ ...createForm, category_id: e.target.value })}
+                      className={darkSelect}
                     >
-                      <div className={`w-32 h-32 rounded-full border-2 border-dashed overflow-hidden flex items-center justify-center transition-colors ${createImageError
-                        ? 'bg-red-50 border-red-400'
-                        : 'bg-neutral-100 border-neutral-300 group-hover:bg-neutral-50'
-                        }`}>
-                        {createForm.image_base64 ? (
-                          <img
-                            src={createForm.image_base64}
-                            alt="Item preview"
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className={`flex flex-col items-center gap-1 ${createImageError ? 'text-red-400' : 'text-neutral-400'}`}>
-                            <CameraIcon />
-                            <span className="text-xs font-medium">Upload</span>
-                          </div>
-                        )}
-                      </div>
-                      {createForm.image_base64 && (
-                        <div className="absolute bottom-0 right-0 bg-[#6EA15C] rounded-full p-1.5 shadow-md">
-                          <CameraIcon />
-                        </div>
-                      )}
-                    </label>
-                    <p className={`text-xs mt-2 ${createImageError ? 'text-red-500' : 'text-neutral-400'}`}>
-                      {createImageError ? 'Image is required' : 'Click to select item image (required)'}
-                    </p>
+                      <option value="" disabled hidden>Choose a category</option>
+                      {categories.map((cat) => <option key={cat.id} value={cat.id}>{cat.name_en}</option>)}
+                    </select>
                   </div>
+                </DarkField>
+
+                {/* Names */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <DarkField label="Name EN *">
+                    <input value={createForm.name_en} onChange={(e) => setCreateForm((f) => ({ ...f, name_en: e.target.value }))} placeholder="English name" className={darkInput} required />
+                  </DarkField>
+                  <DarkField label="Name AR">
+                    <input value={createForm.name_ar} onChange={(e) => setCreateForm((f) => ({ ...f, name_ar: e.target.value }))} placeholder="Arabic name" className={darkInput} />
+                  </DarkField>
+                  <DarkField label="Name MS">
+                    <input value={createForm.name_ms} onChange={(e) => setCreateForm((f) => ({ ...f, name_ms: e.target.value }))} placeholder="Malay name" className={darkInput} />
+                  </DarkField>
                 </div>
-              </div>
 
-              <Button
-                onClick={handleCreate}
-                disabled={isSubmitting || !createForm.name_en || !createForm.category_id || !createForm.price || !createForm.image_base64}
-                className="w-full bg-[#6EA15C] hover:bg-[#5D8A4E] text-white rounded-xl font-black uppercase tracking-wide h-12 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isSubmitting ? 'Creating...' : 'Create Item'}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+                {/* Descriptions */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <DarkField label="Desc EN">
+                    <textarea value={createForm.description_en} onChange={(e) => setCreateForm((f) => ({ ...f, description_en: e.target.value }))} placeholder="English description" className={darkTextarea} />
+                  </DarkField>
+                  <DarkField label="Desc AR">
+                    <textarea value={createForm.description_ar} onChange={(e) => setCreateForm((f) => ({ ...f, description_ar: e.target.value }))} placeholder="Arabic description" className={darkTextarea} />
+                  </DarkField>
+                  <DarkField label="Desc MS">
+                    <textarea value={createForm.description_ms} onChange={(e) => setCreateForm((f) => ({ ...f, description_ms: e.target.value }))} placeholder="Malay description" className={darkTextarea} />
+                  </DarkField>
+                </div>
 
-        {/* Live Data Section with Edit/Delete Icons */}
-        <Card className="rounded-[32px] border-none shadow-sm bg-white">
-          <CardContent className="p-8 space-y-6">
-            <div>
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6EA15C]">Live Data</p>
-              <h2 className="text-2xl font-black text-neutral-900">Current Menu Items</h2>
-            </div>
+                {/* Tags */}
+                <TaqSection form={createForm} onChange={setCreateForm} />
 
-            <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2">
-              {(loading ? [] : menuItems).map((item) => {
-                const itemTaqs = normalizeTaqs((item as any).taqs);
-                const itemDeleted = !item.name_en || !item.id;
+                {/* Price + Image */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
+                  <DarkField label="Price (RM) *">
+                    <input type="number" value={createForm.price} onChange={(e) => setCreateForm((f) => ({ ...f, price: e.target.value }))} placeholder="0.00" className={darkInput} required />
+                  </DarkField>
 
-                return (
-                  <AnimatePresence key={item.id}>
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className={`rounded-2xl border border-neutral-100 overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow ${itemDeleted ? 'opacity-50 bg-neutral-50' : ''}`}
-                    >
-                      {/* Card Header with Image and Info */}
-                      <div className="flex items-center gap-4 p-4">
-                        <div className="w-16 h-16 rounded-xl overflow-hidden bg-neutral-100 shrink-0">
-                          <img
-                            src={item.image_base64 || `https://picsum.photos/seed/${item.id}/100/100`}
-                            alt={item.name_en}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="font-black text-neutral-900 text-lg">{item.name_en}</p>
-                          <div className="flex flex-wrap gap-2 items-center">
-                            <Badge className={getStatusBadge(item.verification_status || 'pending')}>
-                              {(item.verification_status || 'pending').charAt(0).toUpperCase() + (item.verification_status || 'pending').slice(1)}
-                            </Badge>
-                            <span className="text-sm font-bold text-[#6EA15C]">{formatCurrency(item.price)}</span>
-                          </div>
-                          {itemTaqs.length > 0 && (
-                            <div className="flex flex-wrap gap-1 mt-1">
-                              {itemTaqs.slice(0, 2).map((taq) => (
-                                <span key={taq} className="text-[10px] px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-600">
-                                  #{taq}
-                                </span>
-                              ))}
-                              {itemTaqs.length > 2 && (
-                                <span className="text-[10px] px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-400">
-                                  +{itemTaqs.length - 2}
-                                </span>
-                              )}
+                  <DarkField label="Item Image *">
+                    <div className="flex flex-col items-center">
+                      <input type="file" id="create-menu-image" accept="image/png,image/jpeg" onChange={(e) => handleImageUpload(e, setCreateForm)} className="hidden" />
+                      <label htmlFor="create-menu-image" className="cursor-pointer group">
+                        <div className={`w-24 h-24 rounded-2xl border-[1.5px] border-dashed overflow-hidden flex items-center justify-center transition-colors ${createImageError ? 'border-red-500 bg-red-900/10' : 'border-[#2a2a2a] bg-[#111] group-hover:border-[#ffcf1c]'
+                          }`}>
+                          {createForm.image_base64 ? (
+                            <img src={createForm.image_base64} alt="Preview" className="w-full h-full object-cover" />
+                          ) : (
+                            <div className={`flex flex-col items-center gap-1 ${createImageError ? 'text-red-400' : 'text-neutral-600'}`}>
+                              <Camera className="w-6 h-6" />
+                              <span className="text-[9px] font-bold uppercase">Upload</span>
                             </div>
                           )}
                         </div>
-                        <div className="flex gap-2">
-                          <button
-                            onClick={() => handleEdit(item)}
-                            className="p-2 rounded-xl bg-amber-50 text-amber-600 hover:bg-amber-100 transition-colors"
-                            title="Edit item"
-                          >
-                            <Edit className="w-4 h-4" />
-                          </button>
-                          <button
-                            onClick={() => handleDelete(item)}
-                            className="p-2 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
-                            title="Delete item"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                          {expandedCardId === item.id && (
-                            <button
-                              onClick={cancelEdit}
-                              className="p-2 rounded-xl bg-neutral-100 text-neutral-500 hover:bg-neutral-200 transition-colors"
-                              title="Cancel edit"
-                            >
-                              <X className="w-4 h-4" />
-                            </button>
-                          )}
-                        </div>
-                      </div>
+                      </label>
+                      <p className={`text-[9px] mt-1.5 font-medium ${createImageError ? 'text-red-400' : 'text-neutral-600'}`}>
+                        {createImageError ? 'Image required' : 'Click to upload'}
+                      </p>
+                    </div>
+                  </DarkField>
+                </div>
 
-                      {/* Expanded Edit Form */}
-                      {expandedCardId === item.id && editingItem && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="border-t border-neutral-100 bg-neutral-50 p-4 space-y-4"
-                        >
-                          {/* Category */}
-                          <div>
-                            <Label className="text-xs font-bold">Category *</Label>
-                            <select
-                              value={editForm.category_id}
-                              onChange={(e) => setEditForm({ ...editForm, category_id: e.target.value })}
-                              className="w-full h-10 rounded-lg border border-neutral-200 bg-white px-3 text-sm outline-none focus:border-[#6EA15C] mt-1"
-                            >
-                              {categories.map((category) => (
-                                <option key={category.id} value={category.id}>
-                                  {category.name_en}
-                                </option>
-                              ))}
-                            </select>
+                <Button
+                  onClick={handleCreate}
+                  disabled={isSubmitting || !createForm.name_en || !createForm.category_id || !createForm.price || !createForm.image_base64}
+                  className="w-full h-12 bg-[#ffcf1c] text-black rounded-xl font-black uppercase tracking-wide text-xs border-none transition-all active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? 'Creating...' : 'Create Item →'}
+                </Button>
+              </div>
+            </div>
+
+            {/* ── Live data card ── */}
+            <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-2xl sm:rounded-3xl p-6 sm:p-8 space-y-5">
+              <div>
+                <p className="text-[9px] font-black text-[#ffcf1c] uppercase tracking-[0.18em] mb-1">Live Data</p>
+                <h2
+                  className="font-black text-white uppercase tracking-tight"
+                  style={{ fontFamily: "'Georgia', serif", fontSize: 'clamp(1.1rem, 2vw, 1.4rem)' }}
+                >
+                  Current Menu Items
+                </h2>
+              </div>
+
+              <div className="space-y-3 max-h-[620px] overflow-y-auto pr-1">
+                {loading ? (
+                  <div className="py-12 flex flex-col items-center gap-3">
+                    <div className="w-8 h-8 rounded-full border-2 border-[#2a2a2a] border-t-[#ffcf1c] animate-spin" />
+                    <p className="text-neutral-700 text-[10px] font-black uppercase tracking-wider">Loading items...</p>
+                  </div>
+                ) : menuItems.length ? menuItems.map((item) => {
+                  const itemTaqs = normalizeTaqs((item as any).taqs);
+                  return (
+                    <AnimatePresence key={item.id}>
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="bg-[#111] border border-[#2a2a2a] rounded-xl overflow-hidden hover:border-[#3a3a3a] transition-colors"
+                      >
+                        {/* Item row */}
+                        <div className="flex items-center gap-3 p-3 sm:p-4">
+                          <div className="w-14 h-14 rounded-xl overflow-hidden bg-[#1a1a1a] flex-shrink-0 border border-[#2a2a2a]">
+                            <img
+                              src={item.image_base64 || `https://picsum.photos/seed/${item.id}/100/100`}
+                              alt={item.name_en}
+                              className="w-full h-full object-cover"
+                            />
                           </div>
-
-                          {/* Name Fields */}
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                            <div>
-                              <Label className="text-xs font-bold">Name EN *</Label>
-                              <Input
-                                value={editForm.name_en}
-                                onChange={(e) => setEditForm({ ...editForm, name_en: e.target.value })}
-                                className="mt-1"
-                                placeholder="English name"
-                              />
+                          <div className="flex-1 min-w-0">
+                            <p className="font-black text-white text-sm truncate">{item.name_en}</p>
+                            <div className="flex flex-wrap items-center gap-1.5 mt-1">
+                              <Badge className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full ${statusStyles[item.verification_status || 'pending'] || statusStyles.pending}`}>
+                                {(item.verification_status || 'pending')}
+                              </Badge>
+                              <span
+                                className="font-black text-[#ffcf1c] text-xs"
+                                style={{ fontFamily: "'Georgia', serif" }}
+                              >
+                                {formatCurrency(item.price)}
+                              </span>
                             </div>
-                            <div>
-                              <Label className="text-xs font-bold">Name AR</Label>
-                              <Input
-                                value={editForm.name_ar}
-                                onChange={(e) => setEditForm({ ...editForm, name_ar: e.target.value })}
-                                className="mt-1"
-                                placeholder="Arabic name"
-                              />
-                            </div>
-                            <div>
-                              <Label className="text-xs font-bold">Name MS</Label>
-                              <Input
-                                value={editForm.name_ms}
-                                onChange={(e) => setEditForm({ ...editForm, name_ms: e.target.value })}
-                                className="mt-1"
-                                placeholder="Malay name"
-                              />
-                            </div>
-                          </div>
-
-                          {/* Description Fields */}
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                            <div>
-                              <Label className="text-xs font-bold">Description EN</Label>
-                              <Textarea
-                                value={editForm.description_en}
-                                onChange={(e) => setEditForm({ ...editForm, description_en: e.target.value })}
-                                className="mt-1 min-h-[60px]"
-                                placeholder="English description"
-                              />
-                            </div>
-                            <div>
-                              <Label className="text-xs font-bold">Description AR</Label>
-                              <Textarea
-                                value={editForm.description_ar}
-                                onChange={(e) => setEditForm({ ...editForm, description_ar: e.target.value })}
-                                className="mt-1 min-h-[60px]"
-                                placeholder="Arabic description"
-                              />
-                            </div>
-                            <div>
-                              <Label className="text-xs font-bold">Description MS</Label>
-                              <Textarea
-                                value={editForm.description_ms}
-                                onChange={(e) => setEditForm({ ...editForm, description_ms: e.target.value })}
-                                className="mt-1 min-h-[60px]"
-                                placeholder="Malay description"
-                              />
-                            </div>
-                          </div>
-
-                          {/* Price and Image */}
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                              <Label className="text-xs font-bold">Price (RM) *</Label>
-                              <Input
-                                type="number"
-                                step="0.01"
-                                value={editForm.price}
-                                onChange={(e) => setEditForm({ ...editForm, price: e.target.value })}
-                                className="mt-1"
-                                placeholder="0.00"
-                              />
-                            </div>
-                            <div>
-                              <Label className="text-xs font-bold">Update Image</Label>
-                              <div className="flex items-center gap-3 mt-1">
-                                <div className="w-12 h-12 rounded-lg overflow-hidden bg-neutral-200 shrink-0">
-                                  <img
-                                    src={editForm.image_base64 || editingItem.image_base64 || 'https://picsum.photos/seed/placeholder/100/100'}
-                                    alt="Preview"
-                                    className="w-full h-full object-cover"
-                                  />
-                                </div>
-                                <input
-                                  type="file"
-                                  id={`edit-image-${item.id}`}
-                                  accept="image/png,image/jpeg"
-                                  onChange={handleEditImageUpload}
-                                  className="hidden"
-                                />
-                                <label
-                                  htmlFor={`edit-image-${item.id}`}
-                                  className="text-sm text-[#6EA15C] font-medium cursor-pointer hover:underline"
-                                >
-                                  Change Image
-                                </label>
+                            {itemTaqs.length > 0 && (
+                              <div className="flex flex-wrap gap-1 mt-1.5">
+                                {itemTaqs.slice(0, 2).map((taq) => (
+                                  <span key={taq} className="text-[8px] px-2 py-0.5 rounded-full bg-[#2a2a2a] text-neutral-500 font-bold">#{taq}</span>
+                                ))}
+                                {itemTaqs.length > 2 && (
+                                  <span className="text-[8px] px-2 py-0.5 rounded-full bg-[#2a2a2a] text-neutral-600">+{itemTaqs.length - 2}</span>
+                                )}
                               </div>
+                            )}
+                          </div>
+                          <div className="flex gap-1.5 flex-shrink-0">
+                            <button onClick={() => handleEdit(item)} className="w-8 h-8 rounded-lg bg-[#2a1a00] border border-[#3a2a00] flex items-center justify-center hover:bg-amber-900/40 transition-colors" title="Edit">
+                              <Edit className="w-3.5 h-3.5 text-amber-400" />
+                            </button>
+                            <button onClick={() => handleDelete(item)} className="w-8 h-8 rounded-lg bg-[#2a0808] border border-[#3a1010] flex items-center justify-center hover:bg-red-900/40 transition-colors" title="Delete">
+                              <Trash2 className="w-3.5 h-3.5 text-red-400" />
+                            </button>
+                            {expandedCardId === item.id && (
+                              <button onClick={cancelEdit} className="w-8 h-8 rounded-lg bg-[#2a2a2a] border border-[#3a3a3a] flex items-center justify-center hover:bg-[#333] transition-colors" title="Cancel">
+                                <X className="w-3.5 h-3.5 text-neutral-400" />
+                              </button>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Expanded edit form */}
+                        {expandedCardId === item.id && editingItem && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.25 }}
+                            className="border-t border-[#2a2a2a] bg-[#1a1a1a] p-4 space-y-4"
+                          >
+                            {/* Category */}
+                            <DarkField label="Category *">
+                              <select value={editForm.category_id} onChange={(e) => setEditForm({ ...editForm, category_id: e.target.value })} className={darkSelect}>
+                                {categories.map((cat) => <option key={cat.id} value={cat.id}>{cat.name_en}</option>)}
+                              </select>
+                            </DarkField>
+
+                            {/* Names */}
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                              <DarkField label="Name EN *">
+                                <input value={editForm.name_en} onChange={(e) => setEditForm({ ...editForm, name_en: e.target.value })} placeholder="English name" className={darkInput} />
+                              </DarkField>
+                              <DarkField label="Name AR">
+                                <input value={editForm.name_ar} onChange={(e) => setEditForm({ ...editForm, name_ar: e.target.value })} placeholder="Arabic name" className={darkInput} />
+                              </DarkField>
+                              <DarkField label="Name MS">
+                                <input value={editForm.name_ms} onChange={(e) => setEditForm({ ...editForm, name_ms: e.target.value })} placeholder="Malay name" className={darkInput} />
+                              </DarkField>
                             </div>
-                          </div>
 
-                          {/* Taqs for edit */}
-                          <TaqSection form={editForm} onChange={setEditForm} />
+                            {/* Descriptions */}
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                              <DarkField label="Desc EN">
+                                <textarea value={editForm.description_en} onChange={(e) => setEditForm({ ...editForm, description_en: e.target.value })} placeholder="English description" className={darkTextarea} />
+                              </DarkField>
+                              <DarkField label="Desc AR">
+                                <textarea value={editForm.description_ar} onChange={(e) => setEditForm({ ...editForm, description_ar: e.target.value })} placeholder="Arabic description" className={darkTextarea} />
+                              </DarkField>
+                              <DarkField label="Desc MS">
+                                <textarea value={editForm.description_ms} onChange={(e) => setEditForm({ ...editForm, description_ms: e.target.value })} placeholder="Malay description" className={darkTextarea} />
+                              </DarkField>
+                            </div>
 
-                          <div className="flex gap-3 pt-2">
-                            <Button
-                              onClick={handleUpdate}
-                              disabled={isSubmitting}
-                              className="flex-1 bg-amber-600 hover:bg-amber-700 text-white rounded-xl font-bold"
-                            >
-                              {isSubmitting ? 'Updating...' : 'Update Item'}
-                            </Button>
-                            <Button
-                              onClick={cancelEdit}
-                              variant="outline"
-                              className="flex-1 border-neutral-300 rounded-xl font-bold"
-                            >
-                              Cancel
-                            </Button>
-                          </div>
-                        </motion.div>
-                      )}
-                    </motion.div>
-                  </AnimatePresence>
-                );
-              })}
-              {!loading && !menuItems.length && (
-                <p className="text-sm text-neutral-500 text-center py-8">No menu items yet. Create your first menu item!</p>
-              )}
+                            {/* Price + Image */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
+                              <DarkField label="Price (RM) *">
+                                <input type="number" step="0.01" value={editForm.price} onChange={(e) => setEditForm({ ...editForm, price: e.target.value })} placeholder="0.00" className={darkInput} />
+                              </DarkField>
+                              <DarkField label="Update Image">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-12 h-12 rounded-xl overflow-hidden bg-[#111] border border-[#2a2a2a] flex-shrink-0">
+                                    <img src={editForm.image_base64 || editingItem.image_base64 || `https://picsum.photos/seed/placeholder/100/100`} alt="Preview" className="w-full h-full object-cover" />
+                                  </div>
+                                  <input type="file" id={`edit-image-${item.id}`} accept="image/png,image/jpeg" onChange={handleEditImageUpload} className="hidden" />
+                                  <label htmlFor={`edit-image-${item.id}`} className="text-[10px] font-black text-[#ffcf1c] uppercase tracking-wider cursor-pointer hover:opacity-80 transition-opacity">
+                                    Change Image
+                                  </label>
+                                </div>
+                              </DarkField>
+                            </div>
+
+                            <TaqSection form={editForm} onChange={setEditForm} />
+
+                            <div className="flex gap-3 pt-1">
+                              <Button
+                                onClick={handleUpdate}
+                                disabled={isSubmitting}
+                                className="flex-1 h-10 bg-amber-500 hover:bg-amber-400 text-black rounded-xl font-black uppercase tracking-wide text-xs border-none"
+                              >
+                                {isSubmitting ? 'Updating...' : 'Update Item'}
+                              </Button>
+                              <Button
+                                onClick={cancelEdit}
+                                className="flex-1 h-10 bg-[#2a2a2a] hover:bg-[#333] text-neutral-400 rounded-xl font-black uppercase tracking-wide text-xs border-none"
+                              >
+                                Cancel
+                              </Button>
+                            </div>
+                          </motion.div>
+                        )}
+                      </motion.div>
+                    </AnimatePresence>
+                  );
+                }) : (
+                  <div className="py-16 text-center">
+                    <p className="text-neutral-700 text-xs font-black uppercase tracking-wider">No items yet. Create your first one!</p>
+                  </div>
+                )}
+              </div>
             </div>
-          </CardContent>
-        </Card>
-      </div>
+
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
 
-// Taq Section Component
-function TaqSection({
-  form,
-  onChange,
-}: {
-  form: MenuItemFormState;
-  onChange: React.Dispatch<React.SetStateAction<MenuItemFormState>>;
-}) {
+// ── TaqSection — logic unchanged, only styled ────────────────────────────────
+function TaqSection({ form, onChange }: { form: MenuItemFormState; onChange: React.Dispatch<React.SetStateAction<MenuItemFormState>> }) {
   const [taqDraft, setTaqDraft] = React.useState('');
   const taqListId = React.useId();
 
   const addTaq = React.useCallback((rawValue: string) => {
     const candidate = rawValue.trim();
     if (!candidate) return;
-
     onChange((current) => {
-      const normalizedCurrent = normalizeTaqs(current.taqs);
-      if (normalizedCurrent.some((tag) => tag.toLowerCase() === candidate.toLowerCase())) {
-        return current;
-      }
-
-      return {
-        ...current,
-        taqs: [...normalizedCurrent, candidate],
-      };
+      const normalized = normalizeTaqs(current.taqs);
+      if (normalized.some((tag) => tag.toLowerCase() === candidate.toLowerCase())) return current;
+      return { ...current, taqs: [...normalized, candidate] };
     });
     setTaqDraft('');
   }, [onChange]);
 
   const removeTaq = React.useCallback((value: string) => {
-    onChange((current) => ({
-      ...current,
-      taqs: normalizeTaqs(current.taqs).filter((tag) => tag !== value),
-    }));
+    onChange((current) => ({ ...current, taqs: normalizeTaqs(current.taqs).filter((t) => t !== value) }));
   }, [onChange]);
 
-  const handleTaqKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter' || event.key === ',') {
-      event.preventDefault();
-      addTaq(taqDraft);
-    }
+  const handleTaqKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' || e.key === ',') { e.preventDefault(); addTaq(taqDraft); }
   };
 
   const selectedTaqs = normalizeTaqs(form.taqs);
 
   return (
     <div className="space-y-2">
-      <Label>Taqs</Label>
-      <div className="flex flex-col gap-2 md:flex-row md:items-center">
-        <Input
+      <span className="text-[9px] font-black text-neutral-500 uppercase tracking-[0.14em]">Tags</span>
+      <div className="flex gap-2">
+        <input
           value={taqDraft}
-          onChange={(event) => setTaqDraft(event.target.value)}
+          onChange={(e) => setTaqDraft(e.target.value)}
           onKeyDown={handleTaqKeyDown}
           list={taqListId}
-          placeholder="Type a taq and press Enter"
-          className="flex-1"
+          placeholder="Type a tag and press Enter"
+          className={`${darkInput} flex-1`}
         />
-        <Button
+        <button
           type="button"
-          variant="outline"
-          className="rounded-xl font-black uppercase tracking-wide"
           onClick={() => addTaq(taqDraft)}
+          className="h-10 px-4 bg-[#2a2a2a] hover:bg-[#3a3a3a] text-[#ffcf1c] text-[9px] font-black uppercase tracking-[0.1em] rounded-xl border border-[#3a3a3a] transition-colors flex-shrink-0"
         >
-          Add Taq
-        </Button>
-        <datalist id={taqListId}>
-          {TAQ_OPTIONS.map((taq) => (
-            <option key={taq} value={taq} />
-          ))}
-        </datalist>
+          Add
+        </button>
+        <datalist id={taqListId}>{TAQ_OPTIONS.map((taq) => <option key={taq} value={taq} />)}</datalist>
       </div>
-
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-1.5">
         {selectedTaqs.map((taq) => (
-          <span
-            key={taq}
-            className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1 text-xs font-semibold text-neutral-700"
-          >
-            {taq}
-            <button
-              type="button"
-              onClick={() => removeTaq(taq)}
-              className="rounded-full border border-neutral-200 px-1.5 text-[10px] font-black leading-none text-neutral-500 hover:bg-neutral-100"
-              aria-label={`Remove ${taq}`}
-            >
-              x
-            </button>
+          <span key={taq} className="inline-flex items-center gap-1.5 rounded-full bg-[#2a2a2a] border border-[#3a3a3a] px-3 py-1 text-[9px] font-bold text-neutral-400">
+            #{taq}
+            <button type="button" onClick={() => removeTaq(taq)} className="text-neutral-600 hover:text-red-400 transition-colors leading-none" aria-label={`Remove ${taq}`}>×</button>
           </span>
         ))}
-        {!selectedTaqs.length && <p className="text-xs text-neutral-400">No taqs selected. Type a taq and press Enter.</p>}
+        {!selectedTaqs.length && <p className="text-[9px] text-neutral-700">No tags added yet.</p>}
       </div>
     </div>
   );
 }
 
-function FormInput({ label, value, onChange, type = 'text', required = false }: { label: string; value: string; onChange: (value: string) => void; type?: string; required?: boolean }) {
+// Shared helpers
+function DarkField({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div>
-      <Input
-        type={type}
-        placeholder={label}
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        required={required}
-      />
+    <div className="space-y-1.5">
+      <label className="text-[9px] font-black text-neutral-500 uppercase tracking-[0.14em]">{label}</label>
+      {children}
     </div>
   );
 }
 
-function FormTextarea({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
-  return (
-    <div>
-      <Textarea placeholder={label} value={value} onChange={(event) => onChange(event.target.value)} className="min-h-24" />
-    </div>
-  );
-}
+const darkInput =
+  'w-full h-10 rounded-xl border-[1.5px] border-[#2a2a2a] bg-[#111] text-white text-xs font-medium px-3 outline-none focus:border-[#ffcf1c] transition-colors placeholder:text-neutral-600 font-[inherit]';
+
+const darkSelect =
+  'w-full h-10 rounded-xl border-[1.5px] border-[#2a2a2a] bg-[#111] text-white text-xs font-medium px-3 outline-none focus:border-[#ffcf1c] transition-colors appearance-none cursor-pointer font-[inherit]';
+
+const darkTextarea =
+  'w-full min-h-[72px] rounded-xl border-[1.5px] border-[#2a2a2a] bg-[#111] text-white text-xs font-medium p-3 outline-none focus:border-[#ffcf1c] transition-colors placeholder:text-neutral-600 resize-none font-[inherit]';

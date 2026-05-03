@@ -161,7 +161,7 @@ export default function MapPicker({ isOpen, onClose, onSelect, initialLat, initi
                 {/* Header */}
                 <DialogHeader className="p-4 pb-2 border-b border-neutral-100 md:p-6">
                     <DialogTitle className="text-xl font-black uppercase tracking-tight md:text-2xl flex items-center gap-2">
-                        <MapPin className="w-5 h-5 text-[#6EA15C]" />
+                        <MapPin className="w-5 h-5 text-[#ffcf1c]" />
                         Select Restaurant Location
                     </DialogTitle>
                 </DialogHeader>
@@ -184,7 +184,7 @@ export default function MapPicker({ isOpen, onClose, onSelect, initialLat, initi
                             <Button
                                 onClick={searchLocation}
                                 disabled={isSearching}
-                                className="bg-[#6EA15C] hover:bg-[#5D8A4E] whitespace-nowrap h-10 text-sm px-4"
+                                className="bg-[#ffcf1c] hover:bg-[#070605] whitespace-nowrap h-10 text-sm px-4"
                             >
                                 {isSearching ? '...' : 'Search'}
                             </Button>
@@ -217,7 +217,7 @@ export default function MapPicker({ isOpen, onClose, onSelect, initialLat, initi
                     </div>
 
                     {/* Selected Address */}
-                    <div className="bg-[#F7FBF6] p-3 rounded-xl">
+                    <div className="bg-[#FFF9DC] p-3 rounded-xl">
                         <p className="text-xs font-black uppercase tracking-wider text-neutral-500 mb-1">
                             Selected Location
                             {isReversing && <span className="ml-2 text-neutral-400">(Loading...)</span>}
@@ -238,7 +238,7 @@ export default function MapPicker({ isOpen, onClose, onSelect, initialLat, initi
                         </Button>
                         <Button
                             onClick={handleConfirm}
-                            className="flex-1 bg-[#6EA15C] hover:bg-[#5D8A4E] rounded-xl font-bold h-11 text-sm md:h-12 md:text-base"
+                            className="flex-1 bg-[#ffcf1c] hover:bg-[#070605] rounded-xl font-bold h-11 text-sm md:h-12 md:text-base"
                         >
                             Confirm Location
                         </Button>

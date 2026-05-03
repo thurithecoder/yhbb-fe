@@ -37,7 +37,7 @@ function Stepper({ step }: { step: number }) {
                                 w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg
                                 transition-all duration-300 ease-in-out
                                 ${step >= n
-                                    ? 'bg-gradient-to-r from-[#6EA15C] to-[#8BC34A] text-white shadow-lg shadow-[#6EA15C]/30'
+                                    ? 'bg-gradient-to-r from-[#ffcf1c] to-[#8BC34A] text-white shadow-lg shadow-[#ffcf1c]/30'
                                     : 'bg-gray-100 text-gray-400 border-2 border-gray-200'
                                 }
                             `}
@@ -50,12 +50,12 @@ function Stepper({ step }: { step: number }) {
                                 n
                             )}
                         </div>
-                        <span className={`text-xs mt-2 font-medium ${step >= n ? 'text-[#6EA15C]' : 'text-gray-400'}`}>
+                        <span className={`text-xs mt-2 font-medium ${step >= n ? 'text-[#ffcf1c]' : 'text-gray-400'}`}>
                             {n === 1 ? 'Submit' : n === 2 ? 'Review' : 'Verified'}
                         </span>
                     </div>
                     {idx < 2 && (
-                        <div className={`flex-1 h-1 mx-2 rounded-full transition-all duration-300 ${step > n ? 'bg-[#6EA15C]' : 'bg-gray-200'}`} />
+                        <div className={`flex-1 h-1 mx-2 rounded-full transition-all duration-300 ${step > n ? 'bg-[#ffcf1c]' : 'bg-gray-200'}`} />
                     )}
                 </React.Fragment>
             ))}
@@ -110,7 +110,7 @@ export default function RestaurantVerificationPage() {
         return (
             <div className="min-h-screen bg-gradient-to-br from-[#f8faf7] to-[#e8f0e5] flex items-center justify-center">
                 <div className="flex flex-col items-center gap-4">
-                    <div className="w-12 h-12 border-4 border-[#6EA15C] border-t-transparent rounded-full animate-spin" />
+                    <div className="w-12 h-12 border-4 border-[#ffcf1c] border-t-transparent rounded-full animate-spin" />
                     <p className="text-gray-600 font-medium">Loading verification details...</p>
                 </div>
             </div>
@@ -179,7 +179,7 @@ export default function RestaurantVerificationPage() {
                                 <input
                                     type={field.type || 'text'}
                                     required={field.required}
-                                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#6EA15C] focus:ring-2 focus:ring-[#6EA15C]/20 transition-all duration-200 outline-none bg-gray-50/50"
+                                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#ffcf1c] focus:ring-2 focus:ring-[#ffcf1c]/20 transition-all duration-200 outline-none bg-gray-50/50"
                                     value={form[field.name] || ''}
                                     onChange={e => handleInputChange(field.name, e.target.value)}
                                     placeholder={`Enter ${field.label.toLowerCase()}`}
@@ -191,7 +191,7 @@ export default function RestaurantVerificationPage() {
                 <Button
                     type="submit"
                     disabled={submitting}
-                    className="w-full bg-gradient-to-r from-[#6EA15C] to-[#8BC34A] hover:from-[#5d8f4c] hover:to-[#7cb342] text-white font-bold py-3 rounded-xl shadow-lg shadow-[#6EA15C]/30 transition-all duration-200 transform hover:scale-[1.02]"
+                    className="w-full bg-gradient-to-r from-[#ffcf1c] to-[#8BC34A] hover:from-[#5d8f4c] hover:to-[#7cb342] text-white font-bold py-3 rounded-xl shadow-lg shadow-[#ffcf1c]/30 transition-all duration-200 transform hover:scale-[1.02]"
                 >
                     {submitting ? (
                         <div className="flex items-center justify-center gap-2">
@@ -245,8 +245,8 @@ export default function RestaurantVerificationPage() {
         );
     } else if (profile.verificationStatus === 'approved') {
         statusIcon = (
-            <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-[#6EA15C]/10 flex items-center justify-center">
-                <svg className="w-10 h-10 text-[#6EA15C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-[#ffcf1c]/10 flex items-center justify-center">
+                <svg className="w-10 h-10 text-[#ffcf1c]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
             </div>
@@ -254,12 +254,12 @@ export default function RestaurantVerificationPage() {
         content = (
             <div className="text-center py-8">
                 {statusIcon}
-                <h3 className="text-xl font-bold text-[#6EA15C] mb-2">Verified Restaurant!</h3>
+                <h3 className="text-xl font-bold text-[#ffcf1c] mb-2">Verified Restaurant!</h3>
                 <p className="text-gray-500">Your restaurant is now verified and visible to customers. Congratulations!</p>
                 <div className="mt-6 flex justify-center">
                     <Button
                         onClick={() => navigate('/dashboard')}
-                        className="bg-gradient-to-r from-[#6EA15C] to-[#8BC34A] hover:from-[#5d8f4c] hover:to-[#7cb342] text-white font-semibold px-8 rounded-xl shadow-md"
+                        className="bg-gradient-to-r from-[#ffcf1c] to-[#8BC34A] hover:from-[#5d8f4c] hover:to-[#7cb342] text-white font-semibold px-8 rounded-xl shadow-md"
                     >
                         Go to Dashboard
                     </Button>
@@ -273,7 +273,7 @@ export default function RestaurantVerificationPage() {
             <div className="w-full max-w-2xl mx-auto">
                 <div className="text-center mb-8">
                     <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white shadow-lg mb-4">
-                        <svg className="w-8 h-8 text-[#6EA15C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-8 h-8 text-[#ffcf1c]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                         </svg>
                     </div>

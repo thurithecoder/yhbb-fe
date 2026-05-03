@@ -52,13 +52,13 @@ export default function AdminLayout() {
     <div className="admin-layout">
       <aside className="sidebar">
         <div className="p-6 border-b">
-          <Link to="/" className="flex items-center gap-3">
-            <div className="bg-[#6EA15C] p-2 rounded-xl">
+          <Link to="/" className="flex items-center gap-3 min-w-0">
+            <div className="bg-[#ffcf1c] p-2 rounded-xl">
               <ShieldCheck className="w-6 h-6 text-white" />
             </div>
-            <div>
+            <div className="min-w-0">
               <p className="text-xs font-black uppercase tracking-[0.25em] text-neutral-400">Yalla Habibi</p>
-              <span className="text-xl font-bold tracking-tight text-[#6EA15C]">Admin Panel</span>
+              <span className="block truncate text-lg md:text-xl font-bold tracking-tight text-[#ffcf1c]">Admin Panel</span>
             </div>
           </Link>
         </div>
@@ -68,10 +68,10 @@ export default function AdminLayout() {
               key={item.path}
               to={item.path}
               className={cn(
-                "flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all",
+                "flex items-center gap-2 md:gap-3 px-3 md:px-4 py-3 rounded-xl text-sm md:text-base font-bold transition-all",
                 (item.path === '/admin' ? location.pathname === item.path : location.pathname.startsWith(item.path))
-                  ? "bg-[#6EA15C] text-white shadow-lg shadow-green-100"
-                  : "text-[#6EA15C] hover:bg-green-50"
+                  ? "bg-[#ffcf1c] text-white shadow-lg shadow-yellow-100"
+                  : "text-[#ffcf1c] hover:bg-[#FFF9DC]"
               )}
             >
               <item.icon className="w-5 h-5" />

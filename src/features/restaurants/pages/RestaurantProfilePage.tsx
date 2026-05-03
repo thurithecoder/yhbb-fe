@@ -132,7 +132,7 @@ export default function RestaurantProfilePage() {
   return (
     <div className="space-y-8">
       <div className="space-y-2">
-        <p className="text-xs font-black uppercase tracking-[0.3em] text-[#6EA15C]">Restaurant Backend</p>
+        <p className="text-xs font-black uppercase tracking-[0.3em] text-[#ffcf1c]">Restaurant Backend</p>
         <h1 className="text-4xl font-black tracking-tighter uppercase text-neutral-900">Restaurant Profile</h1>
         <p className="text-neutral-500 font-medium">Set opening hours, cuisine, and branding details for your restaurant.</p>
       </div>
@@ -147,7 +147,7 @@ export default function RestaurantProfilePage() {
                 <button
                   type="button"
                   onClick={() => setMapPickerOpen(true)}
-                  className="w-full h-12 rounded-xl border border-neutral-200 bg-white px-4 text-left flex items-center gap-2 hover:border-[#6EA15C] transition-colors"
+                  className="w-full h-12 rounded-xl border border-neutral-200 bg-white px-4 text-left flex items-center gap-2 hover:border-[#ffcf1c] transition-colors"
                 >
                   <MapPin className="w-5 h-5 text-neutral-400" />
                   <span className={form.address ? 'text-neutral-900' : 'text-neutral-500'}>
@@ -213,7 +213,7 @@ export default function RestaurantProfilePage() {
                       )}
                     </div>
                     {form.profilepic && (
-                      <div className="absolute bottom-0 right-0 bg-[#6EA15C] rounded-full p-1.5 shadow-md">
+                      <div className="absolute bottom-0 right-0 bg-[#ffcf1c] rounded-full p-1.5 shadow-md">
                         <CameraIcon />
                       </div>
                     )}
@@ -224,13 +224,13 @@ export default function RestaurantProfilePage() {
                 </div>
               </div>
 
-              <Button type="submit" disabled={isSubmitting || loading} className="bg-[#6EA15C] hover:bg-[#5D8A4E] text-white rounded-xl font-black uppercase tracking-wide">
+              <Button type="submit" disabled={isSubmitting || loading} className="bg-[#ffcf1c] hover:bg-[#ffcf1c] hover:text-[#070605] rounded-xl font-black uppercase tracking-wide">
                 {isSubmitting ? 'Saving...' : 'Save Profile'}
               </Button>
             </div>
 
             <div className="space-y-4">
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6EA15C]">Preview</p>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#ffcf1c]">Preview</p>
               <div className="rounded-[32px] overflow-hidden bg-[#f7f7f2] border border-neutral-100">
                 <div className="h-64 bg-neutral-200">
                   <img
@@ -248,7 +248,7 @@ export default function RestaurantProfilePage() {
                     <div className="rounded-2xl bg-white p-4">Cuisine: {form.cuisines.length ? form.cuisines.join(', ') : 'Not set'}</div>
                     <div className="rounded-2xl bg-white p-4 flex items-center gap-2">
                       <span>Status: </span>
-                      <span className={form.is_active ? 'text-green-700 font-bold' : 'text-red-700 font-bold'}>{form.is_active ? 'Active' : 'Inactive'}</span>
+                      <span className={form.is_active ? 'text-[#070605] font-bold' : 'text-red-700 font-bold'}>{form.is_active ? 'Active' : 'Inactive'}</span>
                       <button
                         type="button"
                         className="ml-2 px-3 py-1 rounded bg-neutral-200 hover:bg-neutral-300 text-xs font-bold"
@@ -311,7 +311,7 @@ function TimeBlock({
         <select
           value={time}
           onChange={(event) => onTimeChange(event.target.value)}
-          className="w-full h-12 rounded-xl border border-neutral-200 bg-white px-4 text-sm font-medium outline-none focus:border-[#6EA15C]"
+          className="w-full h-12 rounded-xl border border-neutral-200 bg-white px-4 text-sm font-medium outline-none focus:border-[#ffcf1c]"
         >
           {timeOptions.map((option) => (
             <option key={option} value={option}>
@@ -322,7 +322,7 @@ function TimeBlock({
         <select
           value={period}
           onChange={(event) => onPeriodChange(event.target.value)}
-          className="w-full h-12 rounded-xl border border-neutral-200 bg-white px-4 text-sm font-medium outline-none focus:border-[#6EA15C]"
+          className="w-full h-12 rounded-xl border border-neutral-200 bg-white px-4 text-sm font-medium outline-none focus:border-[#ffcf1c]"
         >
           <option value="AM">AM</option>
           <option value="PM">PM</option>
@@ -369,7 +369,7 @@ function CuisineMultiSelect({ selected, onChange }: { selected: string[]; onChan
       {selected.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {selected.map((c) => (
-            <span key={c} className="flex items-center gap-1 bg-[#6EA15C]/10 text-[#6EA15C] text-xs font-bold px-3 py-1.5 rounded-full border border-[#6EA15C]/30">
+            <span key={c} className="flex items-center gap-1 bg-[#ffcf1c]/10 text-[#ffcf1c] text-xs font-bold px-3 py-1.5 rounded-full border border-[#ffcf1c]/30">
               {c}
               <button type="button" onClick={() => toggle(c)} className="hover:text-red-500 transition-colors">
                 <X className="w-3 h-3" />
@@ -382,7 +382,7 @@ function CuisineMultiSelect({ selected, onChange }: { selected: string[]; onChan
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="w-full h-12 px-4 rounded-xl border border-neutral-200 bg-white text-left flex items-center justify-between hover:border-[#6EA15C] transition-colors"
+          className="w-full h-12 px-4 rounded-xl border border-neutral-200 bg-white text-left flex items-center justify-between hover:border-[#ffcf1c] transition-colors"
         >
           <span className="text-neutral-500 text-sm">{selected.length === 0 ? 'Select cuisines...' : `${selected.length} selected`}</span>
           <ChevronDown className={`w-4 h-4 text-neutral-400 transition-transform ${open ? 'rotate-180' : ''}`} />

@@ -418,7 +418,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
     <Dialog open={isOpen} onOpenChange={(open) => !open && closeModal()}>
       <DialogContent className="sm:max-w-[450px] p-0 overflow-hidden rounded-[32px] border-none shadow-2xl">
         <div className="bg-neutral-900 p-8 text-white relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-[#6EA15C] blur-[80px] opacity-20 -mr-16 -mt-16" />
+          <div className="absolute top-0 right-0 w-32 h-32 bg-[#ffcf1c] blur-[80px] opacity-20 -mr-16 -mt-16" />
           <DialogHeader className="relative z-10">
             <DialogTitle className="text-3xl font-black uppercase tracking-tighter">
               {view === 'forgot' ? 'Forgot Password' : view === 'reset' ? 'Reset Password' : t('auth.welcome_title', 'Welcome Habibi')}
@@ -437,10 +437,10 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
           {(view === 'login' || view === 'register') && (
             <Tabs value={view} onValueChange={(value) => setView(value as AuthView)} className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-8 bg-neutral-100 p-1 rounded-xl">
-                <TabsTrigger value="login" className="rounded-lg font-bold uppercase tracking-tight data-[state=active]:bg-white data-[state=active]:text-[#6EA15C] data-[state=active]:shadow-sm transition-all">
+                <TabsTrigger value="login" className="rounded-lg font-bold uppercase tracking-tight data-[state=active]:bg-white data-[state=active]:text-[#ffcf1c] data-[state=active]:shadow-sm transition-all">
                   {t('auth.login', 'Login')}
                 </TabsTrigger>
-                <TabsTrigger value="register" className="rounded-lg font-bold uppercase tracking-tight data-[state=active]:bg-white data-[state=active]:text-[#6EA15C] data-[state=active]:shadow-sm transition-all">
+                <TabsTrigger value="register" className="rounded-lg font-bold uppercase tracking-tight data-[state=active]:bg-white data-[state=active]:text-[#ffcf1c] data-[state=active]:shadow-sm transition-all">
                   {t('auth.register', 'Register')}
                 </TabsTrigger>
               </TabsList>
@@ -456,7 +456,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                         value={loginForm.email}
                         onChange={(event) => setLoginForm((current) => ({ ...current, email: event.target.value }))}
                         placeholder="habibi@example.com"
-                        className="h-12 rounded-xl border-neutral-200 focus:border-[#6EA15C] focus:ring-[#6EA15C]/20"
+                        className="h-12 rounded-xl border-neutral-200 focus:border-[#ffcf1c] focus:ring-[#ffcf1c]/20"
                       />
                     </div>
                     <div className="space-y-2">
@@ -467,7 +467,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                         value={loginForm.password}
                         onChange={(event) => setLoginForm((current) => ({ ...current, password: event.target.value }))}
                         placeholder="Password"
-                        className="h-12 rounded-xl border-neutral-200 focus:border-[#6EA15C] focus:ring-[#6EA15C]/20"
+                        className="h-12 rounded-xl border-neutral-200 focus:border-[#ffcf1c] focus:ring-[#ffcf1c]/20"
                       />
                     </div>
                   </div>
@@ -478,14 +478,14 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                         setForgotForm({ email: loginForm.email });
                         setView('forgot');
                       }}
-                      className="text-sm font-bold text-[#6EA15C] hover:underline"
+                      className="text-sm font-bold text-[#ffcf1c] hover:underline"
                     >
                       Forgot password?
                     </button>
                     <Button
                       type="submit"
                       disabled={isSubmitting}
-                      className="min-w-36 h-12 bg-neutral-900 hover:bg-[#6EA15C] text-white rounded-xl font-black uppercase tracking-wide transition-all shadow-lg"
+                      className="min-w-36 h-12 bg-[#070605] hover:bg-[#ffcf1c] hover:text-[#070605] text-white rounded-xl font-black uppercase tracking-wide transition-all shadow-lg"
                     >
                       {isSubmitting ? 'Please wait...' : t('auth.login_submit', 'Log In')}
                     </Button>
@@ -502,11 +502,11 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                         <button
                           type="button"
                           onClick={() => handleSelectRegisterType('user')}
-                          className="rounded-2xl border border-neutral-200 p-5 text-left hover:border-[#6EA15C] hover:bg-[#F7FBF6] transition-all"
+                          className="rounded-2xl border border-neutral-200 p-5 text-left hover:border-[#ffcf1c] hover:bg-[#FFF9DC] transition-all"
                         >
                           <div className="flex items-center gap-3 mb-2">
-                            <div className="h-10 w-10 rounded-xl bg-[#6EA15C]/10 grid place-items-center">
-                              <User className="w-5 h-5 text-[#6EA15C]" />
+                            <div className="h-10 w-10 rounded-xl bg-[#ffcf1c]/10 grid place-items-center">
+                              <User className="w-5 h-5 text-[#ffcf1c]" />
                             </div>
                             <p className="font-black uppercase tracking-tight text-neutral-900">As a User</p>
                           </div>
@@ -515,11 +515,11 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                         <button
                           type="button"
                           onClick={() => handleSelectRegisterType('restaurant')}
-                          className="rounded-2xl border border-neutral-200 p-5 text-left hover:border-[#6EA15C] hover:bg-[#F7FBF6] transition-all"
+                          className="rounded-2xl border border-neutral-200 p-5 text-left hover:border-[#ffcf1c] hover:bg-[#FFF9DC] transition-all"
                         >
                           <div className="flex items-center gap-3 mb-2">
-                            <div className="h-10 w-10 rounded-xl bg-[#6EA15C]/10 grid place-items-center">
-                              <Store className="w-5 h-5 text-[#6EA15C]" />
+                            <div className="h-10 w-10 rounded-xl bg-[#ffcf1c]/10 grid place-items-center">
+                              <Store className="w-5 h-5 text-[#ffcf1c]" />
                             </div>
                             <p className="font-black uppercase tracking-tight text-neutral-900">As a Restaurant</p>
                           </div>
@@ -540,7 +540,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                         </div>
                         <div className="h-2 rounded-full bg-neutral-100 overflow-hidden">
                           <div
-                            className="h-full bg-[#6EA15C] transition-all"
+                            className="h-full bg-[#ffcf1c] transition-all"
                             style={{ width: `${(activeRegisterStep / registerTotalSteps) * 100}%` }}
                           />
                         </div>
@@ -557,7 +557,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                                 value={registerForm.firstname}
                                 onChange={(event) => setRegisterForm((current) => ({ ...current, firstname: event.target.value }))}
                                 placeholder="John"
-                                className="h-12 rounded-xl border-neutral-200 focus:border-[#6EA15C] focus:ring-[#6EA15C]/20"
+                                className="h-12 rounded-xl border-neutral-200 focus:border-[#ffcf1c] focus:ring-[#ffcf1c]/20"
                               />
                             </div>
                             <div className="space-y-2">
@@ -567,7 +567,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                                 value={registerForm.lastname}
                                 onChange={(event) => setRegisterForm((current) => ({ ...current, lastname: event.target.value }))}
                                 placeholder="Doe"
-                                className="h-12 rounded-xl border-neutral-200 focus:border-[#6EA15C] focus:ring-[#6EA15C]/20"
+                                className="h-12 rounded-xl border-neutral-200 focus:border-[#ffcf1c] focus:ring-[#ffcf1c]/20"
                               />
                             </div>
                           </div>
@@ -579,7 +579,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                               value={registerForm.email}
                               onChange={(event) => setRegisterForm((current) => ({ ...current, email: event.target.value }))}
                               placeholder="habibi@example.com"
-                              className="h-12 rounded-xl border-neutral-200 focus:border-[#6EA15C] focus:ring-[#6EA15C]/20"
+                              className="h-12 rounded-xl border-neutral-200 focus:border-[#ffcf1c] focus:ring-[#ffcf1c]/20"
                             />
                           </div>
                         </div>
@@ -613,7 +613,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                                 placeholder="123456"
                                 value={registerForm.otp}
                                 onChange={(event) => setRegisterForm((current) => ({ ...current, otp: event.target.value }))}
-                                className="h-12 rounded-xl border-neutral-200 focus:border-[#6EA15C] focus:ring-[#6EA15C]/20 flex-1"
+                                className="h-12 rounded-xl border-neutral-200 focus:border-[#ffcf1c] focus:ring-[#ffcf1c]/20 flex-1"
                               />
                               <Button
                                 type="button"
@@ -640,7 +640,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                               value={registerForm.password}
                               onChange={(event) => setRegisterForm((current) => ({ ...current, password: event.target.value }))}
                               placeholder="At least 6 characters"
-                              className="h-12 rounded-xl border-neutral-200 focus:border-[#6EA15C] focus:ring-[#6EA15C]/20"
+                              className="h-12 rounded-xl border-neutral-200 focus:border-[#ffcf1c] focus:ring-[#ffcf1c]/20"
                             />
                           </div>
                           <div className="space-y-2">
@@ -651,7 +651,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                               value={registerForm.confirmPassword}
                               onChange={(event) => setRegisterForm((current) => ({ ...current, confirmPassword: event.target.value }))}
                               placeholder="Re-enter your password"
-                              className="h-12 rounded-xl border-neutral-200 focus:border-[#6EA15C] focus:ring-[#6EA15C]/20"
+                              className="h-12 rounded-xl border-neutral-200 focus:border-[#ffcf1c] focus:ring-[#ffcf1c]/20"
                             />
                           </div>
                         </div>
@@ -667,7 +667,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                               value={registerForm.restaurant_name}
                               onChange={(event) => setRegisterForm((current) => ({ ...current, restaurant_name: event.target.value }))}
                               placeholder="Habibi Grill"
-                              className="h-12 rounded-xl border-neutral-200 focus:border-[#6EA15C] focus:ring-[#6EA15C]/20"
+                              className="h-12 rounded-xl border-neutral-200 focus:border-[#ffcf1c] focus:ring-[#ffcf1c]/20"
                             />
                           </div>
                           <div className="space-y-2">
@@ -677,7 +677,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                               <button
                                 type="button"
                                 onClick={() => setMapPickerOpen(true)}
-                                className="w-full h-12 rounded-xl border border-neutral-200 bg-white px-4 text-left flex items-center gap-2 hover:border-[#6EA15C] transition-colors"
+                                className="w-full h-12 rounded-xl border border-neutral-200 bg-white px-4 text-left flex items-center gap-2 hover:border-[#ffcf1c] transition-colors"
                               >
                                 <MapPin className="w-5 h-5 text-neutral-400" />
                                 <span className={registerForm.location ? 'text-neutral-900' : 'text-neutral-500'}>
@@ -694,7 +694,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                               value={registerForm.email}
                               onChange={(event) => setRegisterForm((current) => ({ ...current, email: event.target.value }))}
                               placeholder="owner@habibi-grill.com"
-                              className="h-12 rounded-xl border-neutral-200 focus:border-[#6EA15C] focus:ring-[#6EA15C]/20"
+                              className="h-12 rounded-xl border-neutral-200 focus:border-[#ffcf1c] focus:ring-[#ffcf1c]/20"
                             />
                           </div>
                         </div>
@@ -728,7 +728,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                                 placeholder="123456"
                                 value={registerForm.otp}
                                 onChange={(event) => setRegisterForm((current) => ({ ...current, otp: event.target.value }))}
-                                className="h-12 rounded-xl border-neutral-200 focus:border-[#6EA15C] focus:ring-[#6EA15C]/20 flex-1"
+                                className="h-12 rounded-xl border-neutral-200 focus:border-[#ffcf1c] focus:ring-[#ffcf1c]/20 flex-1"
                               />
                               <Button
                                 type="button"
@@ -777,7 +777,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                               value={registerForm.phone}
                               onChange={(event) => setRegisterForm((current) => ({ ...current, phone: event.target.value }))}
                               placeholder="+60 123 456 789"
-                              className="h-12 rounded-xl border-neutral-200 focus:border-[#6EA15C] focus:ring-[#6EA15C]/20"
+                              className="h-12 rounded-xl border-neutral-200 focus:border-[#ffcf1c] focus:ring-[#ffcf1c]/20"
                             />
                           </div>
                           <div className="space-y-2">
@@ -788,7 +788,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                               onChange={(event) => setRegisterForm((current) => ({ ...current, cuisine: event.target.value }))}
                               list="register-cuisine-options"
                               placeholder="Start typing cuisine..."
-                              className="h-12 rounded-xl border-neutral-200 focus:border-[#6EA15C] focus:ring-[#6EA15C]/20"
+                              className="h-12 rounded-xl border-neutral-200 focus:border-[#ffcf1c] focus:ring-[#ffcf1c]/20"
                             />
                             <datalist id="register-cuisine-options">
                               {CUISINE_OPTIONS.map((cuisine) => (
@@ -812,7 +812,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                             />
                             <label
                               htmlFor="reg-restaurant-image"
-                              className="relative block h-48 overflow-hidden rounded-2xl border-2 border-dashed border-[#6EA15C]/50 bg-[#F7FBF6] cursor-pointer transition-colors hover:border-[#6EA15C]"
+                              className="relative block h-48 overflow-hidden rounded-2xl border-2 border-dashed border-[#ffcf1c]/50 bg-[#FFF9DC] cursor-pointer transition-colors hover:border-[#ffcf1c]"
                             >
                               {registerForm.profilepic ? (
                                 <>
@@ -823,8 +823,8 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                                 </>
                               ) : (
                                 <div className="h-full w-full grid place-items-center px-4">
-                                  <div className="flex flex-col items-center gap-2 text-[#6EA15C]">
-                                    <div className="h-14 w-14 rounded-2xl bg-white border border-[#6EA15C]/30 grid place-items-center">
+                                  <div className="flex flex-col items-center gap-2 text-[#ffcf1c]">
+                                    <div className="h-14 w-14 rounded-2xl bg-white border border-[#ffcf1c]/30 grid place-items-center">
                                       <ImageIcon className="w-6 h-6" />
                                     </div>
                                     <p className="font-black uppercase tracking-wide text-sm flex items-center gap-2">
@@ -850,7 +850,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                               value={registerForm.password}
                               onChange={(event) => setRegisterForm((current) => ({ ...current, password: event.target.value }))}
                               placeholder="At least 6 characters"
-                              className="h-12 rounded-xl border-neutral-200 focus:border-[#6EA15C] focus:ring-[#6EA15C]/20"
+                              className="h-12 rounded-xl border-neutral-200 focus:border-[#ffcf1c] focus:ring-[#ffcf1c]/20"
                             />
                           </div>
                           <div className="space-y-2">
@@ -861,7 +861,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                               value={registerForm.confirmPassword}
                               onChange={(event) => setRegisterForm((current) => ({ ...current, confirmPassword: event.target.value }))}
                               placeholder="Re-enter your password"
-                              className="h-12 rounded-xl border-neutral-200 focus:border-[#6EA15C] focus:ring-[#6EA15C]/20"
+                              className="h-12 rounded-xl border-neutral-200 focus:border-[#ffcf1c] focus:ring-[#ffcf1c]/20"
                             />
                           </div>
                         </div>
@@ -879,7 +879,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                         <Button
                           type="submit"
                           disabled={isSubmitting}
-                          className="flex-1 h-12 bg-[#6EA15C] hover:bg-[#5D8A4E] text-white rounded-xl font-black uppercase tracking-wide transition-all shadow-lg"
+                          className="flex-1 h-12 bg-[#ffcf1c] hover:bg-[#ffcf1c] hover:text-[#070605] rounded-xl font-black uppercase tracking-wide transition-all shadow-lg"
                         >
                           {isSubmitting ? 'Please wait...' : isRegisterFinalStep ? t('auth.register_submit', 'Create Account') : 'Next Step'}
                         </Button>
@@ -901,14 +901,14 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   value={forgotForm.email}
                   onChange={(event) => setForgotForm({ email: event.target.value })}
                   placeholder="habibi@example.com"
-                  className="h-12 rounded-xl border-neutral-200 focus:border-[#6EA15C] focus:ring-[#6EA15C]/20"
+                  className="h-12 rounded-xl border-neutral-200 focus:border-[#ffcf1c] focus:ring-[#ffcf1c]/20"
                 />
               </div>
               <div className="flex gap-3">
                 <Button type="button" variant="outline" onClick={() => setView('login')} className="flex-1 h-12 rounded-xl font-black uppercase tracking-wide">
                   Back
                 </Button>
-                <Button type="submit" disabled={isSubmitting} className="flex-1 h-12 bg-[#6EA15C] hover:bg-[#5D8A4E] text-white rounded-xl font-black uppercase tracking-wide">
+                <Button type="submit" disabled={isSubmitting} className="flex-1 h-12 bg-[#ffcf1c] hover:bg-[#ffcf1c] hover:text-[#070605] rounded-xl font-black uppercase tracking-wide">
                   {isSubmitting ? 'Sending...' : 'Send OTP'}
                 </Button>
               </div>
@@ -926,7 +926,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                     value={resetForm.email}
                     onChange={(event) => setResetForm((current) => ({ ...current, email: event.target.value }))}
                     placeholder="habibi@example.com"
-                    className="h-12 rounded-xl border-neutral-200 focus:border-[#6EA15C] focus:ring-[#6EA15C]/20"
+                    className="h-12 rounded-xl border-neutral-200 focus:border-[#ffcf1c] focus:ring-[#ffcf1c]/20"
                   />
                 </div>
                 <div className="space-y-2">
@@ -936,7 +936,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                     value={resetForm.otp}
                     onChange={(event) => setResetForm((current) => ({ ...current, otp: event.target.value }))}
                     placeholder="6-digit OTP"
-                    className="h-12 rounded-xl border-neutral-200 focus:border-[#6EA15C] focus:ring-[#6EA15C]/20"
+                    className="h-12 rounded-xl border-neutral-200 focus:border-[#ffcf1c] focus:ring-[#ffcf1c]/20"
                   />
                 </div>
                 <div className="space-y-2">
@@ -947,7 +947,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                     value={resetForm.newPassword}
                     onChange={(event) => setResetForm((current) => ({ ...current, newPassword: event.target.value }))}
                     placeholder="At least 6 characters"
-                    className="h-12 rounded-xl border-neutral-200 focus:border-[#6EA15C] focus:ring-[#6EA15C]/20"
+                    className="h-12 rounded-xl border-neutral-200 focus:border-[#ffcf1c] focus:ring-[#ffcf1c]/20"
                   />
                 </div>
               </div>
@@ -955,7 +955,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 <Button type="button" variant="outline" onClick={() => setView('login')} className="flex-1 h-12 rounded-xl font-black uppercase tracking-wide">
                   Back
                 </Button>
-                <Button type="submit" disabled={isSubmitting} className="flex-1 h-12 bg-[#6EA15C] hover:bg-[#5D8A4E] text-white rounded-xl font-black uppercase tracking-wide">
+                <Button type="submit" disabled={isSubmitting} className="flex-1 h-12 bg-[#ffcf1c] hover:bg-[#ffcf1c] hover:text-[#070605] rounded-xl font-black uppercase tracking-wide">
                   {isSubmitting ? 'Updating...' : 'Reset Password'}
                 </Button>
               </div>
@@ -1067,7 +1067,7 @@ function TimeBlock({
         <select
           value={time}
           onChange={(event) => onTimeChange(event.target.value)}
-          className="w-full h-12 rounded-xl border border-neutral-200 bg-white px-4 text-sm font-medium outline-none focus:border-[#6EA15C]"
+          className="w-full h-12 rounded-xl border border-neutral-200 bg-white px-4 text-sm font-medium outline-none focus:border-[#ffcf1c]"
         >
           {timeOptions.map((option) => (
             <option key={option} value={option}>
@@ -1078,7 +1078,7 @@ function TimeBlock({
         <select
           value={period}
           onChange={(event) => onPeriodChange(event.target.value as 'AM' | 'PM')}
-          className="w-full h-12 rounded-xl border border-neutral-200 bg-white px-4 text-sm font-medium outline-none focus:border-[#6EA15C]"
+          className="w-full h-12 rounded-xl border border-neutral-200 bg-white px-4 text-sm font-medium outline-none focus:border-[#ffcf1c]"
         >
           <option value="AM">AM</option>
           <option value="PM">PM</option>

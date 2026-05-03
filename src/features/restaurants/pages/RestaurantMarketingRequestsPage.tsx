@@ -60,7 +60,7 @@ export default function RestaurantMarketingRequestsPage() {
   return (
     <div className="space-y-8">
       <div className="space-y-2">
-        <p className="text-xs font-black uppercase tracking-[0.3em] text-[#6EA15C]">Restaurant Backend</p>
+        <p className="text-xs font-black uppercase tracking-[0.3em] text-[#ffcf1c]">Restaurant Backend</p>
         <h1 className="text-4xl font-black tracking-tighter uppercase text-neutral-900">Marketing Campaign Requests</h1>
         <p className="text-neutral-500 font-medium">Submit campaign plans for admin review using the backend marketing request route.</p>
       </div>
@@ -83,13 +83,13 @@ export default function RestaurantMarketingRequestsPage() {
                 <Label>Message</Label>
                 <Textarea placeholder="Message" value={form.message} onChange={(event) => setForm((current) => ({ ...current, message: event.target.value }))} className="min-h-32" />
               </div>
-              <Button type="submit" disabled={isSubmitting} className="bg-[#6EA15C] hover:bg-[#5D8A4E] text-white rounded-xl font-black uppercase tracking-wide">
+              <Button type="submit" disabled={isSubmitting} className="bg-[#ffcf1c] hover:bg-[#ffcf1c] hover:text-[#070605] rounded-xl font-black uppercase tracking-wide">
                 {isSubmitting ? 'Submitting...' : 'Submit Campaign'}
               </Button>
             </div>
 
             <div className="space-y-4">
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6EA15C]">Preview</p>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#ffcf1c]">Preview</p>
               <div className="rounded-[32px] border border-neutral-100 bg-[#f7f7f2] p-6 space-y-4">
                 <h2 className="text-3xl font-black tracking-tight text-neutral-900">{form.campaign_title || 'Campaign title'}</h2>
                 <p className="text-neutral-500 font-medium">{form.objective || 'The campaign objective will appear here.'}</p>
@@ -129,7 +129,7 @@ export default function RestaurantMarketingRequestsPage() {
                   <TableCell>{request.budget ? formatCurrency(request.budget) : 'Not set'}</TableCell>
                   <TableCell>{request.start_date ? `${formatDate(request.start_date)} - ${formatDate(request.end_date)}` : 'Not scheduled'}</TableCell>
                   <TableCell>
-                    <Badge className={request.status === 'pending' ? 'bg-amber-100 text-amber-700 border-none' : request.status === 'approved' ? 'bg-green-100 text-green-700 border-none' : 'bg-red-100 text-red-700 border-none'}>
+                    <Badge className={request.status === 'pending' ? 'bg-amber-100 text-amber-700 border-none' : request.status === 'approved' ? 'bg-[#FFF9DC] text-[#070605] border-none' : 'bg-red-100 text-red-700 border-none'}>
                       {request.status}
                     </Badge>
                   </TableCell>

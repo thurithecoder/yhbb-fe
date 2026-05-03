@@ -39,14 +39,14 @@ export default function FoodCard({
           />
           <div className="absolute top-3 right-3">
             <div className="bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full flex items-center gap-1 text-[10px] font-bold shadow-sm">
-              <Star className="w-2.5 h-2.5 fill-[#6EA15C] text-[#6EA15C]" />
+              <Star className="w-2.5 h-2.5 fill-[#ffcf1c] text-[#ffcf1c]" />
               {getCategoryName(item)}
             </div>
           </div>
         </div>
         <CardContent className="p-4 space-y-3">
           <div className="space-y-1">
-            <h4 className="font-bold text-[#6EA15C] line-clamp-1 group-hover:opacity-80 transition-opacity">
+            <h4 className="font-bold text-[#ffcf1c] line-clamp-1 group-hover:opacity-80 transition-opacity">
               {getCatalogItemName(item)}
             </h4>
             <p className="text-xs text-neutral-500 line-clamp-2">
@@ -63,7 +63,7 @@ export default function FoodCard({
                     e.stopPropagation();
                     onTagClick?.(tag);
                   }}
-                  className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-green-50 text-[#6EA15C] border border-green-100 hover:bg-green-100 transition-colors cursor-pointer"
+                  className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#FFF9DC] text-[#ffcf1c] border border-[#FFF9DC] hover:bg-[#FFF9DC] transition-colors cursor-pointer"
                 >
                   #{tag}
                 </button>
@@ -74,7 +74,7 @@ export default function FoodCard({
             </div>
           )}
           <div className="flex items-center justify-between">
-            <span className="text-lg font-black text-[#6EA15C]">{formatCurrency(item.price)}</span>
+            <span className="text-lg font-black text-[#ffcf1c]">{formatCurrency(item.price)}</span>
             <FavoriteButton
               entityType={entityType}
               entityId={item.id}

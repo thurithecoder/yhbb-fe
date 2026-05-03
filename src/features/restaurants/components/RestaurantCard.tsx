@@ -51,13 +51,13 @@ export default function RestaurantCard({
             <p className="text-xs text-white/70 font-medium line-clamp-1">{restaurant.address || 'Address coming soon'}</p>
           </div>
         </div>
-        <div className="flex items-center justify-between p-4 bg-white border-t border-neutral-100">
-          <div className="flex items-center gap-4 text-xs font-bold text-neutral-400">
-            <div className="flex items-center gap-1 text-[#6EA15C]">
+        <div className="flex items-center justify-between p-3 sm:p-4 bg-white border-t border-neutral-100">
+          <div className="flex min-w-0 flex-wrap items-center gap-2 sm:gap-4 text-[11px] sm:text-xs font-bold text-neutral-400">
+            <div className="flex items-center gap-1 text-[#ffcf1c] min-w-0">
               <UtensilsCrossed className="w-3 h-3" />
               <span>{restaurant.menu_item_count || 0} Menu</span>
             </div>
-            <div className="flex items-center gap-1 text-[#6EA15C]">
+            <div className="flex items-center gap-1 text-[#ffcf1c] min-w-0">
               <Sparkles className="w-3 h-3" />
               <span>{restaurant.promotion_count || 0} Promos</span>
             </div>

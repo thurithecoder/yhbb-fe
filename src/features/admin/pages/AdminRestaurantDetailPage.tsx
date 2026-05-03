@@ -25,7 +25,7 @@ import ImageCarousel from '@/features/restaurants/components/ImageCarousel';
 
 function getVerificationBadge(status: string | undefined) {
   if (status === 'approved') {
-    return <Badge className="bg-green-100 text-green-700 border-none"><ShieldCheck className="w-3.5 h-3.5 mr-1" />Verified</Badge>;
+    return <Badge className="bg-[#FFF9DC] text-[#070605] border-none"><ShieldCheck className="w-3.5 h-3.5 mr-1" />Verified</Badge>;
   }
 
   if (status === 'pending') {
@@ -87,7 +87,7 @@ export default function AdminRestaurantDetailPage() {
   if (!data) {
     return (
       <div className="space-y-6">
-        <Link to="/admin/restaurants" className="inline-flex items-center gap-2 text-sm font-bold text-neutral-500 hover:text-[#6EA15C] transition-colors">
+        <Link to="/admin/restaurants" className="inline-flex items-center gap-2 text-sm font-bold text-neutral-500 hover:text-[#ffcf1c] transition-colors">
           <ArrowLeft className="w-4 h-4" />
           All Restaurants
         </Link>
@@ -117,7 +117,7 @@ export default function AdminRestaurantDetailPage() {
 
   return (
     <div className="space-y-8">
-      <Link to="/admin/restaurants" className="inline-flex items-center gap-2 text-sm font-bold text-neutral-500 hover:text-[#6EA15C] transition-colors">
+      <Link to="/admin/restaurants" className="inline-flex items-center gap-2 text-sm font-bold text-neutral-500 hover:text-[#ffcf1c] transition-colors">
         <ArrowLeft className="w-4 h-4" />
         All Restaurants
       </Link>
@@ -125,7 +125,7 @@ export default function AdminRestaurantDetailPage() {
       <Card className="rounded-[32px] border-none shadow-sm overflow-hidden">
         <CardContent className="p-0">
           <div className="relative">
-            <div className="h-56 bg-gradient-to-r from-[#6EA15C] via-[#7fb36d] to-[#9fce90]" />
+            <div className="h-56 bg-gradient-to-r from-[#ffcf1c] via-[#7fb36d] to-[#9fce90]" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.35),transparent_40%)]" />
 
             <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
@@ -135,15 +135,15 @@ export default function AdminRestaurantDetailPage() {
                     {heroImage ? (
                       <img src={heroImage} alt={restaurant.name} className="w-full h-full object-contain bg-white" />
                     ) : (
-                      <Store className="w-8 h-8 text-[#6EA15C]" />
+                      <Store className="w-8 h-8 text-[#ffcf1c]" />
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-black uppercase tracking-[0.25em] text-[#6EA15C]">Restaurant Profile</p>
+                    <p className="text-xs font-black uppercase tracking-[0.25em] text-[#ffcf1c]">Restaurant Profile</p>
                     <h1 className="text-3xl md:text-4xl font-black tracking-tight text-neutral-900 mt-1">{restaurant.name}</h1>
                     <div className="flex flex-wrap items-center gap-2 mt-3">
                       {getVerificationBadge(restaurant.verificationStatus ?? undefined)}
-                      <Badge className={`${restaurant.is_active ? 'bg-green-100 text-green-700' : 'bg-neutral-100 text-neutral-600'} border-none`}>
+                      <Badge className={`${restaurant.is_active ? 'bg-[#FFF9DC] text-[#070605]' : 'bg-neutral-100 text-neutral-600'} border-none`}>
                         {restaurant.is_active ? 'Active' : 'Inactive'}
                       </Badge>
                       {pendingRequests > 0 && (
@@ -156,13 +156,13 @@ export default function AdminRestaurantDetailPage() {
                   <div className="shrink-0 flex flex-col gap-2 text-sm">
                     {owner?.email && (
                       <div className="inline-flex items-center gap-2 rounded-xl bg-neutral-100 px-3 py-2 font-semibold text-neutral-700">
-                        <Mail className="w-4 h-4 text-[#6EA15C]" />
+                        <Mail className="w-4 h-4 text-[#ffcf1c]" />
                         {owner.email}
                       </div>
                     )}
                     {restaurant.phone && (
                       <div className="inline-flex items-center gap-2 rounded-xl bg-neutral-100 px-3 py-2 font-semibold text-neutral-700">
-                        <Phone className="w-4 h-4 text-[#6EA15C]" />
+                        <Phone className="w-4 h-4 text-[#ffcf1c]" />
                         {restaurant.phone}
                       </div>
                     )}
@@ -183,7 +183,7 @@ export default function AdminRestaurantDetailPage() {
         ].map((stat) => (
           <Card key={stat.label} className="rounded-[24px] border-none shadow-sm bg-white">
             <CardContent className="p-5 space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-green-50 text-[#6EA15C] flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-[#FFF9DC] text-[#ffcf1c] flex items-center justify-center">
                 <stat.icon className="w-5 h-5" />
               </div>
               <div>
@@ -221,7 +221,7 @@ export default function AdminRestaurantDetailPage() {
                 href={`https://maps.google.com/?q=${restaurant.latitude},${restaurant.longitude}`}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-bold text-[#6EA15C] hover:text-[#5D8A4E]"
+                className="inline-flex items-center gap-2 text-sm font-bold text-[#ffcf1c] hover:text-[#070605]"
               >
                 <ExternalLink className="w-4 h-4" />
                 Open coordinates in maps
@@ -273,7 +273,7 @@ export default function AdminRestaurantDetailPage() {
                   setMenuFilter(event.target.value as 'all' | 'approved' | 'rejected');
                   setShowAllMenuItems(false);
                 }}
-                className="h-9 rounded-xl border border-neutral-200 bg-white px-3 text-xs font-black uppercase tracking-[0.08em] text-neutral-600 outline-none focus:border-[#6EA15C]"
+                className="h-9 rounded-xl border border-neutral-200 bg-white px-3 text-xs font-black uppercase tracking-[0.08em] text-neutral-600 outline-none focus:border-[#ffcf1c]"
               >
                 <option value="all">All</option>
                 <option value="approved">Approved</option>
@@ -301,12 +301,12 @@ export default function AdminRestaurantDetailPage() {
                     <div className="p-4 space-y-2">
                       <p className="font-black text-neutral-900 line-clamp-1">{getMenuItemName(item)}</p>
                       <p className="text-sm text-neutral-500 line-clamp-1">{getMenuItemCategory(item)}</p>
-                      <p className="text-base font-black text-[#6EA15C]">{formatCurrency(item.price)}</p>
+                      <p className="text-base font-black text-[#ffcf1c]">{formatCurrency(item.price)}</p>
                       <div className="flex flex-wrap gap-2 pt-1">
-                        <Badge className={`${item.is_available ? 'bg-green-100 text-green-700' : 'bg-neutral-100 text-neutral-600'} border-none`}>
+                        <Badge className={`${item.is_available ? 'bg-[#FFF9DC] text-[#070605]' : 'bg-neutral-100 text-neutral-600'} border-none`}>
                           {item.is_available ? 'Available' : 'Unavailable'}
                         </Badge>
-                        <Badge className={`${item.verification_status === 'approved' ? 'bg-green-100 text-green-700' : item.verification_status === 'pending' ? 'bg-amber-100 text-amber-700' : item.verification_status === 'rejected' ? 'bg-red-100 text-red-700' : 'bg-neutral-100 text-neutral-600'} border-none`}>
+                        <Badge className={`${item.verification_status === 'approved' ? 'bg-[#FFF9DC] text-[#070605]' : item.verification_status === 'pending' ? 'bg-amber-100 text-amber-700' : item.verification_status === 'rejected' ? 'bg-red-100 text-red-700' : 'bg-neutral-100 text-neutral-600'} border-none`}>
                           {item.verification_status || 'unknown'}
                         </Badge>
                       </div>
@@ -349,7 +349,7 @@ export default function AdminRestaurantDetailPage() {
                     <p className="text-sm text-neutral-500 line-clamp-2">{promotion.description || 'No description'}</p>
                     <div className="flex flex-wrap gap-2">
                       {promotion.discount_percent ? (
-                        <Badge className="bg-green-100 text-green-700 border-none">
+                        <Badge className="bg-[#FFF9DC] text-[#070605] border-none">
                           {promotion.discount_type === 'cash' ? formatCurrency(promotion.discount_percent) : `${promotion.discount_percent}%`} off
                         </Badge>
                       ) : null}
@@ -396,7 +396,7 @@ function InfoLine({
     <div className="rounded-xl border border-neutral-100 bg-neutral-50 px-4 py-3">
       <p className="text-[11px] font-black uppercase tracking-[0.16em] text-neutral-400">{label}</p>
       <p className="mt-1 flex items-start gap-2 text-sm font-semibold text-neutral-800">
-        <Icon className="w-4 h-4 mt-0.5 text-[#6EA15C]" />
+        <Icon className="w-4 h-4 mt-0.5 text-[#ffcf1c]" />
         <span>{value}</span>
       </p>
     </div>

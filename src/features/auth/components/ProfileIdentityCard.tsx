@@ -94,9 +94,9 @@ export default function ProfileIdentityCard({ user }: ProfileIdentityCardProps) 
   return (
     <Card className="border-none shadow-sm rounded-[32px] bg-white p-8 text-center space-y-6">
       <div className="relative h-32 w-32 mx-auto group/avatar">
-        <Avatar className="h-32 w-32 ring-4 ring-green-50 ring-offset-4 overflow-hidden">
+        <Avatar className="h-32 w-32 ring-4 ring-[#FFF9DC] ring-offset-4 overflow-hidden">
           <AvatarImage src={user.photoURL} alt={user.displayName} className="h-full w-full object-cover" />
-          <AvatarFallback className="text-4xl font-black bg-green-50 text-[#6EA15C]">{profileInitial}</AvatarFallback>
+          <AvatarFallback className="text-4xl font-black bg-[#FFF9DC] text-[#ffcf1c]">{profileInitial}</AvatarFallback>
         </Avatar>
 
         <div className="pointer-events-none absolute inset-0 rounded-full bg-black/45 opacity-0 transition-opacity group-hover/avatar:opacity-100 group-focus-within/avatar:opacity-100" />
@@ -108,7 +108,7 @@ export default function ProfileIdentityCard({ user }: ProfileIdentityCardProps) 
           title={hasImage ? 'Change image' : 'Add image'}
           className="absolute inset-0 flex items-center justify-center rounded-full opacity-0 transition-opacity outline-none group-hover/avatar:opacity-100 group-focus-within/avatar:opacity-100 disabled:cursor-not-allowed"
         >
-          <span className="h-10 w-10 rounded-full bg-white text-[#6EA15C] shadow-md flex items-center justify-center">
+          <span className="h-10 w-10 rounded-full bg-white text-[#ffcf1c] shadow-md flex items-center justify-center">
             {isUpdatingImage ? <Loader2 className="w-5 h-5 animate-spin" /> : <PenLine className="w-5 h-5" />}
           </span>
           <span className="sr-only">{hasImage ? 'Change image' : 'Add image'}</span>
@@ -137,10 +137,10 @@ export default function ProfileIdentityCard({ user }: ProfileIdentityCardProps) 
       />
 
       <div className="space-y-1">
-        <h2 className="text-2xl font-black tracking-tight uppercase text-[#6EA15C]">{user.displayName}</h2>
+        <h2 className="text-2xl font-black tracking-tight uppercase text-[#ffcf1c]">{user.displayName}</h2>
         <p className="text-neutral-400 font-medium text-sm">{user.email}</p>
       </div>
-      <Badge className="bg-green-50 text-[#6EA15C] border-none px-4 py-1 rounded-full font-black text-[10px] uppercase tracking-widest">
+      <Badge className="bg-[#FFF9DC] text-[#ffcf1c] border-none px-4 py-1 rounded-full font-black text-[10px] uppercase tracking-widest">
         {user.role}
       </Badge>
     </Card>

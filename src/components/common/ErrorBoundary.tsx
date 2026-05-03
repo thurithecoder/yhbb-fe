@@ -40,12 +40,12 @@ export class ErrorBoundary extends React.Component<Props, State> {
               <h1 className="text-3xl font-black tracking-tighter uppercase">SOMETHING <span className="text-red-500">WENT WRONG</span></h1>
               <p className="text-neutral-500 font-medium">We encountered an unexpected error. Don't worry, it's not your fault.</p>
             </div>
-            <div className="bg-green-50 p-4 rounded-2xl text-left overflow-auto max-h-32">
+            <div className="bg-[#FFF9DC] p-4 rounded-2xl text-left overflow-auto max-h-32">
               <code className="text-xs font-mono text-neutral-400">{this.state.error?.message}</code>
             </div>
             <Button 
               onClick={() => window.location.reload()}
-              className="w-full h-14 bg-neutral-900 hover:bg-[#6EA15C] text-white rounded-2xl font-black uppercase tracking-tight transition-all active:scale-95 flex items-center justify-center gap-2"
+              className="w-full h-14 bg-[#070605] hover:bg-[#ffcf1c] hover:text-[#070605] text-white rounded-2xl font-black uppercase tracking-tight transition-all active:scale-95 flex items-center justify-center gap-2"
             >
               <RefreshCcw className="w-5 h-5" />
               Reload App

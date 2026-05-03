@@ -50,7 +50,7 @@ export default function FiltersSidebar({ categories, foodOptions, values, onAppl
         <select
           value={localValues.mode}
           onChange={(event) => handleModeChange(event.target.value as ListingSearchMode)}
-          className="w-full h-12 rounded-xl border border-neutral-200 bg-white px-4 text-sm font-bold text-neutral-600 outline-none focus:border-[#6EA15C]"
+          className="w-full h-12 rounded-xl border border-neutral-200 bg-white px-4 text-sm font-bold text-neutral-600 outline-none focus:border-[#ffcf1c]"
         >
           <option value="restaurant">Search by restaurant</option>
           <option value="food">Search by food</option>
@@ -61,12 +61,12 @@ export default function FiltersSidebar({ categories, foodOptions, values, onAppl
       {localValues.mode === 'restaurant' && (
         <div className="space-y-4">
           <div className="relative group">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 w-4 h-4 group-focus-within:text-[#6EA15C] transition-colors" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 w-4 h-4 group-focus-within:text-[#ffcf1c] transition-colors" />
             <Input
               value={localValues.restaurantQuery}
               onChange={(event) => setLocalValues((current) => ({ ...current, restaurantQuery: event.target.value }))}
               placeholder="Type restaurant name..."
-              className="h-12 pl-11 rounded-xl bg-white border-neutral-200 focus-visible:ring-[#6EA15C]"
+              className="h-12 pl-11 rounded-xl bg-white border-neutral-200 focus-visible:ring-[#ffcf1c]"
             />
           </div>
         </div>
@@ -79,7 +79,7 @@ export default function FiltersSidebar({ categories, foodOptions, values, onAppl
             onChange={(event) => setLocalValues((current) => ({ ...current, cuisineQuery: event.target.value }))}
             list="listing-cuisine-options"
             placeholder="Type cuisine..."
-            className="h-12 rounded-xl bg-white border-neutral-200 focus-visible:ring-[#6EA15C]"
+            className="h-12 rounded-xl bg-white border-neutral-200 focus-visible:ring-[#ffcf1c]"
           />
           <datalist id="listing-cuisine-options">
             {CUISINE_OPTIONS.map((cuisine) => (
@@ -94,7 +94,7 @@ export default function FiltersSidebar({ categories, foodOptions, values, onAppl
           <select
             value={localValues.foodCategoryId}
             onChange={(event) => setLocalValues((current) => ({ ...current, foodCategoryId: event.target.value, foodQuery: '' }))}
-            className="w-full h-12 rounded-xl border border-neutral-200 bg-white px-4 text-sm font-bold text-neutral-600 outline-none focus:border-[#6EA15C]"
+            className="w-full h-12 rounded-xl border border-neutral-200 bg-white px-4 text-sm font-bold text-neutral-600 outline-none focus:border-[#ffcf1c]"
           >
             <option value="">Select food category</option>
             {categories.map((category) => (
@@ -110,7 +110,7 @@ export default function FiltersSidebar({ categories, foodOptions, values, onAppl
             list="listing-food-options"
             disabled={!localValues.foodCategoryId || !foodOptions.length}
             placeholder={localValues.foodCategoryId ? 'Search food item by name...' : 'Choose category first'}
-            className="h-12 rounded-xl bg-white border-neutral-200 focus-visible:ring-[#6EA15C] disabled:opacity-60"
+            className="h-12 rounded-xl bg-white border-neutral-200 focus-visible:ring-[#ffcf1c] disabled:opacity-60"
           />
           <datalist id="listing-food-options">
             {foodOptions.map((foodName) => (
@@ -128,7 +128,7 @@ export default function FiltersSidebar({ categories, foodOptions, values, onAppl
 
       <Button
         onClick={() => onApply(localValues)}
-        className="w-full h-12 bg-neutral-900 hover:bg-[#6EA15C] text-white rounded-xl font-bold uppercase tracking-tight transition-all active:scale-95"
+        className="w-full h-12 bg-[#070605] hover:bg-[#ffcf1c] hover:text-[#070605] text-white rounded-xl font-bold uppercase tracking-tight transition-all active:scale-95"
       >
         Apply Search
       </Button>

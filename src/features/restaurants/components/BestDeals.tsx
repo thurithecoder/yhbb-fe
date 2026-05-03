@@ -30,7 +30,7 @@ export default function BestDeals({ items }: BestDealsProps) {
           </div>
           <button
             onClick={() => navigate('/restaurants')}
-            className="text-sm font-black text-[#6EA15C] uppercase tracking-widest hover:opacity-80 transition-opacity"
+            className="text-sm font-black text-[#ffcf1c] uppercase tracking-widest hover:opacity-80 transition-opacity"
           >
             {t('restaurants.view_all')}
           </button>
@@ -45,21 +45,21 @@ export default function BestDeals({ items }: BestDealsProps) {
               viewport={{ once: true }}
               transition={{ delay: index * 0.05 }}
               onClick={() => navigate(`/restaurants?q=${encodeURIComponent(getCatalogItemName(deal))}`)}
-              className="flex items-center gap-6 p-6 bg-white hover:bg-green-50/30 transition-colors group cursor-pointer"
+              className="flex items-center gap-6 p-6 bg-white hover:bg-[#FFF9DC]/30 transition-colors group cursor-pointer"
             >
               <div className="w-24 h-20 rounded-xl overflow-hidden shrink-0">
                 <img src={deal.image_base64 || `https://picsum.photos/seed/${deal.id}/200/200`} alt={getCatalogItemName(deal)} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-[10px] font-black uppercase tracking-widest text-[#6EA15C] mb-1">{deal.tblcategory?.name_en || 'Catalog item'}</p>
+                <p className="text-[10px] font-black uppercase tracking-widest text-[#ffcf1c] mb-1">{deal.tblcategory?.name_en || 'Catalog item'}</p>
                 <h3 className="text-base font-black text-neutral-900 truncate mb-0.5">{getCatalogItemName(deal)}</h3>
                 <p className="text-xs text-neutral-400 font-medium truncate mb-1">
                   {truncateText(deal.description_en || deal.description_ms || deal.description_ar, 70) || 'Fresh from the backend catalog.'}
                 </p>
-                <p className="text-sm font-black text-[#6EA15C]">{formatCurrency(deal.price)}</p>
+                <p className="text-sm font-black text-[#ffcf1c]">{formatCurrency(deal.price)}</p>
               </div>
               <div className="flex items-center gap-1 text-xs font-black text-neutral-400 self-start pt-1">
-                <Star className="w-3 h-3 fill-[#6EA15C] text-[#6EA15C]" />
+                <Star className="w-3 h-3 fill-[#ffcf1c] text-[#ffcf1c]" />
                 Live
               </div>
             </motion.div>
